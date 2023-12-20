@@ -1,3 +1,7 @@
+// routes
+import { router } from "./routes/router";
+
+
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -14,6 +18,10 @@ const app = express();
 // config JSON and form data response
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // aceitar form data
+
+// routes
+app.use(router);
+
 
 app.listen(port, () => {
   console.log(`App rodando na porta ${port}`);
