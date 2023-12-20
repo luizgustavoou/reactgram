@@ -1,10 +1,15 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
 import express from "express";
 import path from "path";
 import cors from "cors";
 
-const port = 5000;
+const port = process.env.PORT;
 
 const app = express();
+
 
 // config JSON and form data response
 app.use(express.json());
