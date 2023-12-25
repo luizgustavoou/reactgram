@@ -19,6 +19,15 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // aceitar form data
 
+// Solve CORS
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+
+// Upload directory
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
+// DB connection
+import { db } from "./config/db";
+
 // routes
 app.use(router);
 
