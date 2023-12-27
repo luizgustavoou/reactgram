@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { UserController } from './user.controller';
 import { validate } from "../../middlewares/handleValidation";
+import { userCreateValidation } from "../../middlewares/userValidation";
 
 export class UserRouter {
     private router: Router;
@@ -8,7 +9,7 @@ export class UserRouter {
     constructor(userController: UserController) {
         this.router = Router();
 
-        this.router.post("/register", validate, userController.register);
+        this.router.post("/register", userCreateValidation(), validate, userController.register);
 
     }
 
