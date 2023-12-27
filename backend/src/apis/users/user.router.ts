@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { userController } from ".";
 import { UserController } from './user.controller';
 
 export class UserRouter {
@@ -16,8 +15,5 @@ export class UserRouter {
         return this.router;
     }
 }
-// export const router = Router();
 
-// Routes
-// router.post("/register", userController.register);
 
