@@ -1,5 +1,6 @@
 import express from "express";
 import { userRouter } from "../apis/users/index";
+
 export const router = express();
 
 router.use("/api/users", userRouter.getRouter());
@@ -8,4 +9,6 @@ router.use("/api/users", userRouter.getRouter());
 router.get("/", (req, res) => {
     res.send("API Funcionando!");
 })
+
+
 
