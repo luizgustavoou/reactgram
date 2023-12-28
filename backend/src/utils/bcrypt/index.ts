@@ -1,3 +1,7 @@
-import { BcryptService } from './bcrypt.service';
+import { BcryptService, BcryptServiceImpl } from './bcrypt.service';
 
-const bcryptService = new BcryptService();
+const bcryptService = new BcryptServiceImpl();
+
+export {
+    bcryptService
+}

@@ -1,9 +1,16 @@
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
 import { UserRouter } from './user.router';
+import { UserRepository } from './repository/user.repository';
+import { MongoUserRepositoryImpl } from "./repository/impl/user.repository.mongo";
+import { BcryptServiceImpl } from "../../utils/bcrypt/bcrypt.service";
 
 
-const userService = new UserService();
+const bcryptService = new BcryptServiceImpl();
+
+const userRepository: UserRepository = new MongoUserRepositoryImpl();
+
+const userService = new UserService(userRepository, bcryptService);
 
 const userController = new UserController(userService);
 

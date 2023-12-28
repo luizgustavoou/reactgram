@@ -1,13 +1,15 @@
 import { Router } from "express";
-import { UserController } from './user.controller';
 import { validate } from "../../middlewares/handleValidation";
 import { userCreateValidation } from "../../middlewares/userValidation";
+import { AuthController } from './auth.controller';
 
-export class UserRouter {
+export class AuthRouter {
     private router: Router;
 
-    constructor(userController: UserController) {
+    constructor(authController: AuthController) {
         this.router = Router();
+
+        this.router.post("/signup", userCreateValidation(), validate, authController.signup.bind(authController));
     }
 
     getRouter(): Router {

@@ -1,6 +1,10 @@
 import { JwtService } from "./jwt.service";
 
-const jwtSecret = process.env.JWT_SECRET || "";
+import dotenv from "dotenv";
+
+dotenv.config()
+
+const jwtSecret: string = process.env.JWT_SECRET as string;
 
 const jwtService = new JwtService(jwtSecret);
 
