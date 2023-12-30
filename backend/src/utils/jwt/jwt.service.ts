@@ -1,7 +1,10 @@
 import jwt from "jsonwebtoken";
 
+export interface JwtService {
+    generateToken(id: string): string;
 
-export class JwtService {
+}
+export class JwtServiceImpl implements JwtService {
     constructor(private jwtSecret: string) { }
 
     generateToken(id: string): string {
