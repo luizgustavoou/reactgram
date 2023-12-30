@@ -1,7 +1,12 @@
-import { BcryptService } from "../../utils/bcrypt/bcrypt.service";
 import { UserRepository } from './repository/user.repository';
+import { IUserDoc } from "./user.model";
 
-export class UserService {
+export interface UserService {
+    findOneByEmail(email: string): Promise<IUserDoc | null>;
+
+    create(name: string, email: string, password: string): Promise<IUserDoc | null>;
+}
+export class UserServiceImpl implements UserService {
     constructor(private userRepository: UserRepository) { }
 
     async findOneByEmail(email: string) {

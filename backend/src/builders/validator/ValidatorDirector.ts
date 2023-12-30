@@ -11,10 +11,6 @@ export class ValidatorDirector {
         this.builder = validatorBuilder;
     }
 
-    make(type: string) {
-
-    }
-
     makeSignUpValidation() {
         this.builder.reset();
         this.builder.buildName();
@@ -23,7 +19,7 @@ export class ValidatorDirector {
         this.builder.buildConfirmPassword();
     }
 
-    makeLoginValidation() {
+    makeSignInValidation() {
         this.builder.reset();
         this.builder.buildEmail();
         this.builder.buildPassword();

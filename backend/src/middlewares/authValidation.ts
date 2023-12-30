@@ -1,4 +1,3 @@
-import { body } from "express-validator";
 import { ValidatorDirector } from "../builders/validator/ValidatorDirector";
 import { ValidatorBuilder, ValidatorBuilderImpl } from "../builders/validator/ValidatorBuilder";
 
@@ -19,7 +18,7 @@ export const authSignInValidation = () => {
 
     const director = new ValidatorDirector(validationBuilder);
 
-    director.makeLoginValidation();
+    director.makeSignInValidation();
 
     const validators = validationBuilder.getResult();
 
