@@ -10,7 +10,7 @@ const bcryptService = new BcryptServiceImpl();
 
 const userRepository: UserRepository = new MongoUserRepositoryImpl();
 
-const userService = new UserService(userRepository, bcryptService);
+const userService = new UserService(userRepository);
 
 const userController = new UserController(userService);
 
