@@ -1,7 +1,5 @@
 import { Router } from "express";
 import { UserController } from './user.controller';
-import { validate } from "../../middlewares/handleValidation";
-import { userCreateValidation } from "../../middlewares/userValidation";
 
 export class UserRouter {
     private router: Router;

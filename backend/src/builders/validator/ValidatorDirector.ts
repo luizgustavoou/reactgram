@@ -15,7 +15,7 @@ export class ValidatorDirector {
 
     }
 
-    makeUserValidation() {
+    makeSignUpValidation() {
         this.builder.reset();
         this.builder.buildName();
         this.builder.buildName();
@@ -23,7 +23,13 @@ export class ValidatorDirector {
         this.builder.buildConfirmPassword();
     }
 
+    makeLoginValidation() {
+        this.builder.reset();
+        this.builder.buildEmail();
+        this.builder.buildPassword();
+    }
+
     makePhotoValidation() {
-        
+
     }
 }

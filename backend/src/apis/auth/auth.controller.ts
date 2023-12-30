@@ -14,4 +14,8 @@ export class AuthController {
             return res.status(422).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
         }
     }
+
+    async signin(req: Request, res: Response) {
+        res.send("Handle login!");
+    }
 }
