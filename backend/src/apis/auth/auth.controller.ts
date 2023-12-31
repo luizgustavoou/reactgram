@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import { AuthService } from './auth.service';
+import { UnauthorizedError } from "../../exceptions/UnauthorizedError";
+import { NotFoundError } from "../../exceptions/NotFoundError";
+import { StatusCodes } from "http-status-codes";
 
 export class AuthController {
     constructor(private authService: AuthService) { }
@@ -16,6 +19,25 @@ export class AuthController {
     }
 
     async signin(req: Request, res: Response) {
-        res.send("Handle login!");
+
+        const { email, password } = req.body;
+
+        try {
+            const json = await this.authService.signin(email, password);
+
+            return res.send(json);
+        } catch (error) {
+
+            if (error instanceof UnauthorizedError
+            ) {
+                return res.status(StatusCodes.UNAUTHORIZED).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
+            }
+
+            if (error instanceof NotFoundError) {
+                return res.status(StatusCodes.NOT_FOUND).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
+            }
+
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
+        }
     }
 }

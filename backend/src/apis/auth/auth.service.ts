@@ -1,8 +1,16 @@
 import { UserService } from '../users/user.service';
 import { JwtService } from '../../utils/jwt/jwt.service';
 import { BcryptService } from '../../utils/bcrypt/bcrypt.service';
+import { NotFoundError } from '../../exceptions/NotFoundError';
+import { UnauthorizedError } from '../../exceptions/UnauthorizedError';
+import { ConflictError } from '../../exceptions/ConflictError';
 
 export interface ResponseSignUp {
+    _id: string,
+    token: string
+}
+
+export interface ResponseSignIn {
     _id: string,
     token: string
 }
@@ -10,17 +18,38 @@ export interface ResponseSignUp {
 export interface AuthService {
     signup(name: string, email: string, password: string): Promise<ResponseSignUp>;
 
-    login(): Promise<void>;
+    signin(email: string, password: string): Promise<ResponseSignIn>;
 }
 
 export class AuthServiceImpl implements AuthService {
     constructor(private userService: UserService, private jwtService: JwtService, private bcryptService: BcryptService) { }
 
+    async signin(email: string, password: string): Promise<ResponseSignIn> {
+        const user = await this.userService.findOneByEmail(email);
+
+        if (!user) {
+            throw new NotFoundError("Usuário não encontrado.");
+        }
+
+        const compare = await this.bcryptService.compare(password, user.password);
+
+        if (!compare) {
+            throw new UnauthorizedError("Senha incorreta.");
+        }
+
+        const { token } = this.getTokens(user.id);
+
+        return {
+            _id: user.id,
+            token
+        };
+    }
+
     async signup(name: string, email: string, password: string) {
         const user = await this.userService.findOneByEmail(email);
 
         if (user) {
-            throw new Error("Por favor, utilizar outro e-mail");
+            throw new ConflictError("Por favor, utilizar outro e-mail");
         }
 
         const passwordHash = await this.bcryptService.generateHash(password);
@@ -41,10 +70,6 @@ export class AuthServiceImpl implements AuthService {
             _id: newUser.id,
             token
         }
-
-    }
-
-    async login() {
 
     }
 

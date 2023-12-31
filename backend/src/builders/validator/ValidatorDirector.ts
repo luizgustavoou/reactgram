@@ -1,4 +1,4 @@
-import { ValidatorBuilder, ValidatorBuilderImpl } from './ValidatorBuilder';
+import { ValidatorBuilder } from './ValidatorBuilder';
 
 export class ValidatorDirector {
     private builder: ValidatorBuilder;

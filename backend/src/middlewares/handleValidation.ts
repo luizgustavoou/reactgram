@@ -1,5 +1,6 @@
 import { ValidationError, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
+import { StatusCodes } from "http-status-codes";
 
 export const validate = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
@@ -12,7 +13,7 @@ export const validate = (req: Request, res: Response, next: NextFunction) => {
 
     errors.array().map((err) => extractedErrors.push(err.msg));
 
-    return res.status(422).json({
+    return res.status(StatusCodes.BAD_REQUEST).json({
         errors: extractedErrors
     })
 }
