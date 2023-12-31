@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { UnauthorizedError } from "../../exceptions/UnauthorizedError";
 import { NotFoundError } from "../../exceptions/NotFoundError";
 import { StatusCodes } from "http-status-codes";
+import { ConflictError } from "../../exceptions/ConflictError";
 
 export class AuthController {
     constructor(private authService: AuthService) { }
@@ -14,7 +15,12 @@ export class AuthController {
 
             return res.json(json);
         } catch (error) {
-            return res.status(422).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
+            if (error instanceof ConflictError) {
+                return res.status(StatusCodes.CONFLICT).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
+
+            }
+
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
         }
     }
 
