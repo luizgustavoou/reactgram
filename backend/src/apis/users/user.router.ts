@@ -5,10 +5,10 @@ import { AuthMiddleware } from "../../middlewares/authMiddleware";
 export class UserRouter {
     private router: Router;
 
-    constructor(private userController: UserController, private authGuard: AuthMiddleware) {
+    constructor(private userController: UserController, private authMiddleware: AuthMiddleware) {
         this.router = Router();
 
-        this.router.get("/profile", authGuard.execute.bind(authGuard), userController.getCurrentUser);
+        this.router.get("/profile", this.authMiddleware.execute.bind(authMiddleware), this.userController.getCurrentUser);
     }
 
     getRouter(): Router {

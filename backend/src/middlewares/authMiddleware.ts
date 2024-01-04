@@ -8,7 +8,6 @@ export class AuthMiddleware {
     constructor(private userService: UserService, private jwtService: JwtService) { }
 
     async execute(req: Request, res: Response, next: NextFunction) {
-
         const token = this.extractTokenFromHeader(req);
 
         if (!token) {
@@ -26,8 +25,6 @@ export class AuthMiddleware {
         } catch (error) {
             return res.status(StatusCodes.UNAUTHORIZED).json({ errors: ["Token inválido."] })
         }
-
-
     }
 
     private extractTokenFromHeader(req: Request): string | undefined {

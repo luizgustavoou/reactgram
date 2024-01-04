@@ -16,7 +16,6 @@ const userController = new UserController(userService);
 
 const userRouter = new UserRouter(userController, authGuard);
 
-
 export {
     userService, userController, userRouter, authGuard
 }

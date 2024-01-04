@@ -7,9 +7,8 @@ export interface UserService {
     findOneById(id: string): Promise<IUserDoc | null>;
 
     create(name: string, email: string, password: string): Promise<IUserDoc | null>;
-
-
 }
+
 export class UserServiceImpl implements UserService {
     constructor(private userRepository: UserRepository) { }
     findOneById(id: string): Promise<IUserDoc | null> {
