@@ -17,7 +17,7 @@ export class MongoUserRepositoryImpl implements UserRepository {
         return user;
     }
     async findOneById(id: string): Promise<IUserDoc | null> {
-        const user = await User.findOne({ id });
+        const user = await User.findById(id);
 
         return user;
     }
