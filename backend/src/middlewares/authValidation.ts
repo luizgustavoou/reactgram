@@ -1,5 +1,7 @@
 import { ValidatorDirector } from "../builders/validator/ValidatorDirector";
-import { ValidatorBuilder, ValidatorBuilderImpl } from "../builders/validator/ValidatorBuilder";
+import { ValidatorBuilder } from "../builders/validator/ValidatorBuilder";
+import { ValidatorBuilderCreateImpl } from "../builders/validator/ValidatorBuilderCreate";
+import { ValidatorBuilderUpdateImpl } from '../builders/validator/ValidatorBuilderUpdate';
 
 // export class AuthValidator {
 //     signUpValidation() {
@@ -28,7 +30,7 @@ import { ValidatorBuilder, ValidatorBuilderImpl } from "../builders/validator/Va
 // }
 
 export const authSignUpValidation = () => {
-    const validatorBuilder: ValidatorBuilder = new ValidatorBuilderImpl();
+    const validatorBuilder: ValidatorBuilder = new ValidatorBuilderCreateImpl();
 
     const director = new ValidatorDirector(validatorBuilder);
 
@@ -40,11 +42,23 @@ export const authSignUpValidation = () => {
 };
 
 export const authSignInValidation = () => {
-    const validationBuilder: ValidatorBuilder = new ValidatorBuilderImpl();
+    const validationBuilder: ValidatorBuilder = new ValidatorBuilderCreateImpl();
 
     const director = new ValidatorDirector(validationBuilder);
 
     director.makeSignInValidation();
+
+    const validators = validationBuilder.getResult();
+
+    return validators;
+}
+
+export const userUpdateValidation = () => {
+    const validationBuilder: ValidatorBuilder = new ValidatorBuilderUpdateImpl();
+
+    const director = new ValidatorDirector(validationBuilder);
+
+    director.makeUpdateUserValidation();
 
     const validators = validationBuilder.getResult();
 

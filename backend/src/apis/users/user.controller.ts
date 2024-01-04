@@ -10,4 +10,8 @@ export class UserController {
 
         res.status(StatusCodes.OK).json(user);
     }
+
+    update(req: Request, res: Response) {
+        res.send("Handle update user");
+    }
 }
