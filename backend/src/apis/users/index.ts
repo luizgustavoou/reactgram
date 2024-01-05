@@ -10,12 +10,12 @@ const userRepository: UserRepository = new MongoUserRepositoryImpl();
 
 const userService: UserService = new UserServiceImpl(userRepository);
 
-const authGuard: AuthMiddleware = new AuthMiddleware(userService, jwtService); // adicionado
+const authMiddleware: AuthMiddleware = new AuthMiddleware(userService, jwtService); // adicionado
 
 const userController = new UserController(userService);
 
-const userRouter = new UserRouter(userController, authGuard);
+const userRouter = new UserRouter(userController, authMiddleware);
 
 export {
-    userService, userController, userRouter, authGuard
+    userService, userController, userRouter
 }

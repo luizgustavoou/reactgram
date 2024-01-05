@@ -11,7 +11,7 @@ dotenv.config();
 import express from "express";
 import path from "path";
 import cors from "cors";
-import { errorHandler } from "./middlewares/errorHandler";
+import { errorHandler } from "./middlewares";
 
 const port = process.env.PORT;
 
@@ -31,7 +31,7 @@ app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 // routes
 app.use(router);
 
-app.use(errorHandler);
+app.use(errorHandler.execute.bind(errorHandler));
 
 
 app.listen(port, () => {

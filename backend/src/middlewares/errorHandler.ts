@@ -1,28 +1,31 @@
-import { StatusCodes } from "http-status-codes";
-import { BadRequestError } from "../exceptions/BadRequestError";
-import { ConflictError } from "../exceptions/ConflictError";
-import { NotFoundError } from "../exceptions/NotFoundError";
-import { UnauthorizedError } from "../exceptions/UnauthorizedError";
-
 import { Request, Response, NextFunction } from "express";
+import { InternalServerError } from "../exceptions/InternalServerError";
+import { BaseError } from "../exceptions/BaseError";
 
+export class ErrorHandler {
+    private normalizeError(err: Error): BaseError {
+        if (err instanceof BaseError) {
+            return err
+        }
 
-export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
-    if (err instanceof UnauthorizedError) {
-        return res.status(StatusCodes.UNAUTHORIZED).json({ errors: [err.message] });
+        return new InternalServerError(err, "Ocorreu algum erro interno no servidor. Por favor, tente novamente mais tarde.");
     }
 
-    if (err instanceof NotFoundError) {
-        return res.status(StatusCodes.NOT_FOUND).json({ errors: [err.message] });
-    }
+    execute(err: Error, req: Request, res: Response, next: NextFunction) {
 
-    if (err instanceof ConflictError) {
-        return res.status(StatusCodes.CONFLICT).json({ errors: [err.message] });
-    }
+        if (res.headersSent) {
+            return next(err);
+        }
 
-    if (err instanceof BadRequestError) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ errors: [err.message] });
-    }
+        const error = this.normalizeError(err);
 
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors: ["Ocorreu um erro inesperado. Tente novamente"] });
+        const statusCode = error.getStatusCode();
+        const body = error.getBody();
+
+        res.status(statusCode).json(body);
+
+    }
 }
+
+
+

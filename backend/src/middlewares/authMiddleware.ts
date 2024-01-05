@@ -1,4 +1,3 @@
-import { StatusCodes } from "http-status-codes";
 import { UserService } from "../apis/users/user.service";
 import { UnauthorizedError } from "../exceptions/UnauthorizedError";
 import { JwtService } from '../utils/jwt/jwt.service';

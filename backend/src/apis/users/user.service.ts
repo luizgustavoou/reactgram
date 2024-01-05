@@ -11,6 +11,7 @@ export interface UserService {
 
 export class UserServiceImpl implements UserService {
     constructor(private userRepository: UserRepository) { }
+
     findOneById(id: string): Promise<IUserDoc | null> {
         const user = this.userRepository.findOneById(id);
 
@@ -34,4 +35,5 @@ export class UserServiceImpl implements UserService {
 
         return newUser;
     }
+
 }
