@@ -1,30 +1,21 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { AuthService } from './auth.service';
-import { UnauthorizedError } from "../../exceptions/UnauthorizedError";
-import { NotFoundError } from "../../exceptions/NotFoundError";
-import { StatusCodes } from "http-status-codes";
-import { ConflictError } from "../../exceptions/ConflictError";
 
 export class AuthController {
     constructor(private authService: AuthService) { }
 
-    async signup(req: Request, res: Response) {
+    async signup(req: Request, res: Response, next: NextFunction) {
         try {
             const { name, email, password } = req.body;
             const json = await this.authService.signup(name, email, password);
 
             return res.json(json);
         } catch (error) {
-            if (error instanceof ConflictError) {
-                return res.status(StatusCodes.CONFLICT).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
-
-            }
-
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
+            next(error);
         }
     }
 
-    async signin(req: Request, res: Response) {
+    async signin(req: Request, res: Response, next: NextFunction) {
 
         const { email, password } = req.body;
 
@@ -33,17 +24,7 @@ export class AuthController {
 
             return res.send(json);
         } catch (error) {
-
-            if (error instanceof UnauthorizedError
-            ) {
-                return res.status(StatusCodes.UNAUTHORIZED).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
-            }
-
-            if (error instanceof NotFoundError) {
-                return res.status(StatusCodes.NOT_FOUND).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
-            }
-
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors: [(error as any).message ?? "Houve algum erro desconhecido!"] });
+            next(error);
         }
     }
 }

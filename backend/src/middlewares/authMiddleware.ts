@@ -11,7 +11,7 @@ export class AuthMiddleware {
         const token = this.extractTokenFromHeader(req);
 
         if (!token) {
-            return res.status(StatusCodes.UNAUTHORIZED).json({ errors: ["Acesso negado."] })
+            return next(new UnauthorizedError("Acesso negado."));
         }
 
         try {
@@ -23,7 +23,7 @@ export class AuthMiddleware {
 
 
         } catch (error) {
-            return res.status(StatusCodes.UNAUTHORIZED).json({ errors: ["Token inválido."] })
+            return next(new UnauthorizedError("Token inválido."));
         }
     }
 
