@@ -1,5 +1,6 @@
 import { ValidationChain, body } from "express-validator";
 import { ValidatorBuilder } from "./ValidatorBuilder";
+import { BadRequestError } from "../../exceptions/BadRequestError";
 
 export class ValidatorBuilderUpdateImpl implements ValidatorBuilder<ValidationChain> {
     private result: ValidationChain[];
@@ -22,9 +23,16 @@ export class ValidatorBuilderUpdateImpl implements ValidatorBuilder<ValidationCh
 
     buildEmail() {
         this.result.push(body("email")
-            .optional()
-            .isEmail()
-            .withMessage("Insira um e-mail válido."),);
+
+            .custom((value, { req }) => {
+                if ("email" in req.body) {
+
+                    throw new BadRequestError("Não é possível alterar o e-mail.")
+                }
+
+                return true;
+            })
+        );
     }
 
     buildPassword() {
@@ -37,7 +45,7 @@ export class ValidatorBuilderUpdateImpl implements ValidatorBuilder<ValidationCh
         this.result.push(
             body("confirmpassword").optional().custom((value, { req }) => {
                 if (value != req.body.password) {
-                    throw new Error("As senhas não são iguais.");
+                    throw new BadRequestError("As senhas não são iguais.");
                 }
 
                 return true;

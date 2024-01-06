@@ -15,7 +15,7 @@ export class UserRouter {
 
         this.router.get("/:id", this.authMiddleware.execute.bind(authMiddleware), this.userController.findOneById.bind(userController));
 
-        this.router.put("/", this.authMiddleware.execute.bind(authMiddleware), userUpdateValidation(), validate, imageUpload.single("profileimage"), this.userController.update.bind(userController));
+        this.router.put("/", this.authMiddleware.execute.bind(authMiddleware), userUpdateValidation(), validate, imageUpload.single("profileimage"), this.userController.findOneAndUpdate.bind(userController));
     }
 
     getRouter(): Router {

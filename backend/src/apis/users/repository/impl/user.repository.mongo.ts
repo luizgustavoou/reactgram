@@ -1,4 +1,4 @@
-import { IUserDoc, User } from "../../user.model";
+import { IUser, IUserDoc, User } from "../../user.model";
 import { UserRepository } from "../user.repository";
 
 export class MongoUserRepositoryImpl implements UserRepository {
@@ -8,6 +8,12 @@ export class MongoUserRepositoryImpl implements UserRepository {
             email,
             password
         });
+
+        return user;
+    }
+
+    async findOneAndUpdate(id: string, updateUserDto: Partial<IUser>): Promise<IUserDoc | null> {
+        const user = await User.findOneAndUpdate({ _id: id }, { ...updateUserDto }, { new: true });
 
         return user;
     }
@@ -28,5 +34,5 @@ export class MongoUserRepositoryImpl implements UserRepository {
 
         return users;
     }
-    
+
 }

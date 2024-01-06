@@ -27,6 +27,7 @@ export class ValidatorDirector {
     makeUpdateUserValidation() {
         this.builder.reset();
         this.builder.buildName();
+        this.builder.buildEmail();
         this.builder.buildPassword();
     }
 }

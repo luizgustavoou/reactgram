@@ -1,5 +1,6 @@
 import { ValidationChain, body } from "express-validator";
 import { ValidatorBuilder } from "./ValidatorBuilder";
+import { BadRequestError } from "../../exceptions/BadRequestError";
 
 export class ValidatorBuilderCreateImpl implements ValidatorBuilder<ValidationChain> {
     private result: ValidationChain[];
@@ -41,7 +42,7 @@ export class ValidatorBuilderCreateImpl implements ValidatorBuilder<ValidationCh
         this.result.push(
             body("confirmpassword").isString().withMessage("A confirmação de senha é obrigatória").custom((value, { req }) => {
                 if (value != req.body.password) {
-                    throw new Error("As senhas não são iguais.");
+                    throw new BadRequestError("As senhas não são iguais.");
                 }
 
                 return true;

@@ -1,15 +1,26 @@
 import { StatusCodes } from 'http-status-codes';
 import { UserService } from './user.service';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 export class UserController {
 
     constructor(private userService: UserService) { }
 
-    async update(req: Request, res: Response) {
-        res.send("Handle update user");
+    async findOneAndUpdate(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id, name, password, bio } = req.body;
+
+            console.log(req.body)
+
+            const user = await this.userService.findOneAndUpdate(id, { name, password, bio });
+
+            return res.send(user);
+
+        } catch (error) {
+            return next(error);
+        }
     }
 
-    async findOneById(req: Request, res: Response) {
+    async findOneById(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params;
 
         const user = await this.userService.findOneById(id);
@@ -17,11 +28,9 @@ export class UserController {
         res.send(user);
     }
 
-    async findMany(req: Request, res: Response) {
+    async findMany(req: Request, res: Response, next: NextFunction) {
         const users = await this.userService.findMany();
 
         res.send(users);
-
     }
-
 }

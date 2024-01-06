@@ -1,8 +1,12 @@
+import { NotFoundError } from '../../exceptions/NotFoundError';
+import { UpdateUserDto } from './dtos/UpdateUserDto';
 import { UserRepository } from './repository/user.repository';
 import { IUserDoc } from "./user.model";
 
 export interface UserService {
     create(name: string, email: string, password: string): Promise<IUserDoc | null>;
+
+    findOneAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc | null>;
 
     findOneByEmail(email: string): Promise<IUserDoc | null>;
 
@@ -41,6 +45,12 @@ export class UserServiceImpl implements UserService {
         const users = await this.userRepository.findMany();
 
         return users;
+    }
+
+    async findOneAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc | null> {
+        const user = await this.userRepository.findOneAndUpdate(id, updateUserDto);
+
+        return user;
     }
 
 
