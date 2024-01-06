@@ -9,8 +9,6 @@ export class UserController {
         try {
             const { id, name, password, bio } = req.body;
 
-            console.log(req.body)
-
             const user = await this.userService.findOneAndUpdate(id, { name, password, bio });
 
             return res.send(user);

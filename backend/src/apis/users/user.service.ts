@@ -2,6 +2,7 @@ import { NotFoundError } from '../../exceptions/NotFoundError';
 import { UpdateUserDto } from './dtos/UpdateUserDto';
 import { UserRepository } from './repository/user.repository';
 import { IUserDoc } from "./user.model";
+import { BcryptService } from '../../utils/bcrypt/bcrypt.service';
 
 export interface UserService {
     create(name: string, email: string, password: string): Promise<IUserDoc | null>;
@@ -17,7 +18,7 @@ export interface UserService {
 }
 
 export class UserServiceImpl implements UserService {
-    constructor(private userRepository: UserRepository) { }
+    constructor(private userRepository: UserRepository, private bcryptService: BcryptService) { }
 
     async create(name: string, email: string, password: string) {
         const newUser = await this.userRepository.create(
@@ -48,7 +49,15 @@ export class UserServiceImpl implements UserService {
     }
 
     async findOneAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc | null> {
-        const user = await this.userRepository.findOneAndUpdate(id, updateUserDto);
+        const update = { ...updateUserDto };
+
+        if (updateUserDto.password) {
+            const passwordHash = await this.bcryptService.generateHash(updateUserDto.password);
+
+            update.password = passwordHash;
+        }
+
+        const user = await this.userRepository.findOneAndUpdate(id, update);
 
         return user;
     }
