@@ -10,12 +10,13 @@ const userRepository: UserRepository = new MongoUserRepositoryImpl();
 
 const userService: UserService = new UserServiceImpl(userRepository);
 
-const authMiddleware: AuthMiddleware = new AuthMiddleware(userService, jwtService); // adicionado
+// OBS: se colocar o authMiddleware em /middlewares/index.ts, dá erro. Precisei colocá-lo aqui
+const authMiddleware: AuthMiddleware = new AuthMiddleware(userService, jwtService);
 
 const userController = new UserController(userService);
 
 const userRouter = new UserRouter(userController, authMiddleware);
 
 export {
-    userService, userController, userRouter
+    userService, userController, userRouter, authMiddleware
 }

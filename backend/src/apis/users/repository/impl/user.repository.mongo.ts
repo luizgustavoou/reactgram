@@ -11,6 +11,7 @@ export class MongoUserRepositoryImpl implements UserRepository {
 
         return user;
     }
+
     async findOneByEmail(email: string): Promise<IUserDoc | null> {
         const user = await User.findOne({ email });
 
@@ -22,4 +23,10 @@ export class MongoUserRepositoryImpl implements UserRepository {
         return user;
     }
 
+    async findMany(): Promise<IUserDoc[]> {
+        const users = await User.find({});
+
+        return users;
+    }
+    
 }

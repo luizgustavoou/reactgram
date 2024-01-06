@@ -6,5 +6,7 @@ export interface UserRepository {
     findOneByEmail(email: string): Promise<IUserDoc | null>;
 
     findOneById(id: string): Promise<IUserDoc | null>;
+
+    findMany(): Promise<IUserDoc[]>;
 }
 

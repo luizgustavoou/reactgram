@@ -22,6 +22,7 @@ export class AuthMiddleware {
 
 
         } catch (error) {
+            console.log(error)
             return next(new UnauthorizedError("Token inválido."));
         }
     }

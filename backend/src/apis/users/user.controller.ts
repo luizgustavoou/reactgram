@@ -5,13 +5,23 @@ export class UserController {
 
     constructor(private userService: UserService) { }
 
-    getCurrentUser(req: Request, res: Response) {
-        const user = (<any>req).user;
-
-        res.status(StatusCodes.OK).json(user);
-    }
-
-    update(req: Request, res: Response) {
+    async update(req: Request, res: Response) {
         res.send("Handle update user");
     }
+
+    async findOneById(req: Request, res: Response) {
+        const { id } = req.params;
+
+        const user = await this.userService.findOneById(id);
+
+        res.send(user);
+    }
+
+    async findMany(req: Request, res: Response) {
+        const users = await this.userService.findMany();
+
+        res.send(users);
+
+    }
+
 }

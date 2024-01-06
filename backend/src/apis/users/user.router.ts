@@ -11,9 +11,11 @@ export class UserRouter {
     constructor(private userController: UserController, private authMiddleware: AuthMiddleware) {
         this.router = Router();
 
-        this.router.get("/profile", this.authMiddleware.execute.bind(authMiddleware), this.userController.getCurrentUser);
+        this.router.get("/", this.authMiddleware.execute.bind(authMiddleware), this.userController.findMany.bind(userController));
 
-        this.router.put("/", this.authMiddleware.execute.bind(authMiddleware), userUpdateValidation(), validate, imageUpload.single("profileimage"), this.userController.update);
+        this.router.get("/:id", this.authMiddleware.execute.bind(authMiddleware), this.userController.findOneById.bind(userController));
+
+        this.router.put("/", this.authMiddleware.execute.bind(authMiddleware), userUpdateValidation(), validate, imageUpload.single("profileimage"), this.userController.update.bind(userController));
     }
 
     getRouter(): Router {

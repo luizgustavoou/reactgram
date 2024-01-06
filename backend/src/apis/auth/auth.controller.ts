@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthService } from './auth.service';
+import { StatusCodes } from "http-status-codes";
 
 export class AuthController {
     constructor(private authService: AuthService) { }
@@ -26,5 +27,12 @@ export class AuthController {
         } catch (error) {
             next(error);
         }
+    }
+
+    getCurrentUser(req: Request, res: Response) {
+        const user = (<any>req).user;
+
+        // res.status(StatusCodes.OK).json(user);
+        res.json(user);
     }
 }
