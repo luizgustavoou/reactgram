@@ -1,8 +1,8 @@
 import { ValidationChain, body } from "express-validator";
 import { ValidatorBuilder } from "./ValidatorBuilder";
-import { BadRequestError } from "../../exceptions/BadRequestError";
+import { BadRequestError } from "../../../../exceptions/BadRequestError";
 
-export class ValidatorBuilderCreateImpl implements ValidatorBuilder<ValidationChain> {
+export class ValidatorBuilderCreateImpl implements ValidatorBuilder {
     private result: ValidationChain[];
 
     constructor() {

@@ -14,24 +14,37 @@ export class UserController {
 
             const user = await this.userService.findOneAndUpdate(id, { name, password, bio, profileImage });
 
+            console.log(user);
             return res.send(user);
 
         } catch (error) {
+            console.log(error)
             return next(error);
         }
     }
 
     async findOneById(req: Request, res: Response, next: NextFunction) {
-        const { id } = req.params;
+        try {
 
-        const user = await this.userService.findOneById(id);
+            const { id } = req.params;
 
-        res.send(user);
+            const user = await this.userService.findOneById(id);
+
+            res.send(user);
+        } catch (error) {
+            return next(error);
+        }
     }
 
     async findMany(req: Request, res: Response, next: NextFunction) {
-        const users = await this.userService.findMany();
+        try {
+            const users = await this.userService.findMany();
 
-        res.send(users);
+            res.send(users);
+        } catch (error) {
+            return next(error);
+        }
+
+
     }
 }

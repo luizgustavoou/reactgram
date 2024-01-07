@@ -1,5 +1,7 @@
-export interface ValidatorBuilder<T = any> {
-    getResult(): T[];
+import { ValidationChain } from "express-validator";
+
+export interface ValidatorBuilder {
+    getResult(): ValidationChain[];
 
     reset(): void;
 

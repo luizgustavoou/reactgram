@@ -33,11 +33,19 @@ export class UserServiceImpl implements UserService {
     async findOneById(id: string): Promise<IUserDoc | null> {
         const user = await this.userRepository.findOneById(id);
 
+        if (!user) {
+            throw new NotFoundError("Usuário não encontrado.");
+        }
+
         return user;
     }
 
     async findOneByEmail(email: string) {
         const user = await this.userRepository.findOneByEmail(email);
+
+        if (!user) {
+            throw new NotFoundError("Usuário não encontrado.");
+        }
 
         return user;
     }
@@ -58,6 +66,10 @@ export class UserServiceImpl implements UserService {
         }
 
         const user = await this.userRepository.findOneAndUpdate(id, update);
+
+        if (!user) {
+            throw new NotFoundError("Usuário não encontrado.");
+        }
 
         return user;
     }

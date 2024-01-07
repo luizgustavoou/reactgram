@@ -1,8 +1,8 @@
 import { PhotoController } from './photo.controller';
 import { PhotoRouter } from './photo.router';
-import { PhotoService } from './photo.service';
+import { PhotoService, PhotoServiceImpl } from './photo.service';
 
-const photoService = new PhotoService();
+const photoService: PhotoService = new PhotoServiceImpl();
 
 const photoController = new PhotoController(photoService);
 
