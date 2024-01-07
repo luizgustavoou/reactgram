@@ -1,6 +1,6 @@
 import { ValidatorBuilder } from './ValidatorBuilder';
 
-export class ValidatorDirector {
+export class AuthValidatorDirector {
     private builder: ValidatorBuilder;
 
     constructor(builder: ValidatorBuilder) {
@@ -24,10 +24,4 @@ export class ValidatorDirector {
         this.builder.buildPassword();
     }
 
-    makeUpdateUserValidation() {
-        this.builder.reset();
-        this.builder.buildName();
-        this.builder.buildEmail();
-        this.builder.buildPassword();
-    }
 }

@@ -1,12 +1,12 @@
+import { UserValidatorDirector } from "./builders/UserValidatorDirector";
 import { ValidatorBuilder } from "./builders/ValidatorBuilder";
 import { ValidatorBuilderUpdateImpl } from "./builders/ValidatorBuilderUpdate";
-import { ValidatorDirector } from "./builders/ValidatorDirector";
 
 export class FindOneAndUpdateValidator {
     execute() {
         const validationBuilder: ValidatorBuilder = new ValidatorBuilderUpdateImpl();
 
-        const director = new ValidatorDirector(validationBuilder);
+        const director = new UserValidatorDirector(validationBuilder);
     
         director.makeUpdateUserValidation();
     
