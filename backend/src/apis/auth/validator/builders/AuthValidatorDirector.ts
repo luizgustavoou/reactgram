@@ -1,24 +1,24 @@
-import { ValidatorBuilder } from './ValidatorBuilder';
+import { AuthValidatorBuilder } from "./AuthValidatorBuilder";
 
 export class AuthValidatorDirector {
-    private builder: ValidatorBuilder;
+    private builder: AuthValidatorBuilder;
 
-    constructor(builder: ValidatorBuilder) {
+    constructor(builder: AuthValidatorBuilder) {
         this.builder = builder;
     }
 
-    changeBuilder(validatorBuilder: ValidatorBuilder) {
+    changeBuilder(validatorBuilder: AuthValidatorBuilder) {
         this.builder = validatorBuilder;
     }
 
-    makeSignUpValidation() {
+    makeSignUpValidator() {
         this.builder.reset();
         this.builder.buildName();
         this.builder.buildEmail();
         this.builder.buildConfirmPassword();
     }
 
-    makeSignInValidation() {
+    makeSignInValidator() {
         this.builder.reset();
         this.builder.buildEmail();
         this.builder.buildPassword();

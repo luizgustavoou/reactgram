@@ -1,8 +1,21 @@
 import { ValidationChain, body } from "express-validator";
-import { ValidatorBuilder } from "./ValidatorBuilder";
 import { BadRequestError } from "../../../../exceptions/BadRequestError";
 
-export class ValidatorBuilderCreateImpl implements ValidatorBuilder {
+export interface AuthValidatorBuilder {
+    getResult(): ValidationChain[];
+
+    reset(): void;
+
+    buildName(): void;
+
+    buildEmail(): void;
+
+    buildPassword(): void;
+
+    buildConfirmPassword(): void;
+}
+
+export class AuthValidatorBuilderImpl implements AuthValidatorBuilder {
     private result: ValidationChain[];
 
     constructor() {
@@ -54,3 +67,4 @@ export class ValidatorBuilderCreateImpl implements ValidatorBuilder {
         return this.result;
     }
 }
+

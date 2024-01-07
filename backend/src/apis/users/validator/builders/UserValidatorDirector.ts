@@ -1,17 +1,17 @@
-import { ValidatorBuilder } from './ValidatorBuilder';
+import { UserValidatorBuilder } from './UserValidatorBuilder';
 
 export class UserValidatorDirector {
-    private builder: ValidatorBuilder;
+    private builder: UserValidatorBuilder;
 
-    constructor(builder: ValidatorBuilder) {
+    constructor(builder: UserValidatorBuilder) {
         this.builder = builder;
     }
 
-    changeBuilder(validatorBuilder: ValidatorBuilder) {
+    changeBuilder(validatorBuilder: UserValidatorBuilder) {
         this.builder = validatorBuilder;
     }
 
-    makeUpdateUserValidation() {
+    makeFindOneAndUpdateValidator() {
         this.builder.reset();
         this.builder.buildName();
         this.builder.buildEmail();

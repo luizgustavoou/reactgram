@@ -1,14 +1,13 @@
-import { ValidatorBuilder } from "./builders/ValidatorBuilder";
-import { ValidatorBuilderCreateImpl } from "./builders/ValidatorBuilderCreate";
+import { AuthValidatorBuilder, AuthValidatorBuilderImpl } from "./builders/AuthValidatorBuilder";
 import { AuthValidatorDirector } from "./builders/AuthValidatorDirector";
 
 export class SignUpValidator {
     execute() {
-        const validatorBuilder: ValidatorBuilder = new ValidatorBuilderCreateImpl();
+        const validatorBuilder: AuthValidatorBuilder = new AuthValidatorBuilderImpl();
 
         const director = new AuthValidatorDirector(validatorBuilder);
 
-        director.makeSignUpValidation();
+        director.makeSignUpValidator();
 
         const validators = validatorBuilder.getResult();
 
