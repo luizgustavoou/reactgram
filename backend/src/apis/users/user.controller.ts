@@ -9,7 +9,10 @@ export class UserController {
         try {
             const { id, name, password, bio } = req.body;
 
-            const user = await this.userService.findOneAndUpdate(id, { name, password, bio });
+            const profileImage = req.file?.filename;
+
+
+            const user = await this.userService.findOneAndUpdate(id, { name, password, bio, profileImage });
 
             return res.send(user);
 
