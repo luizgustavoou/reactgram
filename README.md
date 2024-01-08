@@ -54,7 +54,7 @@ A aplicação consiste em uma cópia do instagram, trazendo funcionalidades prin
 ## Front end web
 Pré-requisitos: npm / yarn
 
-```bash
+<!--```bash
 # clonar repositório
 https://github.com/luizgustavoou/Miniblog.git
 
@@ -67,6 +67,7 @@ npm i
 # executar o projeto
 npm start
 ```
+-->
 
 # Autor
 
