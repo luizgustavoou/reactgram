@@ -2,16 +2,17 @@ import { NotFoundError } from '../../exceptions/NotFoundError';
 import { UpdateUserDto } from './dtos/UpdateUserDto';
 import { UserRepository } from './repository/user.repository';
 import { IUserDoc } from "./user.model";
-import { BcryptService } from '../../utils/bcrypt/bcrypt.service';
+import { BcryptService } from '../../helpers/bcrypt/bcrypt.service';
+import { InternalServerError } from '../../exceptions/InternalServerError';
 
 export interface UserService {
-    create(name: string, email: string, password: string): Promise<IUserDoc | null>;
+    create(name: string, email: string, password: string): Promise<IUserDoc>;
 
-    findOneAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc | null>;
+    findOneAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc>;
 
-    findOneByEmail(email: string): Promise<IUserDoc | null>;
+    findOneByEmail(email: string): Promise<IUserDoc>;
 
-    findOneById(id: string): Promise<IUserDoc | null>;
+    findOneById(id: string): Promise<IUserDoc>;
 
     findMany(): Promise<IUserDoc[]>;
 
@@ -27,10 +28,14 @@ export class UserServiceImpl implements UserService {
             password
         );
 
+        if (!newUser) {
+            throw new InternalServerError(new Error("Erro ao criar usuário."), "Ocorreu algum erro interno no servidor. Por favor, tente novamente mais tarde.");
+        }
+
         return newUser;
     }
 
-    async findOneById(id: string): Promise<IUserDoc | null> {
+    async findOneById(id: string): Promise<IUserDoc> {
         const user = await this.userRepository.findOneById(id);
 
         if (!user) {
@@ -56,7 +61,7 @@ export class UserServiceImpl implements UserService {
         return users;
     }
 
-    async findOneAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc | null> {
+    async findOneAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc> {
         const update = { ...updateUserDto };
 
         if (updateUserDto.password) {

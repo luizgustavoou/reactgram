@@ -44,7 +44,5 @@ export class UserController {
         } catch (error) {
             return next(error);
         }
-
-
     }
 }

@@ -1,5 +1,5 @@
 import { userService } from "../apis/users";
-import { jwtService } from "../utils/jwt";
+import { jwtService } from "../helpers/jwt";
 import { AuthMiddleware } from "./authMiddleware";
 import { ErrorHandler } from "./errorHandler";
 

@@ -12,6 +12,11 @@ export class PhotoRouter {
     constructor(private photoController: PhotoController, private authMiddleware: AuthMiddleware) {
         this.router = Router();
 
+        this.router.get("/", this.authMiddleware.execute.bind(authMiddleware), this.photoController.findMany.bind(photoController));
+
+        this.router.get("/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.findOneById.bind(photoController));
+
+
         this.router.post("/", this.authMiddleware.execute.bind(authMiddleware), imageUpload.single("image"), photoCreateValidator.execute(), validate, this.photoController.create.bind(photoController));
     }
 

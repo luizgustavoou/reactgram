@@ -1,6 +1,6 @@
 import { UserService } from '../users/user.service';
-import { JwtService } from '../../utils/jwt/jwt.service';
-import { BcryptService } from '../../utils/bcrypt/bcrypt.service';
+import { JwtService } from '../../helpers/jwt/jwt.service';
+import { BcryptService } from '../../helpers/bcrypt/bcrypt.service';
 import { NotFoundError } from '../../exceptions/NotFoundError';
 import { UnauthorizedError } from '../../exceptions/UnauthorizedError';
 import { ConflictError } from '../../exceptions/ConflictError';

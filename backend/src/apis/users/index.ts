@@ -4,8 +4,8 @@ import { UserRouter } from './user.router';
 import { UserRepository } from './repository/user.repository';
 import { MongoUserRepositoryImpl } from "./repository/impl/user.repository.mongo";
 import { AuthMiddleware } from "../../middlewares/authMiddleware";
-import { jwtService } from "../../utils/jwt";
-import { bcryptService } from "../../utils/bcrypt";
+import { jwtService } from "../../helpers/jwt";
+import { bcryptService } from "../../helpers/bcrypt";
 
 const userRepository: UserRepository = new MongoUserRepositoryImpl();
 

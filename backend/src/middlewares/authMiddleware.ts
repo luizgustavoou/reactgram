@@ -1,6 +1,6 @@
 import { UserService } from "../apis/users/user.service";
 import { UnauthorizedError } from "../exceptions/UnauthorizedError";
-import { JwtService } from '../utils/jwt/jwt.service';
+import { JwtService } from '../helpers/jwt/jwt.service';
 import { Request, Response, NextFunction } from "express";
 
 export class AuthMiddleware {
