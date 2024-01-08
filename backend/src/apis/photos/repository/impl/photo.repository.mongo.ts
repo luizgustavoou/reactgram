@@ -26,7 +26,7 @@ export class MongoPhotoRepositoryImpl implements PhotoRepository {
     }
 
     async findMany(): Promise<IPhotoDoc[]> {
-        const photos = await Photo.find({});
+        const photos = await Photo.find({}).sort([["createdAt", -1]]).exec();
 
         return photos;
     }
