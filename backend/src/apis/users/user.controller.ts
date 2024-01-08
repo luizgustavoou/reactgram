@@ -14,7 +14,6 @@ export class UserController {
 
             const user = await this.userService.findOneAndUpdate(id, { name, password, bio, profileImage });
 
-            console.log(user);
             return res.send(user);
 
         } catch (error) {
@@ -25,7 +24,6 @@ export class UserController {
 
     async findOneById(req: Request, res: Response, next: NextFunction) {
         try {
-
             const { id } = req.params;
 
             const user = await this.userService.findOneById(id);

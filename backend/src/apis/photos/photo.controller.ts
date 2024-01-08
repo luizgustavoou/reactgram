@@ -1,3 +1,4 @@
+import { IUser, IUserDoc } from '../users/user.model';
 import { PhotoService } from './photo.service';
 import { Request, Response, NextFunction } from 'express';
 
@@ -6,13 +7,16 @@ export class PhotoController {
 
     async create(req: Request, res: Response, next: NextFunction) {
         try {
+            const user: IUserDoc = (<any>req).user;
+
+
             const { title } = req.body;
-            const image = req.file?.filename;
+            const image = req.file?.filename as string;
+            const { name, _id } = user;
 
+            const newPhoto = await this.photoService.create(title, image, name, _id);
 
-            console.log({ title, image })
-
-            return res.send('Handler of create photo.');
+            return res.json({ newPhoto });
         } catch (error) {
             return next(error);
         }
@@ -24,6 +28,7 @@ export class PhotoController {
             const { id } = req.params;
 
             const photo = await this.photoService.findOneById(id);
+
 
             res.send(photo);
         } catch (error) {

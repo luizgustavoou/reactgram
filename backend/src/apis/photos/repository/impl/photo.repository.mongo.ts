@@ -2,10 +2,12 @@ import { IPhotoDoc, Photo } from '../../photo.model';
 import { PhotoRepository } from "../photo.repository";
 
 export class MongoPhotoRepositoryImpl implements PhotoRepository {
-    async create(title: string, image: string): Promise<IPhotoDoc> {
+    async create(title: string, image: string, userName: string, userId: string): Promise<IPhotoDoc> {
         const photo = await Photo.create({
             title,
             image,
+            userName,
+            userId
         });
 
         return photo;

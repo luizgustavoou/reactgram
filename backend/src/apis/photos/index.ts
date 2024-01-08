@@ -1,4 +1,4 @@
-import { authMiddleware } from '../users';
+import { authMiddleware, userService } from '../users';
 import { PhotoController } from './photo.controller';
 import { PhotoRouter } from './photo.router';
 import { PhotoService, PhotoServiceImpl } from './photo.service';
@@ -7,7 +7,7 @@ import { PhotoRepository } from './repository/photo.repository';
 
 const photoRepository: PhotoRepository = new MongoPhotoRepositoryImpl();
 
-const photoService: PhotoService = new PhotoServiceImpl(photoRepository);
+const photoService: PhotoService = new PhotoServiceImpl(photoRepository, userService);
 
 const photoController = new PhotoController(photoService);
 

@@ -2,9 +2,10 @@ import { IPhotoDoc } from "./photo.model";
 import { NotFoundError } from '../../exceptions/NotFoundError';
 import { PhotoRepository } from "./repository/photo.repository";
 import { InternalServerError } from "../../exceptions/InternalServerError";
+import { UserService } from '../users/user.service';
 
 export interface PhotoService {
-    create(name: string, email: string, password: string): Promise<IPhotoDoc>;
+    create(title: string, image: string, userName: string, userId: string): Promise<IPhotoDoc>;
 
     findOneById(id: string): Promise<IPhotoDoc>;
 
@@ -12,16 +13,19 @@ export interface PhotoService {
 }
 
 export class PhotoServiceImpl implements PhotoService {
-    constructor(private photoRepository: PhotoRepository) { }
+    constructor(private photoRepository: PhotoRepository, private userService
+        : UserService) { }
 
-    async create(title: string, image: string): Promise<IPhotoDoc> {
+    async create(title: string, image: string, userName: string, userId: string): Promise<IPhotoDoc> {
         const newPhoto = await this.photoRepository.create(
             title,
-            image
+            image,
+            userName,
+            userId
         );
 
         if (!newPhoto) {
-            throw new InternalServerError(new Error("Erro ao criar photo."), "Ocorreu algum erro interno no servidor. Por favor, tente novamente mais tarde.");
+            throw new InternalServerError(new Error("Erro ao criar imagem."), "Ocorreu algum erro interno no servidor. Por favor, tente novamente mais tarde.");
         }
 
         return newPhoto;
