@@ -69,6 +69,9 @@ npm start
 ```
 -->
 
+## :dart: Status do projeto
+Finalizado
+
 # Autor
 
 Luiz Gustavo de Oliveira Umbelino
