@@ -5,9 +5,12 @@ export interface PhotoRepository {
 
     remove(id: string): Promise<void>;
 
+    
     findOneById(id: string): Promise<IPhotoDoc | null>;
-
+    
     findMany(): Promise<IPhotoDoc[]>;
+    
+    findManyByUserId(userId: string): Promise<IPhotoDoc[]>;
 
 
 }

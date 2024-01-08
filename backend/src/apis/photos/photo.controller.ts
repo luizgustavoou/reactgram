@@ -58,4 +58,16 @@ export class PhotoController {
             return next(error);
         }
     }
+
+    async findManyByUserId(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+
+            const photos = await this.photoService.findManyByUserId(id);
+
+            res.json({ photos });
+        } catch (error) {
+            return next(error);
+        }
+    }
 }

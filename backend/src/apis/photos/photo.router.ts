@@ -4,7 +4,7 @@ import { photoCreateValidator } from "./validator";
 import { validate } from "../../middlewares/handleValidation";
 import { AuthMiddleware } from '../../middlewares/authMiddleware';
 import { imageUpload } from "../../middlewares/imageUpload";
-
+//659772df45f01bf7e46a45fc
 
 export class PhotoRouter {
     private router: Router;
@@ -19,6 +19,9 @@ export class PhotoRouter {
         this.router.delete("/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.remove.bind(photoController));
 
         this.router.post("/", this.authMiddleware.execute.bind(authMiddleware), imageUpload.single("image"), photoCreateValidator.execute(), validate, this.photoController.create.bind(photoController));
+
+        this.router.get("/user/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.findManyByUserId.bind(photoController));
+
     }
 
     getRouter(): Router {

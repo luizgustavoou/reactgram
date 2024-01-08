@@ -12,6 +12,9 @@ export interface PhotoService {
     findOneById(id: string): Promise<IPhotoDoc>;
 
     findMany(): Promise<IPhotoDoc[]>;
+
+    findManyByUserId(userId: string): Promise<IPhotoDoc[]>;
+
 }
 
 export class PhotoServiceImpl implements PhotoService {
@@ -56,6 +59,12 @@ export class PhotoServiceImpl implements PhotoService {
 
     async findMany(): Promise<IPhotoDoc[]> {
         const photos = await this.photoRepository.findMany();
+
+        return photos;
+    }
+
+    async findManyByUserId(userId: string): Promise<IPhotoDoc[]> {
+        const photos = await this.photoRepository.findManyByUserId(userId);
 
         return photos;
     }
