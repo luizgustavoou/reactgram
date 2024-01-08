@@ -70,7 +70,6 @@ npm start
 -->
 
 ## :soon: Implementação futura
-* 
 
 ## :dart: Status do projeto
 Backend: Finalizado
