@@ -12,6 +12,7 @@ export class AuthController {
 
             return res.json(json);
         } catch (error) {
+            console.log(error)
             next(error);
         }
     }

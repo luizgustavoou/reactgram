@@ -10,7 +10,7 @@ export interface UserService {
 
     findOneAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc>;
 
-    findOneByEmail(email: string): Promise<IUserDoc>;
+    findOneByEmail(email: string): Promise<IUserDoc | null>;
 
     findOneById(id: string): Promise<IUserDoc>;
 
@@ -47,10 +47,6 @@ export class UserServiceImpl implements UserService {
 
     async findOneByEmail(email: string) {
         const user = await this.userRepository.findOneByEmail(email);
-
-        if (!user) {
-            throw new NotFoundError("Usuário não encontrado.");
-        }
 
         return user;
     }
