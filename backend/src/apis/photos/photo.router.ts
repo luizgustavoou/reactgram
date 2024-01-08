@@ -16,6 +16,7 @@ export class PhotoRouter {
 
         this.router.get("/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.findOneById.bind(photoController));
 
+        this.router.delete("/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.remove.bind(photoController));
 
         this.router.post("/", this.authMiddleware.execute.bind(authMiddleware), imageUpload.single("image"), photoCreateValidator.execute(), validate, this.photoController.create.bind(photoController));
     }

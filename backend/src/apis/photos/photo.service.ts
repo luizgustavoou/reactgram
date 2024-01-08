@@ -7,6 +7,8 @@ import { UserService } from '../users/user.service';
 export interface PhotoService {
     create(title: string, image: string, userName: string, userId: string): Promise<IPhotoDoc>;
 
+    remove(id: string): Promise<void>;
+
     findOneById(id: string): Promise<IPhotoDoc>;
 
     findMany(): Promise<IPhotoDoc[]>;
@@ -29,6 +31,17 @@ export class PhotoServiceImpl implements PhotoService {
         }
 
         return newPhoto;
+    }
+
+    async remove(id: string): Promise<void> {
+        const photo = await this.findOneById(id);
+
+        if (!photo) {
+            throw new NotFoundError("Imagem não encontrada.");
+        }
+
+        await this.photoRepository.remove(id);
+
     }
 
     async findOneById(id: string): Promise<IPhotoDoc> {

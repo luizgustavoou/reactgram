@@ -22,15 +22,28 @@ export class PhotoController {
         }
     }
 
+    async remove(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+
+            // TODO: receber o id do usuário e verificar se é igual ao userId do model photo.
+
+            await this.photoService.remove(id);
+
+            res.json({ id: id, message: "Foto excluída com sucesso." });
+
+        } catch (error) {
+            return next(error);
+        }
+    }
+
     async findOneById(req: Request, res: Response, next: NextFunction) {
         try {
-
             const { id } = req.params;
 
             const photo = await this.photoService.findOneById(id);
 
-
-            res.send(photo);
+            res.json({ photo });
         } catch (error) {
             return next(error);
         }
@@ -40,7 +53,7 @@ export class PhotoController {
         try {
             const photos = await this.photoService.findMany();
 
-            res.send(photos);
+            res.json({ photos });
         } catch (error) {
             return next(error);
         }
