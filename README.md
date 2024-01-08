@@ -70,7 +70,8 @@ npm start
 -->
 
 ## :dart: Status do projeto
-Finalizado
+Backend: Finalizado
+Frontend: Em desenvolvimento
 
 # Autor
 
