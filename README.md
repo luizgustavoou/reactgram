@@ -1,4 +1,4 @@
-# Miniblog
+# Reactgram
 <!-- license --> 
 
 ## :memo:  Sobre o projeto
