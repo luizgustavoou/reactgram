@@ -1,5 +1,5 @@
 import { UserController } from "./user.controller";
-import { UserService, UserServiceImpl } from "./user.service";
+import { IUserService, UserServiceImpl } from "./user.service";
 import { UserRouter } from './user.router';
 import { UserRepository } from './repository/user.repository';
 import { MongoUserRepositoryImpl } from "./repository/impl/user.repository.mongo";
@@ -9,7 +9,7 @@ import { bcryptService } from "../../helpers/bcrypt";
 
 const userRepository: UserRepository = new MongoUserRepositoryImpl();
 
-const userService: UserService = new UserServiceImpl(userRepository, bcryptService);
+const userService: IUserService = new UserServiceImpl(userRepository, bcryptService);
 
 // OBS: se colocar o authMiddleware em /middlewares/index.ts, dá erro. Precisei colocá-lo aqui
 const authMiddleware: AuthMiddleware = new AuthMiddleware(userService, jwtService);

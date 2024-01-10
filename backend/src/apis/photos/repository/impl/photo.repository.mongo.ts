@@ -1,5 +1,6 @@
 import { IPhotoDoc, Photo } from '../../photo.model';
 import { PhotoRepository } from "../photo.repository";
+import { IUpdatePhotoDto } from '../../dtos/UpdatePhotoDto';
 
 export class MongoPhotoRepositoryImpl implements PhotoRepository {
     async create(title: string, image: string, userName: string, userId: string): Promise<IPhotoDoc> {
@@ -12,6 +13,13 @@ export class MongoPhotoRepositoryImpl implements PhotoRepository {
 
         return photo;
     }
+
+    async update(id: string, updatePhotoDto: IUpdatePhotoDto): Promise<IPhotoDoc | null> {
+        const photo = await Photo.findOneAndUpdate({ _id: id }, { ...updatePhotoDto }, { new: true });
+
+        return photo;
+    }
+
 
     async remove(id: string): Promise<void> {
         await Photo.findByIdAndDelete(id).exec();

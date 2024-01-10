@@ -12,7 +12,7 @@ export class MongoUserRepositoryImpl implements UserRepository {
         return user;
     }
 
-    async findOneAndUpdate(id: string, updateUserDto: Partial<IUser>): Promise<IUserDoc | null> {
+    async update(id: string, updateUserDto: Partial<IUser>): Promise<IUserDoc | null> {
         const user = await User.findOneAndUpdate({ _id: id }, { ...updateUserDto }, { new: true });
 
         return user;

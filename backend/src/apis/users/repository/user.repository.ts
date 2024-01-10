@@ -4,7 +4,7 @@ import { IUserDoc } from '../user.model';
 export interface UserRepository {
     create(name: string, email: string, password: string): Promise<IUserDoc>
 
-    findOneAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc | null>;
+    update(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc | null>;
 
     findOneByEmail(email: string): Promise<IUserDoc | null>;
 

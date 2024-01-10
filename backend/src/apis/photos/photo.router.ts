@@ -22,6 +22,9 @@ export class PhotoRouter {
 
         this.router.get("/user/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.findManyByUserId.bind(photoController));
 
+        this.router.put("/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.update.bind(photoController));
+
+
     }
 
     getRouter(): Router {

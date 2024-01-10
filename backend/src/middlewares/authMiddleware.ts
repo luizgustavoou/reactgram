@@ -1,10 +1,10 @@
-import { UserService } from "../apis/users/user.service";
+import { IUserService } from "../apis/users/user.service";
 import { UnauthorizedError } from "../exceptions/UnauthorizedError";
 import { JwtService } from '../helpers/jwt/jwt.service';
 import { Request, Response, NextFunction } from "express";
 
 export class AuthMiddleware {
-    constructor(private userService: UserService, private jwtService: JwtService) { }
+    constructor(private userService: IUserService, private jwtService: JwtService) { }
 
     async execute(req: Request, res: Response, next: NextFunction) {
         const token = this.extractTokenFromHeader(req);

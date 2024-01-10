@@ -22,24 +22,24 @@ export class UserValidatorBuilderImpl implements UserValidatorBuilder {
         this.result = [];
     }
 
-
     reset() {
         this.result = [];
     }
 
     buildName() {
-        this.result.push(body("name")
-            .optional()
-            .isLength({ min: 3 })
-            .withMessage("O nome precisa ter no mínimo 3 caracteres."),);
+        this.result.push(
+            body("name")
+                .optional()
+                .isLength({ min: 3 })
+                .withMessage("O nome precisa ter no mínimo 3 caracteres.")
+        );
     }
 
     buildEmail() {
-        this.result.push(body("email")
-            .custom((value, { req }) => {
+        this.result.push(
+            body("email").custom((value, { req }) => {
                 if ("email" in req.body) {
-
-                    throw new BadRequestError("Não é possível alterar o e-mail.")
+                    throw new BadRequestError("Não é possível alterar o e-mail.");
                 }
 
                 return true;
@@ -48,20 +48,25 @@ export class UserValidatorBuilderImpl implements UserValidatorBuilder {
     }
 
     buildPassword() {
-        this.result.push(body("password").optional()
-            .isLength({ min: 3 })
-            .withMessage("A senha precisa ter no mínimo 5 caracteres."),);
+        this.result.push(
+            body("password")
+                .optional()
+                .isLength({ min: 3 })
+                .withMessage("A senha precisa ter no mínimo 5 caracteres.")
+        );
     }
 
     buildConfirmPassword() {
         this.result.push(
-            body("confirmpassword").optional().custom((value, { req }) => {
-                if (value != req.body.password) {
-                    throw new BadRequestError("As senhas não são iguais.");
-                }
+            body("confirmpassword")
+                .optional()
+                .custom((value, { req }) => {
+                    if (value != req.body.password) {
+                        throw new BadRequestError("As senhas não são iguais.");
+                    }
 
-                return true;
-            })
+                    return true;
+                })
         );
     }
 

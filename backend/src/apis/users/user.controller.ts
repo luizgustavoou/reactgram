@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
-import { UserService } from './user.service';
+import { IUserService } from './user.service';
 import { NextFunction, Request, Response } from 'express';
 export class UserController {
 
-    constructor(private userService: UserService) { }
+    constructor(private userService: IUserService) { }
 
     async findOneAndUpdate(req: Request, res: Response, next: NextFunction) {
         try {
@@ -12,7 +12,7 @@ export class UserController {
             const profileImage = req.file?.filename;
 
 
-            const user = await this.userService.findOneAndUpdate(id, { name, password, bio, profileImage });
+            const user = await this.userService.update(id, { name, password, bio, profileImage });
 
             return res.send(user);
 

@@ -1,4 +1,4 @@
-import { UserService } from '../users/user.service';
+import { IUserService } from '../users/user.service';
 import { JwtService } from '../../helpers/jwt/jwt.service';
 import { BcryptService } from '../../helpers/bcrypt/bcrypt.service';
 import { NotFoundError } from '../../exceptions/NotFoundError';
@@ -22,7 +22,7 @@ export interface AuthService {
 }
 
 export class AuthServiceImpl implements AuthService {
-    constructor(private userService: UserService, private jwtService: JwtService, private bcryptService: BcryptService) { }
+    constructor(private userService: IUserService, private jwtService: JwtService, private bcryptService: BcryptService) { }
 
     async signin(email: string, password: string): Promise<ResponseSignIn> {
         const user = await this.userService.findOneByEmail(email);

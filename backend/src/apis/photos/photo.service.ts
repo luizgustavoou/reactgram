@@ -2,10 +2,13 @@ import { IPhotoDoc } from "./photo.model";
 import { NotFoundError } from '../../exceptions/NotFoundError';
 import { PhotoRepository } from "./repository/photo.repository";
 import { InternalServerError } from "../../exceptions/InternalServerError";
-import { UserService } from '../users/user.service';
+import { IUserService } from '../users/user.service';
+import { IUpdatePhotoDto } from "./dtos/UpdatePhotoDto";
 
-export interface PhotoService {
+export interface IPhotoService {
     create(title: string, image: string, userName: string, userId: string): Promise<IPhotoDoc>;
+
+    update(id: string, updatePhotoDto: IUpdatePhotoDto): Promise<IPhotoDoc>
 
     remove(id: string): Promise<void>;
 
@@ -17,9 +20,9 @@ export interface PhotoService {
 
 }
 
-export class PhotoServiceImpl implements PhotoService {
+export class PhotoServiceImpl implements IPhotoService {
     constructor(private photoRepository: PhotoRepository, private userService
-        : UserService) { }
+        : IUserService) { }
 
     async create(title: string, image: string, userName: string, userId: string): Promise<IPhotoDoc> {
         const newPhoto = await this.photoRepository.create(
@@ -34,6 +37,16 @@ export class PhotoServiceImpl implements PhotoService {
         }
 
         return newPhoto;
+    }
+
+    async update(id: string, updatePhotoDto: IUpdatePhotoDto): Promise<IPhotoDoc> {
+        const photo = await this.photoRepository.update(id, updatePhotoDto);
+
+        if (!photo) {
+            throw new NotFoundError("Imagem não encontrado.");
+        }
+
+        return photo;
     }
 
     async remove(id: string): Promise<void> {

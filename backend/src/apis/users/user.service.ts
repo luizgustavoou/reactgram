@@ -5,10 +5,10 @@ import { IUserDoc } from "./user.model";
 import { BcryptService } from '../../helpers/bcrypt/bcrypt.service';
 import { InternalServerError } from '../../exceptions/InternalServerError';
 
-export interface UserService {
+export interface IUserService {
     create(name: string, email: string, password: string): Promise<IUserDoc>;
 
-    findOneAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc>;
+    update(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc>;
 
     findOneByEmail(email: string): Promise<IUserDoc | null>;
 
@@ -18,7 +18,7 @@ export interface UserService {
 
 }
 
-export class UserServiceImpl implements UserService {
+export class UserServiceImpl implements IUserService {
     constructor(private userRepository: UserRepository, private bcryptService: BcryptService) { }
 
     async create(name: string, email: string, password: string) {
@@ -33,6 +33,24 @@ export class UserServiceImpl implements UserService {
         }
 
         return newUser;
+    }
+
+    async update(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc> {
+        const update = { ...updateUserDto };
+
+        if (updateUserDto.password) {
+            const passwordHash = await this.bcryptService.generateHash(updateUserDto.password);
+
+            update.password = passwordHash;
+        }
+
+        const user = await this.userRepository.update(id, update);
+
+        if (!user) {
+            throw new NotFoundError("Usuário não encontrado.");
+        }
+
+        return user;
     }
 
     async findOneById(id: string): Promise<IUserDoc> {
@@ -56,23 +74,4 @@ export class UserServiceImpl implements UserService {
 
         return users;
     }
-
-    async findOneAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<IUserDoc> {
-        const update = { ...updateUserDto };
-
-        if (updateUserDto.password) {
-            const passwordHash = await this.bcryptService.generateHash(updateUserDto.password);
-
-            update.password = passwordHash;
-        }
-
-        const user = await this.userRepository.findOneAndUpdate(id, update);
-
-        if (!user) {
-            throw new NotFoundError("Usuário não encontrado.");
-        }
-
-        return user;
-    }
-
 }

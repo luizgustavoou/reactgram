@@ -1,9 +1,9 @@
 import { IUser, IUserDoc } from '../users/user.model';
-import { PhotoService } from './photo.service';
+import { IPhotoService } from './photo.service';
 import { Request, Response, NextFunction } from 'express';
 
 export class PhotoController {
-    constructor(private photoService: PhotoService) { }
+    constructor(private photoService: IPhotoService) { }
 
     async create(req: Request, res: Response, next: NextFunction) {
         try {
@@ -22,11 +22,25 @@ export class PhotoController {
         }
     }
 
+    async update(req: Request, res: Response, next: NextFunction) {
+        // TODO: Verificar se a photo pertence ao usuário que está atualizando-a.
+        try {
+            const { id } = req.params;
+            const { title } = req.body;
+
+            const photo = await this.photoService.update(id, { title });
+
+            res.json({ photo });
+        } catch (error) {
+            return next(error);
+        }
+    }
+
     async remove(req: Request, res: Response, next: NextFunction) {
+        // TODO: Verificar se a photo pertence ao usuário que está atualizando-a.
         try {
             const { id } = req.params;
 
-            // TODO: receber o id do usuário e verificar se é igual ao userId do model photo.
 
             await this.photoService.remove(id);
 
