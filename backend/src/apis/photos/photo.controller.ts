@@ -116,4 +116,17 @@ export class PhotoController {
             return next(error);
         }
     }
+
+    async searchPhotos(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { q } = req.query;
+
+            const photos = await this.photoService.findManyByTitleRegex(q as string);
+
+            res.json({ photos });
+        } catch (error) {
+            return next(error);
+        }
+
+    }
 }

@@ -24,6 +24,7 @@ export interface IPhotoService {
 
     commentPhoto(id: string, commentDto: ICommentDto): Promise<void>;
 
+    findManyByTitleRegex(q: string): Promise<IPhotoDoc[]>;
 }
 
 export class PhotoServiceImpl implements IPhotoService {
@@ -107,4 +108,9 @@ export class PhotoServiceImpl implements IPhotoService {
         photo.save();
     }
 
+    async findManyByTitleRegex(q: string): Promise<IPhotoDoc[]> {
+        const photos = await this.photoRepository.findManyByTitleRegex(q);
+
+        return photos;
+    }
 }

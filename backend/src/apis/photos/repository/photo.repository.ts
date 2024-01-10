@@ -14,5 +14,7 @@ export interface PhotoRepository {
 
     findManyByUserId(userId: string): Promise<IPhotoDoc[]>;
 
+    findManyByTitleRegex(q: string): Promise<IPhotoDoc[]>;
+
 
 }

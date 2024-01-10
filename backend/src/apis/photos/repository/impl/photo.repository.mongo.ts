@@ -43,4 +43,11 @@ export class MongoPhotoRepositoryImpl implements PhotoRepository {
 
         return photos;
     }
+
+    async findManyByTitleRegex(q: string): Promise<IPhotoDoc[]> {
+        const photos = await Photo.find({ title: new RegExp(q, "i") }).exec();
+
+        return photos;
+    }
+
 }
