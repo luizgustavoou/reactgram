@@ -86,7 +86,6 @@ export class PhotoController {
     }
 
     async likePhoto(req: Request, res: Response, next: NextFunction) {
-
         try {
             const { id } = req.params;
             const { id: userId }: IUserDoc = (<any>req).user;
@@ -95,6 +94,24 @@ export class PhotoController {
 
 
             res.json({ photoId: id, userId, message: "A foto foi curtida." });
+        } catch (error) {
+            return next(error);
+        }
+    }
+
+    async commentPhoto(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+
+            const user: IUserDoc = (<any>req).user;
+
+            const { comment } = req.body;
+
+            const userComment = { userId: user.id, comment, userImage: user.profileImage, userName: user.name };
+
+            await this.photoService.commentPhoto(id, userComment);
+
+            res.json({ comment: userComment, message: "O comentário foi adicionado com sucesso." });
         } catch (error) {
             return next(error);
         }

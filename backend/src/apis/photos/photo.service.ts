@@ -1,10 +1,11 @@
-import { IPhotoDoc } from "./photo.model";
+import { IComment, IPhotoDoc } from "./photo.model";
 import { NotFoundError } from '../../exceptions/NotFoundError';
 import { PhotoRepository } from "./repository/photo.repository";
 import { InternalServerError } from "../../exceptions/InternalServerError";
 import { IUserService } from '../users/user.service';
 import { IUpdatePhotoDto } from "./dtos/UpdatePhotoDto";
 import { ConflictError } from "../../exceptions/ConflictError";
+import { ICommentDto } from "./dtos/CommentDto";
 
 export interface IPhotoService {
     create(title: string, image: string, userName: string, userId: string): Promise<IPhotoDoc>;
@@ -20,6 +21,8 @@ export interface IPhotoService {
     findManyByUserId(userId: string): Promise<IPhotoDoc[]>;
 
     likePhoto(id: string, userId: string): Promise<void>;
+
+    commentPhoto(id: string, commentDto: ICommentDto): Promise<void>;
 
 }
 
@@ -87,15 +90,19 @@ export class PhotoServiceImpl implements IPhotoService {
     async likePhoto(id: string, userId: string): Promise<void> {
         const photo = await this.findOneById(id);
 
-        if (!photo) {
-            throw new NotFoundError("Imagem não encontrada.");
-        }
-
         if (photo.likes.includes(userId)) {
             throw new ConflictError("Você já curtiu a foto");
         }
 
         photo.likes.push(userId);
+
+        photo.save();
+    }
+
+    async commentPhoto(id: string, commentDto: IComment): Promise<void> {
+        const photo = await this.findOneById(id);
+
+        photo.comments.push(commentDto);
 
         photo.save();
     }

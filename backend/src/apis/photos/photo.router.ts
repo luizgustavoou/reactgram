@@ -22,9 +22,13 @@ export class PhotoRouter {
 
         this.router.get("/user/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.findManyByUserId.bind(photoController));
 
+        // TOOD: Adicionar validação de atualização
         this.router.put("/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.update.bind(photoController));
 
         this.router.put("/like/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.likePhoto.bind(photoController));
+
+        // TOOD: Adicionar validação de adicionar comentário
+        this.router.put("/comment/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.commentPhoto.bind(photoController));
 
 
     }
