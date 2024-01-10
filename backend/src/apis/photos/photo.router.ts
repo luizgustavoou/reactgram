@@ -24,6 +24,8 @@ export class PhotoRouter {
 
         this.router.put("/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.update.bind(photoController));
 
+        this.router.put("/like/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.likePhoto.bind(photoController));
+
 
     }
 

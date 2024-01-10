@@ -12,9 +12,9 @@ export class PhotoController {
 
             const { title } = req.body;
             const image = req.file?.filename as string;
-            const { name, _id } = user;
+            const { name, id } = user;
 
-            const newPhoto = await this.photoService.create(title, image, name, _id);
+            const newPhoto = await this.photoService.create(title, image, name, id);
 
             return res.json({ newPhoto });
         } catch (error) {
@@ -80,6 +80,21 @@ export class PhotoController {
             const photos = await this.photoService.findManyByUserId(id);
 
             res.json({ photos });
+        } catch (error) {
+            return next(error);
+        }
+    }
+
+    async likePhoto(req: Request, res: Response, next: NextFunction) {
+
+        try {
+            const { id } = req.params;
+            const { id: userId }: IUserDoc = (<any>req).user;
+
+            await this.photoService.likePhoto(id, userId);
+
+
+            res.json({ photoId: id, userId, message: "A foto foi curtida." });
         } catch (error) {
             return next(error);
         }

@@ -4,6 +4,7 @@ import { PhotoRepository } from "./repository/photo.repository";
 import { InternalServerError } from "../../exceptions/InternalServerError";
 import { IUserService } from '../users/user.service';
 import { IUpdatePhotoDto } from "./dtos/UpdatePhotoDto";
+import { ConflictError } from "../../exceptions/ConflictError";
 
 export interface IPhotoService {
     create(title: string, image: string, userName: string, userId: string): Promise<IPhotoDoc>;
@@ -18,12 +19,13 @@ export interface IPhotoService {
 
     findManyByUserId(userId: string): Promise<IPhotoDoc[]>;
 
+    likePhoto(id: string, userId: string): Promise<void>;
+
 }
 
 export class PhotoServiceImpl implements IPhotoService {
     constructor(private photoRepository: PhotoRepository, private userService
         : IUserService) { }
-
     async create(title: string, image: string, userName: string, userId: string): Promise<IPhotoDoc> {
         const newPhoto = await this.photoRepository.create(
             title,
@@ -81,4 +83,21 @@ export class PhotoServiceImpl implements IPhotoService {
 
         return photos;
     }
+
+    async likePhoto(id: string, userId: string): Promise<void> {
+        const photo = await this.findOneById(id);
+
+        if (!photo) {
+            throw new NotFoundError("Imagem não encontrada.");
+        }
+
+        if (photo.likes.includes(userId)) {
+            throw new ConflictError("Você já curtiu a foto");
+        }
+
+        photo.likes.push(userId);
+
+        photo.save();
+    }
+
 }

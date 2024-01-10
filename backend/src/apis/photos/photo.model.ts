@@ -3,7 +3,7 @@ import { Document, InferSchemaType, Model, Schema, SchemaDefinition, Types, mode
 export interface IPhoto {
     image: string,
     title: string,
-    likes: Types.Array<any>,
+    likes: Types.Array<string>,
     comments: Types.Array<any>,
     userId: Types.ObjectId,
     userName: string,
@@ -16,7 +16,7 @@ export interface IPhotoModel extends Model<IPhotoDoc> { }
 const PhotoSchemaFields: SchemaDefinition<Record<keyof IPhoto, any>> = {
     image: String,
     title: String,
-    likes: Array<any>,
+    likes: Array<String>,
     comments: Array<any>,
     userId: Schema.Types.ObjectId,
     userName: String,
