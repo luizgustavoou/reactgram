@@ -1,4 +1,5 @@
-import { UserValidatorBuilder, UserValidatorBuilderImpl } from "./builders/UserValidatorBuilder";
+
+import { UserValidatorBuilder, UserValidatorBuilderImpl } from "./builders/UpdateUserValidatorBuilder";
 import { UserValidatorDirector } from "./builders/UserValidatorDirector";
 
 

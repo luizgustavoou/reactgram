@@ -18,4 +18,10 @@ export class PhotoValidatorDirector {
         this.builder.buildImage();
 
     }
+
+    makeUpdateValidator() {
+        this.builder.reset();
+
+        this.builder.buildTitle();
+    }
 }

@@ -1,4 +1,5 @@
-import { UserValidatorBuilder } from './UserValidatorBuilder';
+import { UserValidatorBuilder } from "./UpdateUserValidatorBuilder";
+
 
 export class UserValidatorDirector {
     private builder: UserValidatorBuilder;
