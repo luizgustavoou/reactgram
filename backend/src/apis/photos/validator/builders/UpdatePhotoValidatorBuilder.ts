@@ -8,6 +8,11 @@ export class UpdatePhotoValidatorBuilderImpl implements PhotoValidatorBuilder {
     constructor() {
         this.result = [];
     }
+    buildComment(): void {
+        this.result.push(
+            body("comment").isString().withMessage("O comentário é obrigatório.")
+        );
+    }
 
     reset() {
         this.result = [];

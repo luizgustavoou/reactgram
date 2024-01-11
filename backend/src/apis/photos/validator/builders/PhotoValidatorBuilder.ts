@@ -8,6 +8,8 @@ export interface PhotoValidatorBuilder {
 
     buildImage(): void;
 
+    buildComment(): void;
+
     reset(): void;
 }
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { PhotoController } from "./photo.controller";
-import { photoCreateValidator, photoUpdateValidator } from "./validator";
+import { photoCommentPhotoValidator, photoCreateValidator, photoUpdateValidator } from "./validator";
 import { validate } from "../../middlewares/handleValidation";
 import { AuthMiddleware } from '../../middlewares/authMiddleware';
 import { imageUpload } from "../../middlewares/imageUpload";
@@ -26,8 +26,7 @@ export class PhotoRouter {
 
         this.router.put("/like/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.likePhoto.bind(photoController));
 
-        // TODO: Adicionar validação de adicionar comentário
-        this.router.put("/comment/:id", this.authMiddleware.execute.bind(authMiddleware), this.photoController.commentPhoto.bind(photoController));
+        this.router.put("/comment/:id", this.authMiddleware.execute.bind(authMiddleware), photoCommentPhotoValidator.execute(), validate, this.photoController.commentPhoto.bind(photoController));
 
         this.router.post("/", this.authMiddleware.execute.bind(authMiddleware), imageUpload.single("image"), photoCreateValidator.execute(), validate, this.photoController.create.bind(photoController));
 

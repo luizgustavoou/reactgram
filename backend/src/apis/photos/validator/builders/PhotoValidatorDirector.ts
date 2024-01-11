@@ -24,4 +24,10 @@ export class PhotoValidatorDirector {
 
         this.builder.buildTitle();
     }
+
+    makeCommentValidator() {
+        this.builder.reset();
+
+        this.builder.buildComment();
+    }
 }

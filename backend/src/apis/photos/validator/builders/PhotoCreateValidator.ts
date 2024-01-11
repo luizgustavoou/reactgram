@@ -8,6 +8,8 @@ export class PhotoCreateValidatorBuilderImpl implements PhotoValidatorBuilder {
     constructor() {
         this.result = [];
     }
+    buildComment(): void {
+    }
 
     reset() {
         this.result = [];

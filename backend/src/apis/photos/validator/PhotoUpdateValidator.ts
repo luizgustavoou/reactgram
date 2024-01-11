@@ -1,6 +1,6 @@
-import { PhotoValidatorBuilder } from './PhotoValidatorBuilder';
-import { PhotoValidatorDirector } from './PhotoValidatorDirector';
-import { UpdatePhotoValidatorBuilderImpl } from './UpdatePhotoValidatorBuilder';
+import { PhotoValidatorBuilder } from './builders/PhotoValidatorBuilder';
+import { PhotoValidatorDirector } from './builders/PhotoValidatorDirector';
+import { UpdatePhotoValidatorBuilderImpl } from './builders/UpdatePhotoValidatorBuilder';
 
 export class PhotoUpdateValidator {
     execute() {
