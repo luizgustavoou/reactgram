@@ -4,18 +4,14 @@
 ## :memo:  Sobre o projeto
 
 <!-- https://wmazoni-sds1.netlify.app -->
-A aplicação consiste em uma cópia do instagram, trazendo funcionalidades principais da rede social.
-<!--## Layout mobile
-![Mobile 1](https://github.com/acenelio/assets/raw/main/sds1/mobile1.png) ![Mobile 2](https://github.com/acenelio/assets/raw/main/sds1/mobile2.png)
--->
+A aplicação consiste em uma cópia do instagram, trazendo as principais funcionalidades da rede social.
+<!--## Layout mobile -->
 
 ## Layout web
-<!-- [video miniblog](https://github.com/luizgustavoou/Miniblog/assets/89609312/2eae513a-ed78-4a62-b044-b7ae4c9a5143) -->
 
-<!--
-## Modelo conceitual
-![Modelo Conceitual](https://github.com/acenelio/assets/raw/main/sds1/modelo-conceitual.png)
--->
+
+<!--## Modelo conceitual -->
+
 ## :books: Funcionalidades
 * <b>Autenticação</b>;
 * <b>Criar, editar e remover posts</b>;
