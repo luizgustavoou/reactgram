@@ -1,4 +1,4 @@
-import "./Auth.css"
+import "./Auth.css";
 
 const Register = () => {
   return (
@@ -7,5 +7,6 @@ const Register = () => {
     </div>
   );
 };
+
 
 export default Register;
