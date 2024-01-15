@@ -1,6 +1,14 @@
+// ações executadas baseado nas requisiçoes que tem em services
+
+// terá açao de registro e dispará varios estado como estaod de loading, sucesso (a resposta que vem da api)
+
+// no slice onde tem a possibilidade de pegar o estado de loading, success, error e nesses intervalo pode fazer manipualçoes de objetos de componenets
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { authService } from "../services";
+import { IAuthRegister } from "../interfaces/IAuthRegister";
+
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -21,12 +29,14 @@ const initialState: AuthState = {
     loading: false
 }
 
-export const register = createAsyncThunk("auth/register", async (user, thunkAPI) => {
+//ler: https://redux-toolkit.js.org/usage/usage-with-typescript
+export const register = createAsyncThunk("auth/register", async (user: IAuthRegister, thunkAPI) => {
     const data = await authService.register(user);
 
     if (data.errors) {
         return thunkAPI.rejectWithValue(data.errors[0]);
     }
+
 
     return data;
 })
@@ -59,6 +69,7 @@ export const authSlice = createSlice({
         })
     }
 })
+
 
 export const { reset, } = authSlice.actions;
 

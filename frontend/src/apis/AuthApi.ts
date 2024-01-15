@@ -1,4 +1,7 @@
+//ler: https://kentcdodds.com/blog/using-fetch-with-type-script
+
 import { IAuthRegister } from "../interfaces/IAuthRegister";
+import { IAuthRegisterJSONResponse } from "../interfaces/IAuthRegisterResponse";
 import { api, requestConfig } from "../utils/config";
 
 export interface AuthApi {
@@ -9,16 +12,15 @@ export class AuthApiImpl implements AuthApi {
     async register(data: IAuthRegister): Promise<any> {
         const config = requestConfig("POST", data);
 
-        try {
-            const res = await fetch(api + "/users/register", config);
+        const res = await fetch(api + "/users/register", config);
 
-            const json = await res.json();
+        const json: IAuthRegisterJSONResponse = await res.json();
 
+        if (res.ok) {
             return json;
-        } catch (error) {
-            console.log(error)
-        }
+        } else {
 
+        }
     }
 
 }
