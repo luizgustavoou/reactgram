@@ -5,7 +5,16 @@ import { authService } from "../services";
 const user = JSON.parse(localStorage.getItem("user"));
 
 
-const initialState = {
+// Define a type for the slice state
+export interface AuthState {
+    user: null | any,
+    error: boolean | null | any,
+    success: boolean | null,
+    loading: boolean | null
+}
+
+// Define the initial state using that type
+const initialState: AuthState = {
     user: user ? user : null,
     error: false,
     success: false,
@@ -51,5 +60,6 @@ export const authSlice = createSlice({
     }
 })
 
-export const { reset } = authSlice.actions;
+export const { reset, } = authSlice.actions;
+
 export default authSlice.reducer;

@@ -16,10 +16,8 @@ export class AuthServiceImpl implements AuthService {
 
             const json = await res.json();
 
-            console.log(json)
             if (json) {
                 localStorage.setItem("user", JSON.stringify(json));
-                console.log(JSON.stringify(json));
             }
         } catch (error) {
             console.log(error)
