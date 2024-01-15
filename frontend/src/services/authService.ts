@@ -19,6 +19,8 @@ export class AuthServiceImpl implements AuthService {
             if (json) {
                 localStorage.setItem("user", JSON.stringify(json));
             }
+
+            return json;
         } catch (error) {
             console.log(error)
         }

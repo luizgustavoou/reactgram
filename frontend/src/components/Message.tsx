@@ -1,3 +1,5 @@
+import "./Message.css";
+
 export interface MessageProps {
   msg: string;
   type: string;
