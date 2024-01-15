@@ -1,9 +1,11 @@
+export const url = "http://localhost:5000"
+
 export const api = "http://localhost:5000/api"
 
 export const uploads = "http://localhost:5000/uploads"
 
-export const requestConfig = (method: string, data: any, token = null, image = null) => {
-    let config;
+export const requestConfig = (method: string, data: any, token: string | null = null, image = null): RequestInit => {
+    let config: RequestInit;
 
     if (image) {
         config = {
@@ -26,8 +28,8 @@ export const requestConfig = (method: string, data: any, token = null, image = n
         }
     }
 
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+    if (token && config.headers) {
+        (<any>config.headers).Authorization = `Bearer ${token}`;
     }
 
     return config;

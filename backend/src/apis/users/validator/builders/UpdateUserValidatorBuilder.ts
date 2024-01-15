@@ -58,7 +58,7 @@ export class UserValidatorBuilderImpl implements UserValidatorBuilder {
 
     buildConfirmPassword() {
         this.result.push(
-            body("confirmpassword")
+            body("confirmPassword")
                 .optional()
                 .custom((value, { req }) => {
                     if (value != req.body.password) {

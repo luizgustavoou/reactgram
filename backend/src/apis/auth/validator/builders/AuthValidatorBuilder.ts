@@ -53,7 +53,7 @@ export class AuthValidatorBuilderImpl implements AuthValidatorBuilder {
 
     buildConfirmPassword() {
         this.result.push(
-            body("confirmpassword").isString().withMessage("A confirmação de senha é obrigatória").custom((value, { req }) => {
+            body("confirmPassword").isString().withMessage("A confirmação de senha é obrigatória").custom((value, { req }) => {
                 if (value != req.body.password) {
                     throw new BadRequestError("As senhas não são iguais.");
                 }

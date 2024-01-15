@@ -5,12 +5,24 @@ import { Link } from "react-router-dom";
 
 // Hooks
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import {
+  UseSelector,
+  UseDispatch,
+  useDispatch,
+  useSelector,
+} from "react-redux";
+// Redux
+import { register, reset } from "../../slices/authSlice";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const dispatch = useDispatch();
+
+  const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,7 +35,14 @@ const Register = () => {
     };
 
     console.log({ user });
+
+    dispatch(register(user));
   };
+
+  // Clean all auth states
+  useEffect(() => {
+    dispatch(reset());
+  }, [dispatch]);
 
   const handleOnChangeName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
