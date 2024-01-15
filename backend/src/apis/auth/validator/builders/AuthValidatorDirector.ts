@@ -15,6 +15,7 @@ export class AuthValidatorDirector {
         this.builder.reset();
         this.builder.buildName();
         this.builder.buildEmail();
+        this.builder.buildPassword();
         this.builder.buildConfirmPassword();
     }
 
