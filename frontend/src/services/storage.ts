@@ -5,4 +5,8 @@ export class LocalStorageImpl {
     setItem(key: string, value: string): void {
         localStorage.setItem(key, value);
     }
+
+    removeItem(key: string): void {
+        localStorage.removeItem(key);
+    }
 }

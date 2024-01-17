@@ -6,6 +6,8 @@ import { LocalStorageImpl } from "../storage";
 
 export interface AuthService {
     register(data: IAuthRegister): Promise<IAuthRegisterResponse>
+
+    logout(): void
 }
 
 
@@ -26,5 +28,9 @@ export class AuthServiceImpl implements AuthService {
             throw new Error("Houve algum erro no servidor.");
         }
 
+    }
+
+    logout() {
+        this.storage.removeItem("user");
     }
 }

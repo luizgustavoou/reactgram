@@ -35,6 +35,7 @@ const initialState: AuthState = {
 export const register = createAsyncThunk<IAuthRegisterResponse, IAuthRegister, {
     dispatch: AppDispatch
     state: RootState
+    rejectValue: string
 }>("auth/register", async (user, thunkAPI) => {
     try {
         const data = await authService.register(user);
@@ -50,6 +51,14 @@ export const register = createAsyncThunk<IAuthRegisterResponse, IAuthRegister, {
         return thunkAPI.rejectWithValue(error.message);
     }
 
+})
+
+export const logout = createAsyncThunk<void, void, { rejectValue: string }>("auth/logot", async (_, thunkAPI) => {
+    try {
+        await authService.logout();
+    } catch (error) {
+        return thunkAPI.rejectWithValue("Houve algum erro ao fazer logout.");
+    }
 })
 
 export const authSlice = createSlice({
@@ -76,6 +85,11 @@ export const authSlice = createSlice({
             state.loading
                 = false;
             state.error = action.payload;
+            state.user = null;
+        }).addCase(logout.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
             state.user = null;
         })
     }
