@@ -8,7 +8,7 @@ import Message from "../../components/Message";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { RoutesPath } from "../../utils/routes.path";
+import { RoutesPath } from "../../utils/RoutesPath";
 
 // Redux
 

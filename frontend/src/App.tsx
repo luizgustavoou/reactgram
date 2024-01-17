@@ -15,7 +15,7 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import { useAuth } from "./hooks/useAuth";
-import { RoutesPath } from "./utils/routes.path";
+import { RoutesPath } from "./utils/RoutesPath";
 
 function App() {
   const { auth, loading } = useAuth();

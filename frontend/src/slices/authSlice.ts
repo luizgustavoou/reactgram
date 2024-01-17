@@ -4,12 +4,14 @@
 
 // no slice onde tem a possibilidade de pegar o estado de loading, success, error e nesses intervalo pode fazer manipualçoes de objetos de componenets
 
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { authService, storage } from "../services";
 import { IAuthRegister } from "../interfaces/IAuthRegister";
 import { IAuthRegisterResponse } from "../repositories/auth/IAuthRegisterResponse";
 import { AppDispatch, RootState } from "../store";
+
 
 
 const user = JSON.parse(storage.getItem("user"));

@@ -11,7 +11,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { register, reset } from "../../slices/authSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { RoutesPath } from "../../utils/routes.path";
+import { RoutesPath } from "../../utils/RoutesPath";
 
 const Register = () => {
   const [name, setName] = useState("");

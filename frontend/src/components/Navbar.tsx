@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 
 // Redux
 import { reset, logout } from "../slices/authSlice";
-import { RoutesPath } from "../utils/routes.path";
+import { RoutesPath } from "../utils/RoutesPath";
 
 function Navbar() {
   const { auth } = useAuth();
