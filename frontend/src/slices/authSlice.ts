@@ -6,11 +6,13 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { authService } from "../services";
+import { authService, storage } from "../services";
 import { IAuthRegister } from "../interfaces/IAuthRegister";
+import { IAuthRegisterResponse } from "../repositories/auth/IAuthRegisterResponse";
+import { AppDispatch, RootState } from "../store";
 
 
-const user = JSON.parse(localStorage.getItem("user"));
+const user = JSON.parse(storage.getItem("user"));
 
 
 // Define a type for the slice state
@@ -29,14 +31,18 @@ const initialState: AuthState = {
     loading: false
 }
 
-export const register = createAsyncThunk("auth/register", async (user: IAuthRegister, thunkAPI) => {
+
+export const register = createAsyncThunk<IAuthRegisterResponse, IAuthRegister, {
+    dispatch: AppDispatch
+    state: RootState
+}>("auth/register", async (user, thunkAPI) => {
     try {
         const data = await authService.register(user);
+
 
         if (data.errors) {
             return thunkAPI.rejectWithValue(data.errors[0]);
         }
-
 
         return data;
 

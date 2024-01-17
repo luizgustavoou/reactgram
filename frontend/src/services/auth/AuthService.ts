@@ -1,6 +1,7 @@
-import { IAuthRegister } from "../interfaces/IAuthRegister";
-import { AuthRepository } from '../repositories/auth/AuthRepository';
-import { IAuthRegisterResponse } from "../repositories/auth/IAuthRegisterResponse";
+import { IAuthRegister } from "../../interfaces/IAuthRegister";
+import { AuthRepository } from '../../repositories/auth/AuthRepository';
+import { IAuthRegisterResponse } from "../../repositories/auth/IAuthRegisterResponse";
+import { LocalStorageImpl } from "../storage";
 
 
 export interface AuthService {
@@ -9,7 +10,7 @@ export interface AuthService {
 
 
 export class AuthServiceImpl implements AuthService {
-    constructor(private authRepository: AuthRepository) { }
+    constructor(private authRepository: AuthRepository, private storage: LocalStorageImpl) { }
 
     async register(data: IAuthRegister): Promise<IAuthRegisterResponse> {
         try {
@@ -17,7 +18,7 @@ export class AuthServiceImpl implements AuthService {
 
 
             if (res) {
-                localStorage.setItem("user", JSON.stringify(res));
+                this.storage.setItem("user", JSON.stringify(res));
             }
 
             return res;

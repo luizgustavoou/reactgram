@@ -1,8 +1,12 @@
 import { authRepository } from "../repositories";
-import { AuthService, AuthServiceImpl } from "./AuthService";
+import { AuthService, AuthServiceImpl } from "./auth/AuthService";
+import { LocalStorageImpl } from "./storage";
 
-const authService: AuthService = new AuthServiceImpl(authRepository);
+const storage = new LocalStorageImpl();
+
+const authService: AuthService = new AuthServiceImpl(authRepository, storage);
 
 export {
-    authService
+    authService,
+    storage
 }

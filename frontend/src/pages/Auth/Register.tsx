@@ -9,7 +9,8 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 // Redux
 import { register, reset } from "../../slices/authSlice";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 const Register = () => {
   const [name, setName] = useState("");
