@@ -11,6 +11,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { register, reset } from "../../slices/authSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import { RoutesPath } from "../../utils/routes.path";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -95,7 +96,7 @@ const Register = () => {
         {error && <Message msg={error} type="error" />}
       </form>
       <p>
-        Já tem conta ? <Link to="/login">Clique aqui</Link>
+        Já tem conta ? <Link to={RoutesPath.LOGIN}>Clique aqui</Link>
       </p>
     </div>
   );

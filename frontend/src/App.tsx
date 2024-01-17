@@ -15,6 +15,7 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import { useAuth } from "./hooks/useAuth";
+import { RoutesPath } from "./utils/routes.path";
 
 function App() {
   const { auth, loading } = useAuth();
@@ -30,16 +31,16 @@ function App() {
         <div className="container">
           <Routes>
             <Route
-              path="/"
-              element={auth ? <Home /> : <Navigate to="/login" />}
+              path={RoutesPath.HOME}
+              element={auth ? <Home /> : <Navigate to={RoutesPath.LOGIN} />}
             />
             <Route
-              path="/login"
-              element={!auth ? <Login /> : <Navigate to="/" />}
+              path={RoutesPath.LOGIN}
+              element={!auth ? <Login /> : <Navigate to={RoutesPath.HOME} />}
             />
             <Route
-              path="/register"
-              element={!auth ? <Register /> : <Navigate to="/" />}
+              path={RoutesPath.REGISTER}
+              element={!auth ? <Register /> : <Navigate to={RoutesPath.HOME} />}
             />
           </Routes>
         </div>
