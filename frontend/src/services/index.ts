@@ -1,6 +1,7 @@
-import { AuthService, AuthServiceImpl } from "./authService";
+import { authRepository } from "../repositories";
+import { AuthService, AuthServiceImpl } from "./AuthService";
 
-const authService: AuthService = new AuthServiceImpl();
+const authService: AuthService = new AuthServiceImpl(authRepository);
 
 export {
     authService

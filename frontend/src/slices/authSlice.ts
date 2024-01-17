@@ -29,16 +29,21 @@ const initialState: AuthState = {
     loading: false
 }
 
-//ler: https://redux-toolkit.js.org/usage/usage-with-typescript
 export const register = createAsyncThunk("auth/register", async (user: IAuthRegister, thunkAPI) => {
-    const data = await authService.register(user);
+    try {
+        const data = await authService.register(user);
 
-    if (data.errors) {
-        return thunkAPI.rejectWithValue(data.errors[0]);
+        if (data.errors) {
+            return thunkAPI.rejectWithValue(data.errors[0]);
+        }
+
+
+        return data;
+
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
     }
 
-
-    return data;
 })
 
 export const authSlice = createSlice({
@@ -62,7 +67,6 @@ export const authSlice = createSlice({
             state.error = null;
             state.user = action.payload;
         }).addCase(register.rejected, (state, action) => {
-            console.log({ state, action })
             state.loading
                 = false;
             state.error = action.payload;

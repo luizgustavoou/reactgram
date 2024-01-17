@@ -4,8 +4,3 @@ export interface IAuthRegisterJSONResponse {
     errors?: string[]
 }
 
-export interface IAuthRegisterResponse {
-    "_id"?: string,
-    token?: string,
-    errors?: string[]
-}
