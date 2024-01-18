@@ -11,6 +11,8 @@ import { authService, storage } from "../services";
 import { IAuthRegister } from "../interfaces/IAuthRegister";
 import { IAuthRegisterResponse } from "../repositories/auth/IAuthRegisterResponse";
 import { AppDispatch, RootState } from "../store";
+import { IAuthLoginResponse } from "../repositories/auth/IAuthLoginResponse";
+import { IAuthLogin } from "../interfaces/IAuthLogin";
 
 
 
@@ -38,19 +40,40 @@ export const register = createAsyncThunk<IAuthRegisterResponse, IAuthRegister, {
     dispatch: AppDispatch
     state: RootState
     rejectValue: string
-}>("auth/register", async (user, thunkAPI) => {
+}>("auth/register", async (data, thunkAPI) => {
     try {
-        const data = await authService.register(user);
+        const res = await authService.register(data);
 
 
-        if (data.errors) {
-            return thunkAPI.rejectWithValue(data.errors[0]);
+        if (res.errors) {
+            return thunkAPI.rejectWithValue(res.errors[0]);
         }
 
-        return data;
+        return res;
 
     } catch (error) {
-        return thunkAPI.rejectWithValue(error.message);
+        return thunkAPI.rejectWithValue((<any>error).message);
+    }
+
+})
+
+export const login = createAsyncThunk<IAuthLoginResponse, IAuthLogin, {
+    dispatch: AppDispatch
+    state: RootState
+    rejectValue: string
+}>("auth/login", async (data, thunkAPI) => {
+    try {
+        const res = await authService.login(data);
+
+
+        if (res.errors) {
+            return thunkAPI.rejectWithValue(res.errors[0]);
+        }
+
+        return res;
+
+    } catch (error) {
+        return thunkAPI.rejectWithValue((<any>error).message);
     }
 
 })
@@ -93,7 +116,22 @@ export const authSlice = createSlice({
             state.success = true;
             state.error = null;
             state.user = null;
+        }).addCase(login.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        }).addCase(login.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.user = action.payload;
+        }).addCase(login.rejected, (state, action) => {
+            state.loading
+                = false;
+            state.error = action.payload;
+            state.user = null;
         })
+
+
     }
 })
 

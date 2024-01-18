@@ -33,6 +33,8 @@ function Navbar() {
 
     navigate(RoutesPath.LOGIN);
   };
+
+  
   return (
     <nav id="nav">
       <Link to={RoutesPath.HOME}>ReactGram</Link>

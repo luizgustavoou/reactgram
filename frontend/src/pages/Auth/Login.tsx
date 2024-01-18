@@ -9,6 +9,8 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { RoutesPath } from "../../utils/RoutesPath";
+import { IAuthLogin } from "../../interfaces/IAuthLogin";
+import { login, reset } from "../../slices/authSlice";
 
 // Redux
 
@@ -16,9 +18,24 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const dispatch = useAppDispatch();
+  const { loading, error } = useAppSelector((state) => state.auth);
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const user: IAuthLogin = {
+      email,
+      password,
+    };
+
+    dispatch(login(user));
   };
+
+  // Clean all auth states
+  useEffect(() => {
+    dispatch(reset());
+  }, [dispatch]);
 
   const handleOnChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -40,12 +57,15 @@ const Login = () => {
           value={email || ""}
         />
         <input
-          type="text"
+          type="password"
           placeholder="Senha"
           onChange={handleOnChangePassword}
           value={password || ""}
         />
-        <input type="submit" value="Entrar" />
+
+        {!loading && <input type="submit" value="Entrar" />}
+        {loading && <input type="submit" value="Aguarde..." disabled />}
+        {error && <Message msg={error} type="error" />}
       </form>
       <p>
         Não tem uma conta? <Link to={RoutesPath.REGISTER}>Clique aqui</Link>
