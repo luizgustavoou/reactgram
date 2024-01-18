@@ -21,18 +21,16 @@ const user = JSON.parse(storage.getItem("user"));
 
 // Define a type for the slice state
 export interface AuthState {
-    user: null | any,
-    error: boolean | null | any,
-    success: boolean | null,
-    loading: boolean | null
+    user: { "_id": string, token: string } | null,
+    error: string | null,
+    status: "idle" | "loading" | "success" | "error";
 }
 
 // Define the initial state using that type
 const initialState: AuthState = {
     user: user ? user : null,
-    error: false,
-    success: false,
-    loading: false
+    error: null,
+    status: "idle"
 }
 
 
@@ -91,44 +89,33 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
-            state.loading = false;
-            state.error = false;
-            state.success = false;
+            state.status = "idle";
 
         }
     },
     extraReducers: (builder) => {
         builder.addCase(register.pending, (state) => {
-            state.loading = true;
-            state.error = false;
+            state.status = "loading";
         }).addCase(register.fulfilled, (state, action) => {
-            state.loading = false;
-            state.success = true;
-            state.error = null;
+            state.status = "success";
             state.user = action.payload;
         }).addCase(register.rejected, (state, action) => {
-            state.loading
-                = false;
-            state.error = action.payload;
+            state.status = "error";
             state.user = null;
+            state.error = action.payload as string;
         }).addCase(logout.fulfilled, (state, action) => {
-            state.loading = false;
-            state.success = true;
-            state.error = null;
+            state.status = "success";
             state.user = null;
         }).addCase(login.pending, (state) => {
-            state.loading = true;
-            state.error = false;
+            state.status = "loading";
         }).addCase(login.fulfilled, (state, action) => {
-            state.loading = false;
-            state.success = true;
-            state.error = null;
+            state.status = "success";
             state.user = action.payload;
         }).addCase(login.rejected, (state, action) => {
-            state.loading
-                = false;
-            state.error = action.payload;
+            state.status = "error";
             state.user = null;
+            state.error = action.payload as string;
+
         })
 
 
