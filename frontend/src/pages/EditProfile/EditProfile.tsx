@@ -1,4 +1,5 @@
 import { FormEvent } from "react";
+import "./EditProfile.css";
 
 function EditProfile() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
