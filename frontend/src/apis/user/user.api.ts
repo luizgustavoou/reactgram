@@ -2,12 +2,12 @@ import { requestConfig, url } from "../../utils/config";
 import { IUserGetProfileJSONResponse } from "./IUserGetProfileJSONResponse";
 
 export interface UserApi {
-    getProfile(): Promise<IUserGetProfileJSONResponse>;
+    getProfile(token: string): Promise<IUserGetProfileJSONResponse>;
 }
 
 export class UserApiImpl implements UserApi {
-    async getProfile(): Promise<IUserGetProfileJSONResponse> {
-        const config = requestConfig("GET", null);
+    async getProfile(token: string): Promise<IUserGetProfileJSONResponse> {
+        const config = requestConfig("GET", null, token);
 
         const res = await fetch(url + "/auth/profile", config);
 
