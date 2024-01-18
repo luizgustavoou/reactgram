@@ -1,6 +1,6 @@
 import { IAuthLogin } from "../../interfaces/IAuthLogin";
 import { IAuthRegister } from "../../interfaces/IAuthRegister";
-import { AuthRepository } from '../../repositories/auth/AuthRepository';
+import { AuthRepository } from '../../repositories/auth/auth.repository';
 import { IAuthRegisterResponse } from "../../repositories/auth/IAuthRegisterResponse";
 import { LocalStorageImpl } from "../storage";
 

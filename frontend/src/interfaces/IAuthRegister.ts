@@ -1,5 +1,6 @@
 export interface IAuthRegister {
     name: string,
- 
-    confirmPassword: string
+    email: string,
+    password: string,
+    confirmPassword: string,
 }

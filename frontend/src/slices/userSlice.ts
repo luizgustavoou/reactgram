@@ -2,13 +2,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export interface UserState {
     user: any | null
-    status: "idle" | "success" | "error" | "loading",
+    status: "initial" | "success" | "error" | "loading",
     message: string | null
 }
 
 const initialState: UserState = {
     user: null,
-    status: "idle",
+    status: "initial",
     message: null
 }
 
@@ -17,7 +17,7 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         resetMessage: (state) => {
-            state.status = "idle";
+            state.status = "initial";
             state.message = null
         }
     }

@@ -1,5 +1,5 @@
 import { IAuthRegister } from "../../interfaces/IAuthRegister";
-import { AuthApi } from '../../apis/auth/AuthApi';
+import { AuthApi } from '../../apis/auth/auth.api';
 import { IAuthRegisterResponse } from './IAuthRegisterResponse';
 import { IAuthLoginResponse } from "./IAuthLoginResponse";
 import { IAuthLogin } from "../../interfaces/IAuthLogin";

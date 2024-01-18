@@ -23,14 +23,14 @@ const user = JSON.parse(storage.getItem("user"));
 export interface AuthState {
     user: { "_id": string, token: string } | null,
     error: string | null,
-    status: "idle" | "loading" | "success" | "error";
+    status: "initial" | "loading" | "success" | "error";
 }
 
 // Define the initial state using that type
 const initialState: AuthState = {
     user: user ? user : null,
     error: null,
-    status: "idle"
+    status: "initial"
 }
 
 
@@ -89,8 +89,7 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
-            state.status = "idle";
-
+            state.status = "initial";
         }
     },
     extraReducers: (builder) => {
