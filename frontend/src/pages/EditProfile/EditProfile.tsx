@@ -1,10 +1,63 @@
-import { FormEvent } from "react";
 import "./EditProfile.css";
 
+// Hooks
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useAppSelector } from "../../hooks/useAppSelector";
+
+// Redux
+import { getProfile, resetMessage } from "../../slices/userSlice";
+
+// Components
+import Message from "../../components/Message";
+
 function EditProfile() {
+  const { error, message, status, user } = useAppSelector(
+    (state) => state.user
+  );
+
+  const dispatch = useAppDispatch();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const [bio, setBio] = useState("");
+  const [password, setPassword] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
+  const handleOnChangeName = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  const handleOnChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handleOnChangeBio = (e: ChangeEvent<HTMLInputElement>) => {
+    setBio(e.target.value);
+  };
+
+  const handleOnChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  // Load user data
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
+
+  // Fill form with user data
+  useEffect(() => {
+    if (!user) return;
+
+    setName(user.name);
+    setEmail(user.email);
+    setBio(user.bio);
+  }, [user]);
 
   return (
     <div id="edit-profile">
@@ -14,19 +67,39 @@ function EditProfile() {
       </p>
       {/* preview da imagem */}
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Nome" />
-        <input type="email" placeholder="E-mail" />
+        <input
+          type="text"
+          placeholder="Nome"
+          onChange={handleOnChangeName}
+          value={name || ""}
+        />
+        <input
+          type="email"
+          placeholder="E-mail"
+          onChange={handleOnChangeEmail}
+          value={email || ""}
+        />
         <label>
           <span>Imagem do Perfil:</span>
           <input type="file" />
         </label>
         <label>
           <span>Bio:</span>
-          <input type="text" placeholder="Descrição do perfil" />
+          <input
+            type="text"
+            placeholder="Descrição do perfil"
+            onChange={handleOnChangeBio}
+            value={bio || ""}
+          />
         </label>
         <label>
           <span>Quer alterar sua senha?</span>
-          <input type="password" placeholder="Digite sua nova senha" />
+          <input
+            type="password"
+            placeholder="Digite sua nova senha"
+            onChange={handleOnChangePassword}
+            value={password || ""}
+          />
         </label>
         <input type="submit" value="Atualizar" />
       </form>
