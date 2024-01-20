@@ -1,5 +1,7 @@
 import "./EditProfile.css";
 
+// Ler: https://www.filestack.com/fileschool/react/react-file-upload/
+
 // Hooks
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
@@ -10,6 +12,7 @@ import { getProfile, resetMessage } from "../../slices/userSlice";
 
 // Components
 import Message from "../../components/Message";
+import { uploads } from "../../utils/config";
 
 function EditProfile() {
   const { error, message, status, user } = useAppSelector(
@@ -20,10 +23,10 @@ function EditProfile() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [profileImage, setProfileImage] = useState("");
+  const [profileImage, setProfileImage] = useState<File | null>(null);
   const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
+  const [previewImage, setPreviewImage] = useState<File | null>(null);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,6 +38,16 @@ function EditProfile() {
 
   const handleOnChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+  };
+
+  const handleOnChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+
+    const file: File = e.target.files[0];
+
+    setPreviewImage(file);
+
+    setProfileImage(file);
   };
 
   const handleOnChangeBio = (e: ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +78,17 @@ function EditProfile() {
       <p className="subtitle">
         Adicione uma imagem de perfil e conte mais sobre você...
       </p>
-      {/* preview da imagem */}
+      {(profileImage || previewImage) && (
+        <img
+          className="profile-image"
+          src={
+            previewImage
+              ? URL.createObjectURL(previewImage)
+              : `${uploads}/users/${user?.profileImage}`
+          }
+          alt="Foto de perfil do usuário."
+        />
+      )}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -81,7 +104,7 @@ function EditProfile() {
         />
         <label>
           <span>Imagem do Perfil:</span>
-          <input type="file" />
+          <input type="file" onChange={handleOnChangeFile} />
         </label>
         <label>
           <span>Bio:</span>

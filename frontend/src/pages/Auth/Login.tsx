@@ -64,7 +64,9 @@ const Login = () => {
         />
 
         {status != "loading" && <input type="submit" value="Entrar" />}
-        {status == "loading" && <input type="submit" value="Aguarde..." disabled />}
+        {status == "loading" && (
+          <input type="submit" value="Aguarde..." disabled />
+        )}
         {status == "error" && <Message msg={error as string} type="error" />}
       </form>
       <p>

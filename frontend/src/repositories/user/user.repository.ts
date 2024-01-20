@@ -17,6 +17,7 @@ export class UserRepositoryImpl implements UserRepository {
       name: res.name,
       email: res.email,
       bio: res.bio,
+      profileImage: res.profileImage,
       password: res.password,
       createdAt: res.createdAt,
       updatedAt: res.updatedAt,
