@@ -21,7 +21,7 @@ const Register = () => {
 
   const dispatch = useAppDispatch();
 
-  const { status, error } = useAppSelector((state) => state.auth);
+  const { status, errorMessage } = useAppSelector((state) => state.auth);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -95,7 +95,7 @@ const Register = () => {
         {status == "loading" && (
           <input type="submit" value="Aguarde..." disabled />
         )}
-        {status == "error" && <Message msg={error as string} type="error" />}
+        {status == "error" && <Message msg={errorMessage as string} type="error" />}
       </form>
       <p>
         Já tem conta ? <Link to={RoutesPath.LOGIN}>Clique aqui</Link>

@@ -18,14 +18,14 @@ const user = JSON.parse(storage.getItem("user"));
 // Define a type for the slice state
 export interface AuthState {
   user: IAuthRegisterResponse | null;
-  error: string | null;
+  errorMessage: string | null;
   status: "initial" | "loading" | "success" | "error";
 }
 
 // Define the initial state using that type
 const initialState: AuthState = {
   user: user ? user : null,
-  error: null,
+  errorMessage: null,
   status: "initial",
 };
 
@@ -104,7 +104,7 @@ export const authSlice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.status = "error";
         state.user = null;
-        state.error = action.payload as string;
+        state.errorMessage = action.payload as string;
       })
       .addCase(logout.fulfilled, (state, _) => {
         state.status = "success";
@@ -120,7 +120,7 @@ export const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.status = "error";
         state.user = null;
-        state.error = action.payload as string;
+        state.errorMessage = action.payload as string;
       });
   },
 });
