@@ -1,11 +1,17 @@
 import { UserApi } from "../../apis/user/user.api";
-import { requestConfig, url } from "../../utils/config";
+import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
 import { IUserGetProfileResponse } from "./IUserGetProfileResponse";
+import { IUserUpdateProfileResponse } from "./IUserUpdateProfileResponse";
 
 export interface UserRepository {
   getProfile(token: string): Promise<IUserGetProfileResponse>;
 
   getProfileImage(name: string): Promise<Blob>;
+
+  updateProfile(
+    data: IUserUpdateProfile,
+    token: string
+  ): Promise<IUserUpdateProfileResponse>;
 }
 
 export class UserRepositoryImpl implements UserRepository {
@@ -32,5 +38,25 @@ export class UserRepositoryImpl implements UserRepository {
     const blob = await this.userApi.getProfileImage(name);
 
     return blob;
+  }
+
+  async updateProfile(
+    data: IUserUpdateProfile,
+    token: string
+  ): Promise<IUserUpdateProfileResponse> {
+    const res = await this.userApi.updateProfile(data, token);
+
+    const newRes: IUserUpdateProfileResponse = {
+      _id: res._id,
+      name: res.name,
+      email: res.email,
+      bio: res.bio,
+      profileImage: res.profileImage,
+      password: res.password,
+      createdAt: res.createdAt,
+      updatedAt: res.updatedAt,
+    };
+
+    return newRes;
   }
 }

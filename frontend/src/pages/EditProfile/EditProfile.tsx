@@ -71,7 +71,6 @@ function EditProfile() {
     setName(user.name);
     setEmail(user.email);
     setBio(user.bio);
-    // setProfileImage(user.profileImage);
   }, [user]);
 
   const profileImageUrl = previewImage

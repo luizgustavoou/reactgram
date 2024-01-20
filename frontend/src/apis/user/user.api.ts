@@ -1,10 +1,17 @@
-import { requestConfig, uploads, url } from "../../utils/config";
+import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
+import { api, requestConfig, uploads, url } from "../../utils/config";
 import { IUserGetProfileJSONResponse } from "./IUserGetProfileJSONResponse";
+import { IUserUpdateProfileJSONResponse } from "./IUserUpdateProfileJSONResponse";
 
 export interface UserApi {
   getProfile(token: string): Promise<IUserGetProfileJSONResponse>;
 
   getProfileImage(name: string): Promise<Blob>;
+
+  updateProfile(
+    data: IUserUpdateProfile,
+    token: string
+  ): Promise<IUserUpdateProfileJSONResponse>;
 }
 
 export class UserApiImpl implements UserApi {
@@ -26,5 +33,18 @@ export class UserApiImpl implements UserApi {
     const blob = await res.blob();
 
     return blob;
+  }
+
+  async updateProfile(
+    data: IUserUpdateProfile,
+    token: string
+  ): Promise<IUserUpdateProfileJSONResponse> {
+    const config = requestConfig("PUT", data, token, true);
+
+    const res = await fetch(`${api}/users`, config);
+
+    const json: IUserUpdateProfileJSONResponse = await res.json();
+
+    return json;
   }
 }

@@ -1,36 +1,41 @@
-export const url = "http://localhost:5000"
+export const url = "http://localhost:5000";
 
-export const api = "http://localhost:5000/api"
+export const api = "http://localhost:5000/api";
 
-export const uploads = "http://localhost:5000/uploads"
+export const uploads = "http://localhost:5000/uploads";
 
-export const requestConfig = (method: string, data: any, token: string | null = null, image = null): RequestInit => {
-    let config: RequestInit;
+export const requestConfig = (
+  method: string,
+  data: any,
+  token: string | null = null,
+  image: boolean | null = null
+): RequestInit => {
+  let config: RequestInit;
 
-    if (image) {
-        config = {
-            method,
-            body: data,
-            headers: {}
-        }
-    } else if (method === "DELETE" || !data) {
-        config = {
-            method,
-            headers: {}
-        }
-    } else {
-        config = {
-            method,
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
-    }
+  if (image) {
+    config = {
+      method,
+      body: data,
+      headers: {},
+    };
+  } else if (method === "DELETE" || !data) {
+    config = {
+      method,
+      headers: {},
+    };
+  } else {
+    config = {
+      method,
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  }
 
-    if (token && config.headers) {
-        (<any>config.headers).Authorization = `Bearer ${token}`;
-    }
+  if (token && config.headers) {
+    (<any>config.headers).Authorization = `Bearer ${token}`;
+  }
 
-    return config;
-}
+  return config;
+};
