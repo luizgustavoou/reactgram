@@ -8,15 +8,19 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 
 // Redux
-import { getProfile, resetMessage } from "../../slices/userSlice";
+import {
+  getProfile,
+  resetMessage,
+  updateProfile,
+} from "../../slices/userSlice";
 
 // Components
 import Message from "../../components/Message";
 import { uploads } from "../../utils/config";
-import { userApi } from "../../apis";
+import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
 
 function EditProfile() {
-  const { error, message, status, user } = useAppSelector(
+  const { errorMessage, message, status, user } = useAppSelector(
     (state) => state.user
   );
 
@@ -29,8 +33,32 @@ function EditProfile() {
   const [password, setPassword] = useState("");
   const [previewImage, setPreviewImage] = useState<Blob | null>(null);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const userData: IUserUpdateProfile = {};
+
+    if (name) {
+      userData.name = name;
+    }
+
+    if (bio) {
+      userData.bio = bio;
+    }
+
+    if (password) {
+      userData.password = password;
+    }
+
+    if (profileImage) {
+      userData.profileImage = profileImage;
+    }
+
+    await dispatch(updateProfile(userData));
+
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
   };
 
   const handleOnChangeName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -125,7 +153,14 @@ function EditProfile() {
             value={password || ""}
           />
         </label>
-        <input type="submit" value="Atualizar" />
+        {status != "loading" && <input type="submit" value="Atualizar" />}
+        {status == "loading" && (
+          <input type="submit" value="Aguarde..." disabled />
+        )}
+        {status == "error" && (
+          <Message msg={errorMessage as string} type="error" />
+        )}
+        {message && <Message msg={message as string} type="success" />}
       </form>
     </div>
   );

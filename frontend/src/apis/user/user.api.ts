@@ -39,7 +39,10 @@ export class UserApiImpl implements UserApi {
     data: IUserUpdateProfile,
     token: string
   ): Promise<IUserUpdateProfileJSONResponse> {
-    const config = requestConfig("PUT", data, token, true);
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => formData.append(key, (<any>data)[key]));
+
+    const config = requestConfig("PUT", formData, token, true);
 
     const res = await fetch(`${api}/users`, config);
 

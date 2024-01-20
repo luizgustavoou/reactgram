@@ -9,7 +9,7 @@ export interface UserRepository {
   getProfileImage(name: string): Promise<Blob>;
 
   updateProfile(
-    data: IUserUpdateProfile,
+    formData: IUserUpdateProfileForm,
     token: string
   ): Promise<IUserUpdateProfileResponse>;
 }
