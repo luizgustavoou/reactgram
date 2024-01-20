@@ -4,6 +4,8 @@ import { IUserGetProfileResponse } from "./IUserGetProfileResponse";
 
 export interface UserRepository {
   getProfile(token: string): Promise<IUserGetProfileResponse>;
+
+  getProfileImage(name: string): Promise<Blob>;
 }
 
 export class UserRepositoryImpl implements UserRepository {
@@ -24,5 +26,11 @@ export class UserRepositoryImpl implements UserRepository {
     };
 
     return newRes;
+  }
+
+  async getProfileImage(name: string): Promise<Blob> {
+    const blob = await this.userApi.getProfileImage(name);
+
+    return blob;
   }
 }

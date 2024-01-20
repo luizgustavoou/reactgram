@@ -14,6 +14,7 @@ import { getProfile, resetMessage } from "../../slices/userSlice";
 import Message from "../../components/Message";
 import { uploads } from "../../utils/config";
 
+
 function EditProfile() {
   const { error, message, status, user } = useAppSelector(
     (state) => state.user
@@ -27,6 +28,10 @@ function EditProfile() {
   const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
   const [previewImage, setPreviewImage] = useState<File | null>(null);
+
+  const profileImageUrl = previewImage
+    ? URL.createObjectURL(previewImage)
+    : `${uploads}/users/${user?.profileImage}`;
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,11 +86,7 @@ function EditProfile() {
       {(profileImage || previewImage) && (
         <img
           className="profile-image"
-          src={
-            previewImage
-              ? URL.createObjectURL(previewImage)
-              : `${uploads}/users/${user?.profileImage}`
-          }
+          src={profileImageUrl}
           alt="Foto de perfil do usuário."
         />
       )}
