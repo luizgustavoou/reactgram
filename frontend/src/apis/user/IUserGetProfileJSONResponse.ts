@@ -1,4 +1,7 @@
-export interface IUserGetProfileJSONResponse {
+import { IAPIErrorResponse } from "../../interfaces/IAPIErrorResponse";
+
+export interface IUserGetProfileJSONResponse
+  extends Partial<IAPIErrorResponse> {
   _id: string;
   name: string;
   email: string;

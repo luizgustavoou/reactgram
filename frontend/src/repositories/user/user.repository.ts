@@ -9,7 +9,7 @@ export interface UserRepository {
   getProfileImage(name: string): Promise<Blob>;
 
   updateProfile(
-    formData: IUserUpdateProfileForm,
+    data: IUserUpdateProfile,
     token: string
   ): Promise<IUserUpdateProfileResponse>;
 }
@@ -29,6 +29,7 @@ export class UserRepositoryImpl implements UserRepository {
       password: res.password,
       createdAt: res.createdAt,
       updatedAt: res.updatedAt,
+      errors: res.errors,
     };
 
     return newRes;
@@ -55,6 +56,7 @@ export class UserRepositoryImpl implements UserRepository {
       password: res.password,
       createdAt: res.createdAt,
       updatedAt: res.updatedAt,
+      errors: res.errors,
     };
 
     return newRes;
