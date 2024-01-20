@@ -3,5 +3,5 @@ export interface IUserUpdateProfile {
   email?: string;
   password?: string;
   bio?: string;
-  profileImage?: Blob;
+  profileimage?: Blob;
 }

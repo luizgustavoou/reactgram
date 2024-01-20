@@ -41,18 +41,6 @@ export class UserServiceImpl implements UserService {
     token: string
   ): Promise<IUserUpdateProfileResponse> {
     try {
-      const formData = new FormData();
-
-      const userFormData = Object.keys(data).forEach((key) => {
-        formData.append(key, (<any>data)[key]);
-      });
-
-      formData.append("user", userFormData);
-
-      console.log(formData);
-
-      console.log(formData.get("user"));
-
       const res = await this.userRepository.updateProfile(data, token);
 
       return res;

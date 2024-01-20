@@ -51,7 +51,7 @@ function EditProfile() {
     }
 
     if (profileImage) {
-      userData.profileImage = profileImage;
+      userData.profileimage = profileImage;
     }
 
     await dispatch(updateProfile(userData));
