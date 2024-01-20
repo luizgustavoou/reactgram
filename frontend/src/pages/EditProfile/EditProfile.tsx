@@ -13,7 +13,7 @@ import { getProfile, resetMessage } from "../../slices/userSlice";
 // Components
 import Message from "../../components/Message";
 import { uploads } from "../../utils/config";
-
+import { userApi } from "../../apis";
 
 function EditProfile() {
   const { error, message, status, user } = useAppSelector(
@@ -24,14 +24,10 @@ function EditProfile() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profileImage, setProfileImage] = useState<Blob | null>(null);
   const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
-  const [previewImage, setPreviewImage] = useState<File | null>(null);
-
-  const profileImageUrl = previewImage
-    ? URL.createObjectURL(previewImage)
-    : `${uploads}/users/${user?.profileImage}`;
+  const [previewImage, setPreviewImage] = useState<Blob | null>(null);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,7 +71,12 @@ function EditProfile() {
     setName(user.name);
     setEmail(user.email);
     setBio(user.bio);
+    // setProfileImage(user.profileImage);
   }, [user]);
+
+  const profileImageUrl = previewImage
+    ? URL.createObjectURL(previewImage)
+    : `${uploads}/users/${user?.profileImage}`;
 
   return (
     <div id="edit-profile">
@@ -83,7 +84,7 @@ function EditProfile() {
       <p className="subtitle">
         Adicione uma imagem de perfil e conte mais sobre você...
       </p>
-      {(profileImage || previewImage) && (
+      {(user?.profileImage || previewImage) && (
         <img
           className="profile-image"
           src={profileImageUrl}
