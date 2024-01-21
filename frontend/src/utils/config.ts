@@ -1,8 +1,6 @@
-export const url = "http://localhost:5000";
+export const baseURL = "http://localhost:5000";
 
-export const api = "http://localhost:5000/api";
-
-export const uploads = "http://localhost:5000/uploads";
+export const uploadsURL = `${baseURL}/uploads`;
 
 export const requestConfig = (
   method: string,

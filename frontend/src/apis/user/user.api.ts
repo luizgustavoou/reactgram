@@ -1,5 +1,5 @@
 import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
-import { api, requestConfig, uploads, url } from "../../utils/config";
+import { requestConfig, uploadsURL, baseURL } from "../../utils/config";
 import { IUserGetProfileJSONResponse } from "./IUserGetProfileJSONResponse";
 import { IUserUpdateProfileJSONResponse } from "./IUserUpdateProfileJSONResponse";
 
@@ -18,7 +18,7 @@ export class UserApiImpl implements UserApi {
   async getProfile(token: string): Promise<IUserGetProfileJSONResponse> {
     const config = requestConfig("GET", null, token);
 
-    const res = await fetch(url + "/auth/profile", config);
+    const res = await fetch(baseURL + "/auth/profile", config);
 
     const json: IUserGetProfileJSONResponse = await res.json();
 
@@ -28,7 +28,7 @@ export class UserApiImpl implements UserApi {
   async getProfileImage(name: string): Promise<Blob> {
     const config = requestConfig("GET", null);
 
-    const res = await fetch(`${uploads}/users/${name}`, config);
+    const res = await fetch(`${uploadsURL}/users/${name}`, config);
 
     const blob = await res.blob();
 
@@ -45,7 +45,7 @@ export class UserApiImpl implements UserApi {
 
     const config = requestConfig("PUT", formData, token, true);
 
-    const res = await fetch(`${api}/users`, config);
+    const res = await fetch(`${baseURL}/api/users`, config);
 
     const json: IUserUpdateProfileJSONResponse = await res.json();
 
