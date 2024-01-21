@@ -4,10 +4,10 @@ services:
   mongo:
     image: mongo
     ports:
-      - 27017:27017
+      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=pass
+      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD
     volumes:
       - ./data:/data/db
   backend:
@@ -15,14 +15,14 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - 5000:5000
+      - $API_LOCAL_PORT:$API_DOCKER_PORT
     environment:
-      - DB_HOST=$DB_HOST
-      - DB_USER=$DB_USER
-      - DB_DATABASE=$DB_DATABASE
-      - DB_PASSWORD=$DB_PASSWORD
-      - DB_PORT=$DB_PORT
-      - API_PORT=$API_PORT
+      - DB_HOST=$MONGODB_HOST
+      - DB_USER=$MONGODB_USER
+      - DB_DATABASE=$MONGODB_DATABASE
+      - DB_PASSWORD=$MONGODB_ROOT_PASSWORD
+      - DB_PORT=$MONGODB_PORT
+      - API_PORT=$API_DOCKER_PORT
       - CLIENT_ORIGIN=$CLIENT_ORIGIN
       - JWT_SECRET=$JWT_SECRET
     depends_on:
@@ -32,6 +32,6 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - 5173:5173
+      - $UI_LOCAL_PORT:$UI_DOCKER_PORT
     depends_on:
       - backend
