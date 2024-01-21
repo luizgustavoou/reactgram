@@ -13,7 +13,7 @@ import path from "path";
 import cors from "cors";
 import { errorHandler } from "./middlewares";
 
-const port = process.env.PORT;
+const port = process.env.API_PORT;
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // aceitar form data
 
 // Solve CORS
-app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
+app.use(cors({ credentials: true, origin: process.env.CLIENT_ORIGIN }));
 
 // Upload directory
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
