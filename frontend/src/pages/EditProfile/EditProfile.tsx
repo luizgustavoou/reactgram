@@ -16,7 +16,7 @@ import {
 
 // Components
 import Message from "../../components/Message";
-import { uploads } from "../../utils/config";
+import { uploadsURL } from "../../utils/config";
 import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
 
 function EditProfile() {
@@ -103,7 +103,7 @@ function EditProfile() {
 
   const profileImageUrl = previewImage
     ? URL.createObjectURL(previewImage)
-    : `${uploads}/users/${user?.profileImage}`;
+    : `${uploadsURL}/users/${user?.profileImage}`;
 
   return (
     <div id="edit-profile">
