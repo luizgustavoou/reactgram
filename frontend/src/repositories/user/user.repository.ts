@@ -1,4 +1,4 @@
-import { UserApi } from "../../apis/user/user.api";
+import { IUserApi } from "../../apis/user/user.api";
 import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
 import { IUser } from "../../services/user/models/IUser";
 
@@ -13,7 +13,7 @@ export interface UserRepository {
 }
 
 export class UserRepositoryImpl implements UserRepository {
-  constructor(private userApi: UserApi) {}
+  constructor(private userApi: IUserApi) {}
 
   async getProfileByToken(token: string): Promise<IUser> {
     const res = await this.userApi.getProfileByToken(token);

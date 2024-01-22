@@ -5,12 +5,12 @@ import { requestConfig, baseURL } from "../../utils/config";
 import { IAuthLogin } from "../../interfaces/IAuthLogin";
 import { IAuthResponse } from "./models/IAuthResponse";
 
-export interface AuthApi {
+export interface IAuthApi {
   register(data: IAuthRegister): Promise<IAuthResponse>;
   login(data: IAuthLogin): Promise<IAuthResponse>;
 }
 
-export class AuthApiImpl implements AuthApi {
+export class AuthApiImpl implements IAuthApi {
   async login(data: IAuthLogin): Promise<IAuthResponse> {
     const config = requestConfig("POST", data);
 

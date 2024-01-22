@@ -1,11 +1,11 @@
-import { AuthApi, AuthApiImpl } from "./auth/auth.api";
-import { UserApi, UserApiImpl } from "./user/user.api";
+import { IAuthApi, AuthApiImpl } from "./auth/auth.api";
+import { IPhotoApi, PhotoApiImpl } from "./photo/photo.api";
+import { IUserApi, UserApiImpl } from "./user/user.api";
 
-const authApi: AuthApi = new AuthApiImpl();
+const authApi: IAuthApi = new AuthApiImpl();
 
-const userApi: UserApi = new UserApiImpl();
+const userApi: IUserApi = new UserApiImpl();
 
-export {
-    authApi,
-    userApi
-}
+const photoApi: IPhotoApi = new PhotoApiImpl();
+
+export { authApi, userApi, photoApi };

@@ -2,7 +2,7 @@ import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
 import { requestConfig, uploadsURL, baseURL } from "../../utils/config";
 import { IUserResponse } from "./models/IUserResponse";
 
-export interface UserApi {
+export interface IUserApi {
   getProfileByToken(token: string): Promise<IUserResponse>;
 
   getProfileById(id: string, token: string): Promise<IUserResponse>;
@@ -15,7 +15,7 @@ export interface UserApi {
   ): Promise<IUserResponse>;
 }
 
-export class UserApiImpl implements UserApi {
+export class UserApiImpl implements IUserApi {
   async getProfileByToken(token: string): Promise<IUserResponse> {
     const config = requestConfig("GET", null, token);
 
