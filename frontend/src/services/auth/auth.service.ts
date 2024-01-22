@@ -1,14 +1,15 @@
 import { IAuthLogin } from "../../interfaces/IAuthLogin";
 import { IAuthRegister } from "../../interfaces/IAuthRegister";
 import { AuthRepository } from '../../repositories/auth/auth.repository';
-import { IAuthRegisterResponse } from "../../repositories/auth/IAuthRegisterResponse";
+
 import { LocalStorageImpl } from "../storage";
+import { IAuth } from "./models/IAuth";
 
 
 export interface AuthService {
-    register(data: IAuthRegister): Promise<IAuthRegisterResponse>
+    register(data: IAuthRegister): Promise<IAuth>
 
-    login(data: IAuthLogin): Promise<IAuthRegisterResponse>;
+    login(data: IAuthLogin): Promise<IAuth>;
 
     logout(): void
 }
@@ -16,7 +17,7 @@ export interface AuthService {
 
 export class AuthServiceImpl implements AuthService {
     constructor(private authRepository: AuthRepository, private storage: LocalStorageImpl) { }
-    async login(data: IAuthLogin): Promise<IAuthRegisterResponse> {
+    async login(data: IAuthLogin): Promise<IAuth> {
         try {
             const res = await this.authRepository.login(data);
 
@@ -32,7 +33,7 @@ export class AuthServiceImpl implements AuthService {
         }
     }
 
-    async register(data: IAuthRegister): Promise<IAuthRegisterResponse> {
+    async register(data: IAuthRegister): Promise<IAuth> {
         try {
             const res = await this.authRepository.register(data);
 

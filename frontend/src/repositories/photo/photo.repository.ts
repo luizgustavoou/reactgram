@@ -1,10 +1,10 @@
-import { IPhoto } from "./models/IPhoto";
+import { IPhoto } from "../../services/photo/models/IPhoto";
 
-export interface IPhotoService {
+export interface IPhotoRepository {
   publishPhoto(image: Blob, title: string): Promise<IPhoto>;
 }
 
-export class PhotoServiceImpl implements IPhotoService {
+export class PhotoRepositoryImpl implements IPhotoRepository {
     publishPhoto(image: Blob, title: string): Promise<IPhoto> {
         throw new Error("Method not implemented.");
     }

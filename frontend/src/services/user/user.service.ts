@@ -1,31 +1,21 @@
 import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
-import { IUserGetProfileByIdResponse } from "../../repositories/user/IUserGetProfileByIdResponse";
-import { IUserGetProfileByTokenResponse } from "../../repositories/user/IUserGetProfileByTokenResponse";
-import { IUserUpdateProfileResponse } from "../../repositories/user/IUserUpdateProfileResponse";
 import { UserRepository } from "../../repositories/user/user.repository";
+import { IUser } from "./models/IUser";
 
 export interface UserService {
-  getProfileByToken(token: string): Promise<IUserGetProfileByTokenResponse>;
+  getProfileByToken(token: string): Promise<IUser>;
 
-  getProfileById(
-    id: string,
-    token: string
-  ): Promise<IUserGetProfileByIdResponse>;
+  getProfileById(id: string, token: string): Promise<IUser>;
 
   getProfileImage(name: string): Promise<Blob>;
 
-  updateProfile(
-    data: IUserUpdateProfile,
-    token: string
-  ): Promise<IUserUpdateProfileResponse>;
+  updateProfile(data: IUserUpdateProfile, token: string): Promise<IUser>;
 }
 
 export class UserServiceImpl implements UserService {
   constructor(private userRepository: UserRepository) {}
 
-  async getProfileByToken(
-    token: string
-  ): Promise<IUserGetProfileByTokenResponse> {
+  async getProfileByToken(token: string): Promise<IUser> {
     try {
       const res = await this.userRepository.getProfileByToken(token);
 
@@ -35,13 +25,10 @@ export class UserServiceImpl implements UserService {
     }
   }
 
-  async getProfileById(
-    id: string,
-    token: string
-  ): Promise<IUserGetProfileByIdResponse> {
+  async getProfileById(id: string, token: string): Promise<IUser> {
     try {
       const res = await this.userRepository.getProfileById(id, token);
-      
+
       return res;
     } catch (error) {
       throw new Error("Houve algum erro no servidor.");
@@ -58,10 +45,7 @@ export class UserServiceImpl implements UserService {
     }
   }
 
-  async updateProfile(
-    data: IUserUpdateProfile,
-    token: string
-  ): Promise<IUserUpdateProfileResponse> {
+  async updateProfile(data: IUserUpdateProfile, token: string): Promise<IUser> {
     try {
       const res = await this.userRepository.updateProfile(data, token);
 

@@ -8,16 +8,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { authService, storage } from "../services";
 import { IAuthRegister } from "../interfaces/IAuthRegister";
-import { IAuthRegisterResponse } from "../repositories/auth/IAuthRegisterResponse";
 import { AppDispatch, RootState } from "../store";
-import { IAuthLoginResponse } from "../repositories/auth/IAuthLoginResponse";
 import { IAuthLogin } from "../interfaces/IAuthLogin";
+import { IAuth } from "../services/auth/models/IAuth";
 
 const user = JSON.parse(storage.getItem("user"));
 
-// Define a type for the slice state
+// TODO: Verificar mudança de "user" para "auth"
 export interface AuthState {
-  user: IAuthRegisterResponse | null;
+  user: IAuth | null;
   errorMessage: string | null;
   status: "initial" | "loading" | "success" | "error";
 }
@@ -30,7 +29,7 @@ const initialState: AuthState = {
 };
 
 export const register = createAsyncThunk<
-  IAuthRegisterResponse,
+  IAuth,
   IAuthRegister,
   {
     dispatch: AppDispatch;
@@ -52,7 +51,7 @@ export const register = createAsyncThunk<
 });
 
 export const login = createAsyncThunk<
-  IAuthLoginResponse,
+  IAuth,
   IAuthLogin,
   {
     dispatch: AppDispatch;

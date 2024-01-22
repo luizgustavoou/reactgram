@@ -2,12 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "../store";
 import { userService } from "../services";
 import { IUserUpdateProfile } from "../interfaces/IUserUpdateProfile";
-import { IUserUpdateProfileResponse } from "../repositories/user/IUserUpdateProfileResponse";
-import { IUserGetProfileByTokenResponse } from "../repositories/user/IUserGetProfileByTokenResponse";
-import { IUserGetProfileByIdResponse } from "../repositories/user/IUserGetProfileByIdResponse";
+import { IUser } from "../services/user/models/IUser";
 
 export interface UserState {
-  user: IUserGetProfileByTokenResponse | null;
+  user: IUser | null;
   status: "initial" | "success" | "error" | "loading";
   message: string | null;
   errorMessage: string | null;
@@ -21,7 +19,7 @@ const initialState: UserState = {
 };
 
 export const getProfileByToken = createAsyncThunk<
-  IUserGetProfileByTokenResponse,
+  IUser,
   void,
   {
     dispatch: AppDispatch;
@@ -45,7 +43,7 @@ export const getProfileByToken = createAsyncThunk<
 });
 
 export const getProfileById = createAsyncThunk<
-  IUserGetProfileByIdResponse,
+  IUser,
   string,
   {
     dispatch: AppDispatch;
@@ -69,7 +67,7 @@ export const getProfileById = createAsyncThunk<
 });
 
 export const updateProfile = createAsyncThunk<
-  IUserUpdateProfileResponse,
+  IUser,
   IUserUpdateProfile,
   {
     dispatch: AppDispatch;

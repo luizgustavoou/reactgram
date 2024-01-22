@@ -1,39 +1,37 @@
 import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
 import { requestConfig, uploadsURL, baseURL } from "../../utils/config";
-import { IUserGetProfileByIdJSONResponse } from "./IUserGetProfileByIdJSONResponse";
-import { IUserGetProfileByTokenJSONResponse } from "./IUserGetProfileByTokenJSONResponse";
-import { IUserUpdateProfileJSONResponse } from "./IUserUpdateProfileJSONResponse";
+import { IUserResponse } from "./models/IUserResponse";
 
 export interface UserApi {
-  getProfileByToken(token: string): Promise<IUserGetProfileByTokenJSONResponse>;
+  getProfileByToken(token: string): Promise<IUserResponse>;
 
-  getProfileById(id: string, token: string): Promise<IUserGetProfileByIdJSONResponse>;
+  getProfileById(id: string, token: string): Promise<IUserResponse>;
 
   getProfileImage(name: string): Promise<Blob>;
 
   updateProfile(
     data: IUserUpdateProfile,
     token: string
-  ): Promise<IUserUpdateProfileJSONResponse>;
+  ): Promise<IUserResponse>;
 }
 
 export class UserApiImpl implements UserApi {
-  async getProfileByToken(token: string): Promise<IUserGetProfileByTokenJSONResponse> {
+  async getProfileByToken(token: string): Promise<IUserResponse> {
     const config = requestConfig("GET", null, token);
 
     const res = await fetch(baseURL + "/auth/profile", config);
 
-    const json: IUserGetProfileByIdJSONResponse = await res.json();
+    const json: IUserResponse = await res.json();
 
     return json;
   }
 
-  async getProfileById(id: string, token: string): Promise<IUserGetProfileByIdJSONResponse> {
+  async getProfileById(id: string, token: string): Promise<IUserResponse> {
     const config = requestConfig("GET", null, token);
 
     const res = await fetch(baseURL + `/api/users/${id}`, config);
 
-    const json: IUserGetProfileByIdJSONResponse = await res.json();
+    const json: IUserResponse = await res.json();
 
     return json;
   }
@@ -51,7 +49,7 @@ export class UserApiImpl implements UserApi {
   async updateProfile(
     data: IUserUpdateProfile,
     token: string
-  ): Promise<IUserUpdateProfileJSONResponse> {
+  ): Promise<IUserResponse> {
     const formData = new FormData();
 
     Object.keys(data).forEach((key) => formData.append(key, (<any>data)[key]));
@@ -60,7 +58,7 @@ export class UserApiImpl implements UserApi {
 
     const res = await fetch(`${baseURL}/api/users`, config);
 
-    const json: IUserUpdateProfileJSONResponse = await res.json();
+    const json: IUserResponse = await res.json();
 
     return json;
   }

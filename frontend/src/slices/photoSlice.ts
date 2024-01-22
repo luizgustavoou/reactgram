@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { IPhoto } from "../services/photo/models/IPhoto";
 
 export interface PhotoState {
   status: "initial" | "success" | "error" | "loading";
-  photo: any | null;
-  photos: any[];
+  photo: IPhoto | null;
+  photos: IPhoto[];
   messsage: string | null;
 }
 
