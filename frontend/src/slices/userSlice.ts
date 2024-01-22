@@ -58,6 +58,7 @@ export const getProfileById = createAsyncThunk<
 
     const res = await userService.getProfileById(id, token as string);
 
+    console.log(res);
     if (res.errors) {
       return thunkAPI.rejectWithValue(res.errors[0]);
     }
