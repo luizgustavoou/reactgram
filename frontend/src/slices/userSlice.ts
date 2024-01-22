@@ -4,6 +4,7 @@ import { userService } from "../services";
 import { IUserUpdateProfile } from "../interfaces/IUserUpdateProfile";
 import { IUserUpdateProfileResponse } from "../repositories/user/IUserUpdateProfileResponse";
 import { IUserGetProfileByTokenResponse } from "../repositories/user/IUserGetProfileByTokenResponse";
+import { IUserGetProfileByIdResponse } from "../repositories/user/IUserGetProfileByIdResponse";
 
 export interface UserState {
   user: IUserGetProfileByTokenResponse | null;
@@ -32,6 +33,30 @@ export const getProfileByToken = createAsyncThunk<
     const token = thunkAPI.getState().auth.user?.token;
 
     const res = await userService.getProfileByToken(token as string);
+
+    if (res.errors) {
+      return thunkAPI.rejectWithValue(res.errors[0]);
+    }
+
+    return res;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const getProfileById = createAsyncThunk<
+  IUserGetProfileByIdResponse,
+  string,
+  {
+    dispatch: AppDispatch;
+    state: RootState;
+    rejectValue: string;
+  }
+>("/user/get", async (id, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user?.token;
+
+    const res = await userService.getProfileById(id, token as string);
 
     if (res.errors) {
       return thunkAPI.rejectWithValue(res.errors[0]);
@@ -103,6 +128,13 @@ export const userSlice = createSlice({
         state.status = "error";
         state.errorMessage = action.payload as string;
         state.user = null;
+      })
+      .addCase(getProfileById.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getProfileById.fulfilled, (state, action) => {
+        state.status = "success";
+        state.user = action.payload;
       });
   },
 });
