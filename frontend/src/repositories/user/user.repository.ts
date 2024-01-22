@@ -1,31 +1,24 @@
 import { UserApi } from "../../apis/user/user.api";
 import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
-import { IUserGetProfileByIdResponse } from "./IUserGetProfileByIdResponse";
-import { IUserGetProfileByTokenResponse } from "./IUserGetProfileByTokenResponse";
-import { IUserUpdateProfileResponse } from "./IUserUpdateProfileResponse";
+import { IUser } from "../../services/user/models/IUser";
 
 export interface UserRepository {
-  getProfileByToken(token: string): Promise<IUserGetProfileByTokenResponse>;
+  getProfileByToken(token: string): Promise<IUser>;
 
-  getProfileById(id: string, token: string): Promise<IUserGetProfileByIdResponse>;
+  getProfileById(id: string, token: string): Promise<IUser>;
 
   getProfileImage(name: string): Promise<Blob>;
 
-  updateProfile(
-    data: IUserUpdateProfile,
-    token: string
-  ): Promise<IUserUpdateProfileResponse>;
+  updateProfile(data: IUserUpdateProfile, token: string): Promise<IUser>;
 }
 
 export class UserRepositoryImpl implements UserRepository {
   constructor(private userApi: UserApi) {}
 
-  async getProfileByToken(
-    token: string
-  ): Promise<IUserGetProfileByTokenResponse> {
+  async getProfileByToken(token: string): Promise<IUser> {
     const res = await this.userApi.getProfileByToken(token);
 
-    const newRes: IUserGetProfileByTokenResponse = {
+    const newRes: IUser = {
       _id: res._id,
       name: res.name,
       email: res.email,
@@ -40,10 +33,10 @@ export class UserRepositoryImpl implements UserRepository {
     return newRes;
   }
 
-  async getProfileById(id: string, token: string): Promise<IUserGetProfileByIdResponse> {
+  async getProfileById(id: string, token: string): Promise<IUser> {
     const res = await this.userApi.getProfileById(id, token);
 
-    const newRes: IUserGetProfileByIdResponse = {
+    const newRes: IUser = {
       _id: res._id,
       name: res.name,
       email: res.email,
@@ -64,13 +57,10 @@ export class UserRepositoryImpl implements UserRepository {
     return blob;
   }
 
-  async updateProfile(
-    data: IUserUpdateProfile,
-    token: string
-  ): Promise<IUserUpdateProfileResponse> {
+  async updateProfile(data: IUserUpdateProfile, token: string): Promise<IUser> {
     const res = await this.userApi.updateProfile(data, token);
 
-    const newRes: IUserUpdateProfileResponse = {
+    const newRes: IUser = {
       _id: res._id,
       name: res.name,
       email: res.email,
