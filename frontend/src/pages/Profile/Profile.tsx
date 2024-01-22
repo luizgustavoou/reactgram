@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { BsFillEyeFill, BsPencilFill, BsXLg } from "react-icons/bs";
 
 // Hooks
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, FormEvent } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useParams } from "react-router-dom";
@@ -22,6 +22,10 @@ function Profile() {
 
   const { user, status } = useAppSelector((state) => state.user);
   const { user: userAuth } = useAppSelector((state) => state.auth);
+
+  // New form and edit form refs
+  const newPhotoForm = useRef<HTMLDivElement | null>(null);
+  const editPhotoForm = useRef<HTMLDivElement | null>();
 
   // photo
 
@@ -41,6 +45,10 @@ function Profile() {
 
     loadImageOfUser();
   }, [user]);
+
+  const submitHandle = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
 
   if (status == "loading") {
     return <p>Carregando...</p>;
@@ -63,6 +71,24 @@ function Profile() {
           <p>{user?.bio}</p>
         </div>
       </div>
+      {id === userAuth?._id && (
+        <>
+          <div className="new-photo" ref={newPhotoForm}>
+            <h3>Compartilhe algum momento seu:</h3>
+            <form onSubmit={submitHandle}>
+              <label>
+                <span>Título para a foto:</span>
+                <input type="text" placeholder="Insira um título" />
+              </label>
+              <label>
+                <span>Imagem:</span>
+                <input type="file" />
+              </label>
+              <input type="submit" value="Postar" />
+            </form>
+          </div>
+        </>
+      )}
     </div>
   );
 }
