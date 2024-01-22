@@ -1,10 +1,16 @@
 import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
-import { IUserGetProfileResponse } from "../../repositories/user/IUserGetProfileResponse";
+import { IUserGetProfileByIdResponse } from "../../repositories/user/IUserGetProfileByIdResponse";
+import { IUserGetProfileByTokenResponse } from "../../repositories/user/IUserGetProfileByTokenResponse";
 import { IUserUpdateProfileResponse } from "../../repositories/user/IUserUpdateProfileResponse";
 import { UserRepository } from "../../repositories/user/user.repository";
 
 export interface UserService {
-  getProfile(token: string): Promise<IUserGetProfileResponse>;
+  getProfileByToken(token: string): Promise<IUserGetProfileByTokenResponse>;
+
+  getProfileById(
+    id: string,
+    token: string
+  ): Promise<IUserGetProfileByIdResponse>;
 
   getProfileImage(name: string): Promise<Blob>;
 
@@ -17,9 +23,25 @@ export interface UserService {
 export class UserServiceImpl implements UserService {
   constructor(private userRepository: UserRepository) {}
 
-  async getProfile(token: string): Promise<IUserGetProfileResponse> {
+  async getProfileByToken(
+    token: string
+  ): Promise<IUserGetProfileByTokenResponse> {
     try {
-      const res = await this.userRepository.getProfile(token);
+      const res = await this.userRepository.getProfileByToken(token);
+
+      return res;
+    } catch (error) {
+      throw new Error("Houve algum erro no servidor.");
+    }
+  }
+
+  async getProfileById(
+    id: string,
+    token: string
+  ): Promise<IUserGetProfileByIdResponse> {
+    try {
+      const res = await this.userRepository.getProfileById(id, token);
+      
       return res;
     } catch (error) {
       throw new Error("Houve algum erro no servidor.");

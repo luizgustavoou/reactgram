@@ -9,7 +9,7 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 
 // Redux
 import {
-  getProfile,
+  getProfileByToken,
   resetMessage,
   updateProfile,
 } from "../../slices/userSlice";
@@ -89,7 +89,7 @@ function EditProfile() {
 
   // Load user data
   useEffect(() => {
-    dispatch(getProfile());
+    dispatch(getProfileByToken());
   }, [dispatch]);
 
   // Fill form with user data

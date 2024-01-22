@@ -1,10 +1,13 @@
 import { UserApi } from "../../apis/user/user.api";
 import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
-import { IUserGetProfileResponse } from "./IUserGetProfileResponse";
+import { IUserGetProfileByIdResponse } from "./IUserGetProfileByIdResponse";
+import { IUserGetProfileByTokenResponse } from "./IUserGetProfileByTokenResponse";
 import { IUserUpdateProfileResponse } from "./IUserUpdateProfileResponse";
 
 export interface UserRepository {
-  getProfile(token: string): Promise<IUserGetProfileResponse>;
+  getProfileByToken(token: string): Promise<IUserGetProfileByTokenResponse>;
+
+  getProfileById(id: string, token: string): Promise<IUserGetProfileByIdResponse>;
 
   getProfileImage(name: string): Promise<Blob>;
 
@@ -17,10 +20,30 @@ export interface UserRepository {
 export class UserRepositoryImpl implements UserRepository {
   constructor(private userApi: UserApi) {}
 
-  async getProfile(token: string): Promise<IUserGetProfileResponse> {
-    const res = await this.userApi.getProfile(token);
+  async getProfileByToken(
+    token: string
+  ): Promise<IUserGetProfileByTokenResponse> {
+    const res = await this.userApi.getProfileByToken(token);
 
-    const newRes: IUserGetProfileResponse = {
+    const newRes: IUserGetProfileByTokenResponse = {
+      _id: res._id,
+      name: res.name,
+      email: res.email,
+      bio: res.bio,
+      profileImage: res.profileImage,
+      password: res.password,
+      createdAt: res.createdAt,
+      updatedAt: res.updatedAt,
+      errors: res.errors,
+    };
+
+    return newRes;
+  }
+
+  async getProfileById(id: string, token: string): Promise<IUserGetProfileByIdResponse> {
+    const res = await this.userApi.getProfileById(id, token);
+
+    const newRes: IUserGetProfileByIdResponse = {
       _id: res._id,
       name: res.name,
       email: res.email,

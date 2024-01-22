@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { IUserGetProfileResponse } from "../repositories/user/IUserGetProfileResponse";
 import { AppDispatch, RootState } from "../store";
 import { userService } from "../services";
 import { IUserUpdateProfile } from "../interfaces/IUserUpdateProfile";
 import { IUserUpdateProfileResponse } from "../repositories/user/IUserUpdateProfileResponse";
+import { IUserGetProfileByTokenResponse } from "../repositories/user/IUserGetProfileByTokenResponse";
 
 export interface UserState {
-  user: IUserGetProfileResponse | null;
+  user: IUserGetProfileByTokenResponse | null;
   status: "initial" | "success" | "error" | "loading";
   message: string | null;
   errorMessage: string | null;
@@ -19,8 +19,8 @@ const initialState: UserState = {
   errorMessage: null,
 };
 
-export const getProfile = createAsyncThunk<
-  IUserGetProfileResponse,
+export const getProfileByToken = createAsyncThunk<
+  IUserGetProfileByTokenResponse,
   void,
   {
     dispatch: AppDispatch;
@@ -31,7 +31,7 @@ export const getProfile = createAsyncThunk<
   try {
     const token = thunkAPI.getState().auth.user?.token;
 
-    const res = await userService.getProfile(token as string);
+    const res = await userService.getProfileByToken(token as string);
 
     if (res.errors) {
       return thunkAPI.rejectWithValue(res.errors[0]);
@@ -79,14 +79,14 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getProfile.pending, (state) => {
+      .addCase(getProfileByToken.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getProfile.fulfilled, (state, action) => {
+      .addCase(getProfileByToken.fulfilled, (state, action) => {
         state.status = "success";
         state.user = action.payload;
       })
-      //   .addCase(getProfile.rejected, (state, action) => {
+      //   .addCase(getProfileByToken.rejected, (state, action) => {
       //     state.status = "error";
       //     state.error = action.payload as string;
       //     state.user = null;

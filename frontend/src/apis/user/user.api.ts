@@ -1,10 +1,13 @@
 import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
 import { requestConfig, uploadsURL, baseURL } from "../../utils/config";
-import { IUserGetProfileJSONResponse } from "./IUserGetProfileJSONResponse";
+import { IUserGetProfileByIdJSONResponse } from "./IUserGetProfileByIdJSONResponse";
+import { IUserGetProfileByTokenJSONResponse } from "./IUserGetProfileByTokenJSONResponse";
 import { IUserUpdateProfileJSONResponse } from "./IUserUpdateProfileJSONResponse";
 
 export interface UserApi {
-  getProfile(token: string): Promise<IUserGetProfileJSONResponse>;
+  getProfileByToken(token: string): Promise<IUserGetProfileByTokenJSONResponse>;
+
+  getProfileById(id: string, token: string): Promise<IUserGetProfileByIdJSONResponse>;
 
   getProfileImage(name: string): Promise<Blob>;
 
@@ -15,12 +18,22 @@ export interface UserApi {
 }
 
 export class UserApiImpl implements UserApi {
-  async getProfile(token: string): Promise<IUserGetProfileJSONResponse> {
+  async getProfileByToken(token: string): Promise<IUserGetProfileByTokenJSONResponse> {
     const config = requestConfig("GET", null, token);
 
     const res = await fetch(baseURL + "/auth/profile", config);
 
-    const json: IUserGetProfileJSONResponse = await res.json();
+    const json: IUserGetProfileByIdJSONResponse = await res.json();
+
+    return json;
+  }
+
+  async getProfileById(id: string, token: string): Promise<IUserGetProfileByIdJSONResponse> {
+    const config = requestConfig("GET", null, token);
+
+    const res = await fetch(baseURL + `/api/users/${id}`, config);
+
+    const json: IUserGetProfileByIdJSONResponse = await res.json();
 
     return json;
   }
