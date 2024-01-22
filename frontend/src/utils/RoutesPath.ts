@@ -3,4 +3,5 @@ export class RoutesPath {
     public static LOGIN: string = "/login";
     public static REGISTER: string = "/register";
     public static PROFILE: string = "/profile";
+    public static USERS_PROFILE: string = "/users/:id";
 }
