@@ -25,13 +25,19 @@ services:
       - API_PORT=$API_DOCKER_PORT
       - CLIENT_ORIGIN=$CLIENT_ORIGIN
       - JWT_SECRET=$JWT_SECRET
+    volumes:
+      - ./backend:/usr/app
     depends_on:
       - mongo
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_BASE_URL=$CLIENT_API_BASE_URL
     ports:
       - $UI_LOCAL_PORT:$UI_DOCKER_PORT
+    volumes:
+      - ./frontend:/usr/app
     depends_on:
       - backend
