@@ -16,8 +16,8 @@ import {
 
 // Components
 import Message from "../../components/Message";
-import { uploadsURL } from "../../utils/config";
 import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
+import { userService } from "../../services";
 
 function EditProfile() {
   const { errorMessage, message, status, user } = useAppSelector(
@@ -31,8 +31,8 @@ function EditProfile() {
   const [profileImage, setProfileImage] = useState<Blob | null>(null);
   const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
-  const [previewImage, setPreviewImage] = useState<Blob | null>(null);
 
+  const [previewImage, setPreviewImage] = useState<Blob | null>(null);
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -45,7 +45,7 @@ function EditProfile() {
     if (bio) {
       userData.bio = bio;
     }
-
+    profileImageUrl;
     if (password) {
       userData.password = password;
     }
@@ -75,7 +75,6 @@ function EditProfile() {
     const file: File = e.target.files[0];
 
     setPreviewImage(file);
-
     setProfileImage(file);
   };
 
@@ -96,14 +95,22 @@ function EditProfile() {
   useEffect(() => {
     if (!user) return;
 
+    const loadImageOfUser = async () => {
+      if (!user.profileImage) return;
+
+      const blob = await userService.getProfileImage(user.profileImage);
+
+      setPreviewImage(blob);
+    };
+
     setName(user.name);
     setEmail(user.email);
     setBio(user.bio);
+
+    loadImageOfUser();
   }, [user]);
 
-  const profileImageUrl = previewImage
-    ? URL.createObjectURL(previewImage)
-    : `${uploadsURL}/users/${user?.profileImage}`;
+  const profileImageUrl = previewImage && URL.createObjectURL(previewImage);
 
   return (
     <div id="edit-profile">
@@ -111,7 +118,7 @@ function EditProfile() {
       <p className="subtitle">
         Adicione uma imagem de perfil e conte mais sobre você...
       </p>
-      {(user?.profileImage || previewImage) && (
+      {profileImageUrl && (
         <img
           className="profile-image"
           src={profileImageUrl}

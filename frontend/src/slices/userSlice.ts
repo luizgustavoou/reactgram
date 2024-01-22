@@ -83,7 +83,6 @@ export const updateProfile = createAsyncThunk<
 
     const res = await userService.updateProfile(data, token as string);
 
-    console.log(res);
     if (res.errors) {
       return thunkAPI.rejectWithValue(res.errors[0]);
     }
