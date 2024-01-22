@@ -28,42 +28,36 @@ A aplicação consiste em uma cópia do instagram, trazendo as principais funcio
 * MongoDB
 ## Front end
 * ReactJS
-<!--## Implantação em produção
-- Back end: Heroku
-- Front end web: Netlify
-- Banco de dados: Postgresql -->
 
-# :rocket: Rodando o projeto
+## Infraestrutura
+* Docker;
 
-## Back end
+## :rocket: Rodando o projeto
+Pré-requisitos: npm / yarn e Docker instalado
 
-<!-- ```bash
+```bash
 # clonar repositório
-
-
-# entrar na pasta do projeto back end
-
-
-# executar o projeto
-``` -->
-
-## Front end web
-Pré-requisitos: npm / yarn
-
-<!--```bash
-# clonar repositório
-https://github.com/luizgustavoou/Miniblog.git
+git clone https://github.com/luizgustavoou/reactgram.git
 
 # entrar na pasta do projeto front end web
-cd Miniblog
+cd reactgram
 
-# instalar dependências
+cd backend/
+
+# instalar depedências do frontend
 npm i
 
-# executar o projeto
-npm start
+cd ../
+
+cd frontend/
+
+# instalar depedências do frontend
+npm i
+cd ../
+
+# rodar aplicação
+docker compose up -d
 ```
--->
 
 ## :soon: Implementação futura
 
