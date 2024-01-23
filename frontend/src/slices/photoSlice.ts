@@ -75,6 +75,13 @@ export const photoSlice = createSlice({
         state.status = "error";
         state.messsage = action.payload as string;
         state.photo = null;
+      })
+      .addCase(getPhotosByUserId.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getPhotosByUserId.fulfilled, (state, action) => {
+        state.status = "success";
+        state.photos = action.payload;
       });
   },
 });
