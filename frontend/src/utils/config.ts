@@ -3,7 +3,7 @@ export const baseURL = import.meta.env.VITE_REACT_APP_API_BASE_URL;
 export const uploadsURL = `${baseURL}/uploads`;
 
 export const requestConfig = (
-  method: string,
+  method: "GET" | "PUT" | "POST" | "DELETE",
   data: any,
   token: string | null = null,
   image: boolean | null = null
