@@ -18,7 +18,7 @@ export class PhotoServiceImpl implements IPhotoService {
 
       return res;
     } catch (error) {
-      throw new Error("Houve algum erro no servidor.");
+      throw error;
     }
   }
 
@@ -31,7 +31,7 @@ export class PhotoServiceImpl implements IPhotoService {
 
       return res;
     } catch (error) {
-      throw new Error("Houve algum erro no servidor.");
+      throw error;
     }
   }
 }

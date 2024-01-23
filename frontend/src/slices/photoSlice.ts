@@ -3,6 +3,7 @@ import { IPhoto } from "../services/photo/models/IPhoto";
 import { IPublishPhoto } from "../interfaces/IPublishPhoto";
 import { AppDispatch, RootState } from "../store";
 import { photoService } from "../services";
+import { IGetPhotosByUserId } from "../interfaces/IGetPhotosByUserId";
 
 export interface PhotoState {
   status: "initial" | "success" | "error" | "loading";
@@ -21,6 +22,22 @@ export const publishPhoto = createAsyncThunk<
     const token = thunkAPI.getState().auth.user?.token;
 
     const res = await photoService.publishPhoto(data, token as string);
+
+    return res;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const getPhotosByUserId = createAsyncThunk<
+  IPhoto[],
+  IGetPhotosByUserId,
+  { dispatch: AppDispatch; state: RootState; rejectValue: string }
+>("photo/publish", async (data, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user?.token;
+
+    const res = await photoService.getPhotosByUserId(data, token as string);
 
     return res;
   } catch (error) {
