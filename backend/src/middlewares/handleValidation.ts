@@ -13,6 +13,7 @@ export const validate = (req: Request, res: Response, next: NextFunction) => {
 
     errors.array().map((err) => extractedErrors.push(err.msg));
 
+    // TODO: Verificar pra passar next(new error)
     return res.status(StatusCodes.BAD_REQUEST).json({
         errors: extractedErrors
     })
