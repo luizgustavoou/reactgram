@@ -40,10 +40,6 @@ export const register = createAsyncThunk<
   try {
     const res = await authService.register(data);
 
-    if (res.errors) {
-      return thunkAPI.rejectWithValue(res.errors[0]);
-    }
-
     return res;
   } catch (error) {
     return thunkAPI.rejectWithValue((<any>error).message);
@@ -61,10 +57,6 @@ export const login = createAsyncThunk<
 >("auth/login", async (data, thunkAPI) => {
   try {
     const res = await authService.login(data);
-
-    if (res.errors) {
-      return thunkAPI.rejectWithValue(res.errors[0]);
-    }
 
     return res;
   } catch (error) {

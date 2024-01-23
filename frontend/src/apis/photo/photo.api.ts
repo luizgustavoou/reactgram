@@ -1,3 +1,4 @@
+import { IAPIErrorResponse } from "../../interfaces/IAPIErrorResponse";
 import { IGetPhotosByUserId } from "../../interfaces/IGetPhotosByUserId";
 import { IPublishPhoto } from "../../interfaces/IPublishPhoto";
 import { baseURL, requestConfig } from "../../utils/config";
@@ -7,7 +8,7 @@ export interface IPhotoApi {
   publishPhoto(
     data: IPublishPhoto,
     token: string
-  ): Promise<{ newPhoto: IPhotoResponse}>;
+  ): Promise<{ newPhoto: IPhotoResponse }>;
 
   getPhotosByUserId(
     data: IGetPhotosByUserId,
@@ -30,7 +31,12 @@ export class PhotoApiImpl implements IPhotoApi {
 
     const res = await fetch(`${baseURL}/api/photos`, config);
 
-    const json: { newPhoto: IPhotoResponse } = await res.json();
+    const json: { newPhoto: IPhotoResponse } | IAPIErrorResponse =
+      await res.json();
+
+    if ("errors" in json) {
+      throw new Error(json.errors[0]);
+    }
 
     return json;
   }
@@ -45,7 +51,12 @@ export class PhotoApiImpl implements IPhotoApi {
 
     const res = await fetch(`${baseURL}/api/photos/user/${id}`, config);
 
-    const json: { photos: IPhotoResponse[] } = await res.json();
+    const json: { photos: IPhotoResponse[] } | IAPIErrorResponse =
+      await res.json();
+
+    if ("errors" in json) {
+      throw new Error(json.errors[0]);
+    }
 
     return json;
   }

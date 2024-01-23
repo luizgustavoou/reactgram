@@ -21,7 +21,7 @@ export class UserServiceImpl implements UserService {
 
       return res;
     } catch (error) {
-      throw new Error("Houve algum erro no servidor.");
+      throw error;
     }
   }
 
@@ -31,7 +31,7 @@ export class UserServiceImpl implements UserService {
 
       return res;
     } catch (error) {
-      throw new Error("Houve algum erro no servidor.");
+      throw error;
     }
   }
 
@@ -41,7 +41,7 @@ export class UserServiceImpl implements UserService {
 
       return blob;
     } catch (error) {
-      throw new Error("Houve algum erro no servidor.");
+      throw error;
     }
   }
 
@@ -51,7 +51,7 @@ export class UserServiceImpl implements UserService {
 
       return res;
     } catch (error) {
-      throw new Error("Houve algum erro no servidor.");
+      throw error;
     }
   }
 }

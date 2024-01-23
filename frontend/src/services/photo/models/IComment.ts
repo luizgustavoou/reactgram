@@ -1,6 +1,4 @@
-import { IAPIErrorResponse } from "../../../interfaces/IAPIErrorResponse";
-
-export interface IComment extends Partial<IAPIErrorResponse> {
+export interface IComment {
   userId: string;
   comment: string;
   userName: string;

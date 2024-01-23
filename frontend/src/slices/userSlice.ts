@@ -32,10 +32,6 @@ export const getProfileByToken = createAsyncThunk<
 
     const res = await userService.getProfileByToken(token as string);
 
-    if (res.errors) {
-      return thunkAPI.rejectWithValue(res.errors[0]);
-    }
-
     return res;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
@@ -56,10 +52,6 @@ export const getProfileById = createAsyncThunk<
 
     const res = await userService.getProfileById(id, token as string);
 
-    if (res.errors) {
-      return thunkAPI.rejectWithValue(res.errors[0]);
-    }
-
     return res;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
@@ -79,10 +71,6 @@ export const updateProfile = createAsyncThunk<
     const token = thunkAPI.getState().auth.user?.token;
 
     const res = await userService.updateProfile(data, token as string);
-
-    if (res.errors) {
-      return thunkAPI.rejectWithValue(res.errors[0]);
-    }
 
     return res;
   } catch (error) {

@@ -1,6 +1,4 @@
-import { IAPIErrorResponse } from "../../../interfaces/IAPIErrorResponse";
-
-export interface IUserResponse extends Partial<IAPIErrorResponse> {
+export interface IUserResponse {
   _id: string;
   name: string;
   email: string;

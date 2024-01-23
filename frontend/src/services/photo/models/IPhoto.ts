@@ -1,8 +1,7 @@
-import { IAPIErrorResponse } from "../../../interfaces/IAPIErrorResponse";
 import { IComment } from "./IComment";
 import { ILike } from "./ILike";
 
-export interface IPhoto extends Partial<IAPIErrorResponse> {
+export interface IPhoto {
   _id: string;
   image: string;
   title: string;

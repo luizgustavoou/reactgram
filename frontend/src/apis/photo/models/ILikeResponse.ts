@@ -1,6 +1,4 @@
-import { IAPIErrorResponse } from "../../../interfaces/IAPIErrorResponse";
-
-export interface ILikeResponse extends Partial<IAPIErrorResponse> {
+export interface ILikeResponse {
   photoId: string;
   userId: string;
   message: string;

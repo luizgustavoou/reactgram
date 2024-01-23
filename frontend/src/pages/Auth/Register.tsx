@@ -33,8 +33,6 @@ const Register = () => {
       confirmPassword,
     };
 
-    console.log({ user });
-
     dispatch(register(user));
   };
 
@@ -95,7 +93,9 @@ const Register = () => {
         {status == "loading" && (
           <input type="submit" value="Aguarde..." disabled />
         )}
-        {status == "error" && <Message msg={errorMessage as string} type="error" />}
+        {status == "error" && (
+          <Message msg={errorMessage as string} type="error" />
+        )}
       </form>
       <p>
         Já tem conta ? <Link to={RoutesPath.LOGIN}>Clique aqui</Link>

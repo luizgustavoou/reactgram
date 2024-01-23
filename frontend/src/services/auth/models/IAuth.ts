@@ -1,6 +1,4 @@
-import { IAPIErrorResponse } from "../../../interfaces/IAPIErrorResponse";
-
-export interface IAuth extends Partial<IAPIErrorResponse> {
+export interface IAuth {
   _id?: string;
   token?: string;
 }

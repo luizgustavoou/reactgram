@@ -1,6 +1,4 @@
-import { IAPIErrorResponse } from "../../../interfaces/IAPIErrorResponse";
-
-export interface IPhotoResponse extends Partial<IAPIErrorResponse> {
+export interface IPhotoResponse {
   _id: string;
   image: string;
   title: string;

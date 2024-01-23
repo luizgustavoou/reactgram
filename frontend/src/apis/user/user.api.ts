@@ -1,3 +1,4 @@
+import { IAPIErrorResponse } from "../../interfaces/IAPIErrorResponse";
 import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
 import { requestConfig, uploadsURL, baseURL } from "../../utils/config";
 import { IUserResponse } from "./models/IUserResponse";
@@ -21,7 +22,11 @@ export class UserApiImpl implements IUserApi {
 
     const res = await fetch(baseURL + "/auth/profile", config);
 
-    const json: IUserResponse = await res.json();
+    const json: IUserResponse | IAPIErrorResponse = await res.json();
+
+    if ("errors" in json) {
+      throw new Error(json.errors[0]);
+    }
 
     return json;
   }
@@ -31,7 +36,11 @@ export class UserApiImpl implements IUserApi {
 
     const res = await fetch(baseURL + `/api/users/${id}`, config);
 
-    const json: IUserResponse = await res.json();
+    const json: IUserResponse | IAPIErrorResponse = await res.json();
+
+    if ("errors" in json) {
+      throw new Error(json.errors[0]);
+    }
 
     return json;
   }
@@ -58,7 +67,11 @@ export class UserApiImpl implements IUserApi {
 
     const res = await fetch(`${baseURL}/api/users`, config);
 
-    const json: IUserResponse = await res.json();
+    const json: IUserResponse | IAPIErrorResponse = await res.json();
+
+    if ("errors" in json) {
+      throw new Error(json.errors[0]);
+    }
 
     return json;
   }
