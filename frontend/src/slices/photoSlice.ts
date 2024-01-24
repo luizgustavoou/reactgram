@@ -33,7 +33,7 @@ export const getPhotosByUserId = createAsyncThunk<
   IPhoto[],
   IGetPhotosByUserId,
   { dispatch: AppDispatch; state: RootState; rejectValue: string }
->("photo/publish", async (data, thunkAPI) => {
+>("photo/userphotos", async (data, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user?.token;
 

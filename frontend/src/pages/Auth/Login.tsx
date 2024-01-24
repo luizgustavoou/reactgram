@@ -19,7 +19,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const dispatch = useAppDispatch();
-  const { status, error } = useAppSelector((state) => state.auth);
+  const { status, errorMessage } = useAppSelector((state) => state.auth);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,7 +67,7 @@ const Login = () => {
         {status == "loading" && (
           <input type="submit" value="Aguarde..." disabled />
         )}
-        {status == "error" && <Message msg={error as string} type="error" />}
+        {status == "error" && <Message msg={errorMessage as string} type="error" />}
       </form>
       <p>
         Não tem uma conta? <Link to={RoutesPath.REGISTER}>Clique aqui</Link>

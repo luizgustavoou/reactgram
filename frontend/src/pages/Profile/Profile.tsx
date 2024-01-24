@@ -14,6 +14,8 @@ import { useParams } from "react-router-dom";
 // Redux
 import { getProfileById } from "../../slices/userSlice";
 import { userService } from "../../services";
+import { getPhotosByUserId } from "../../slices/photoSlice";
+import { uploadsURL } from "../../utils/config";
 
 function Profile() {
   const { id } = useParams();
@@ -22,6 +24,11 @@ function Profile() {
 
   const { user, status } = useAppSelector((state) => state.user);
   const { user: userAuth } = useAppSelector((state) => state.auth);
+  const {
+    photos,
+    status: statusPhoto,
+    messsage,
+  } = useAppSelector((state) => state.photo);
 
   // New form and edit form refs
   const newPhotoForm = useRef<HTMLDivElement | null>(null);
@@ -32,6 +39,7 @@ function Profile() {
   // Load user data
   useEffect(() => {
     dispatch(getProfileById(id as string));
+    dispatch(getPhotosByUserId({ id: id as string }));
   }, [dispatch, id]);
 
   useEffect(() => {
@@ -89,6 +97,28 @@ function Profile() {
           </div>
         </>
       )}
+      <div className="user-photos">
+        <h2>Fotos publicadas:</h2>
+        <div className="photos-container">
+          {photos &&
+            photos.map((photo) => (
+              <div className="photo" key={photo._id}>
+                {photo.image && (
+                  <img
+                    src={`${uploadsURL}/photos/${photo.image}`}
+                    alt={photo.title}
+                  />
+                )}
+                {id === userAuth?._id ? (
+                  <p>Actions</p>
+                ) : (
+                  <Link className="btn" to={`/photos/${photo._id}`} />
+                )}
+              </div>
+            ))}
+          {photos.length === 0 && <p>Ainda não há fotos publicadas.</p>}
+        </div>
+      </div>
     </div>
   );
 }
