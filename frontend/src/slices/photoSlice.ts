@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from "../store";
 import { photoService } from "../services";
 import { IGetPhotosByUserId } from "../interfaces/IGetPhotosByUserId";
 import { IDeletePhoto } from "../interfaces/IDeletePhoto";
+import { IUpdatePhoto } from "../interfaces/IUpdatePhoto";
 
 export interface PhotoState {
   status: "initial" | "success" | "error" | "loading";
@@ -55,6 +56,22 @@ export const deletePhoto = createAsyncThunk<
     const token = thunkAPI.getState().auth.user?.token;
 
     const res = await photoService.deletePhoto(data, token as string);
+
+    return res;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const updatePhoto = createAsyncThunk<
+  IPhoto,
+  IUpdatePhoto,
+  { dispatch: AppDispatch; state: RootState; rejectValue: string }
+>("photo/update", async (data, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user?.token;
+
+    const res = await photoService.updatePhoto(data, token as string);
 
     return res;
   } catch (error) {
@@ -113,6 +130,25 @@ export const photoSlice = createSlice({
         state.messsage = action.payload.message;
       })
       .addCase(deletePhoto.rejected, (state, action) => {
+        state.status = "error";
+        state.messsage = action.payload as string;
+        state.photo = null;
+      })
+      .addCase(updatePhoto.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updatePhoto.fulfilled, (state, action) => {
+        state.status = "success";
+        state.photo = action.payload;
+        state.photos = state.photos.map((photo) => {
+          if (photo._id != action.payload._id) return photo;
+
+          return action.payload;
+        });
+
+        state.messsage = "Foto atualizada com sucesso.";
+      })
+      .addCase(updatePhoto.rejected, (state, action) => {
         state.status = "error";
         state.messsage = action.payload as string;
         state.photo = null;
