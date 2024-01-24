@@ -2,6 +2,7 @@ import { IPhotoApi } from "../../apis/photo/photo.api";
 import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
 import { IGetPhotosByUserId } from "../../interfaces/IGetPhotosByUserId";
 import { IPublishPhoto } from "../../interfaces/IPublishPhoto";
+import { IUpdatePhoto } from "../../interfaces/IUpdatePhoto";
 import { IPhoto } from "../../services/photo/models/IPhoto";
 
 export interface IPhotoRepository {
@@ -13,6 +14,8 @@ export interface IPhotoRepository {
     data: IDeletePhoto,
     token: string
   ): Promise<{ id: string; message: string }>;
+
+  updatePhoto(data: IUpdatePhoto, token: string): Promise<IPhoto>;
 }
 
 export class PhotoRepositoryImpl implements IPhotoRepository {
@@ -63,5 +66,22 @@ export class PhotoRepositoryImpl implements IPhotoRepository {
     const res = await this.photoApi.deletePhoto(data, token);
 
     return res;
+  }
+
+  async updatePhoto(data: IUpdatePhoto, token: string): Promise<IPhoto> {
+    const { photo } = await this.photoApi.updatePhoto(data, token);
+
+    const newRes: IPhoto = {
+      _id: photo._id,
+      image: photo.image,
+      title: photo.title,
+      likes: photo.likes,
+      comments: photo.comments,
+      userName: photo.userName,
+      createdAt: photo.createdAt,
+      updateAt: photo.updateAt,
+    };
+
+    return newRes;
   }
 }
