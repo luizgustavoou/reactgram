@@ -58,6 +58,7 @@ export const photoSlice = createSlice({
   reducers: {
     resetMessage: (state) => {
       state.messsage = null;
+      state.status = "initial";
     },
   },
   extraReducers: (builder) => {

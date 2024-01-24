@@ -2,7 +2,7 @@ import "./Message.css";
 
 export interface MessageProps {
   msg: string;
-  type: string;
+  type: "success" | "error";
 }
 
 function Message({ msg, type }: MessageProps) {

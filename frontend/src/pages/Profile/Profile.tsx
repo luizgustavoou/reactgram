@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { BsFillEyeFill, BsPencilFill, BsXLg } from "react-icons/bs";
 
 // Hooks
-import { useState, useEffect, useRef, FormEvent } from "react";
+import { useState, useEffect, useRef, FormEvent, ChangeEvent } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,11 @@ import { useParams } from "react-router-dom";
 // Redux
 import { getProfileById } from "../../slices/userSlice";
 import { userService } from "../../services";
-import { getPhotosByUserId } from "../../slices/photoSlice";
+import {
+  getPhotosByUserId,
+  publishPhoto,
+  resetMessage,
+} from "../../slices/photoSlice";
 import { uploadsURL } from "../../utils/config";
 
 function Profile() {
@@ -27,7 +31,7 @@ function Profile() {
   const {
     photos,
     status: statusPhoto,
-    messsage,
+    messsage: messagePhoto,
   } = useAppSelector((state) => state.photo);
 
   // New form and edit form refs
@@ -35,6 +39,20 @@ function Profile() {
   const editPhotoForm = useRef<HTMLDivElement | null>();
 
   // photo
+  const [title, setTitle] = useState("");
+  const [image, setImage] = useState<Blob | null>(null);
+
+  const handleOnChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleOnChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    setImage(file);
+  };
 
   // Load user data
   useEffect(() => {
@@ -56,6 +74,15 @@ function Profile() {
 
   const submitHandle = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    dispatch(publishPhoto({ image: image as Blob, title }));
+
+    setTitle("");
+    setImage(null);
+
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
   };
 
   if (status == "loading") {
@@ -86,15 +113,31 @@ function Profile() {
             <form onSubmit={submitHandle}>
               <label>
                 <span>Título para a foto:</span>
-                <input type="text" placeholder="Insira um título" />
+                <input
+                  type="text"
+                  placeholder="Insira um título"
+                  value={title || ""}
+                  onChange={handleOnChangeTitle}
+                />
               </label>
               <label>
                 <span>Imagem:</span>
-                <input type="file" />
+                <input type="file" onChange={handleOnChangeFile} />
               </label>
-              <input type="submit" value="Postar" />
+              {statusPhoto != "loading" && (
+                <input type="submit" value="Postar" />
+              )}
+              {statusPhoto === "loading" && (
+                <input type="submit" disabled value="Aguarde..." />
+              )}
             </form>
           </div>
+          {statusPhoto === "error" && (
+            <Message msg={messagePhoto as string} type="error" />
+          )}
+          {statusPhoto === "success" && (
+            <Message msg={messagePhoto as string} type="success" />
+          )}
         </>
       )}
       <div className="user-photos">
