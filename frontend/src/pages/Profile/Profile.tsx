@@ -6,7 +6,15 @@ import { Link } from "react-router-dom";
 import { BsFillEyeFill, BsPencilFill, BsXLg } from "react-icons/bs";
 
 // Hooks
-import { useState, useEffect, useRef, FormEvent, ChangeEvent } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  FormEvent,
+  ChangeEvent,
+  MouseEvent,
+  MouseEventHandler,
+} from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useParams } from "react-router-dom";
@@ -15,18 +23,20 @@ import { useParams } from "react-router-dom";
 import { getProfileById } from "../../slices/userSlice";
 import { userService } from "../../services";
 import {
+  deletePhoto,
   getPhotosByUserId,
   publishPhoto,
   resetMessage,
 } from "../../slices/photoSlice";
 import { uploadsURL } from "../../utils/config";
+import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
 
 function Profile() {
   const { id } = useParams();
   const [previewImage, setPreviewImage] = useState<Blob | null>(null);
   const dispatch = useAppDispatch();
 
-  const { user, status } = useAppSelector((state) => state.user);
+  const { user, status: statusUser } = useAppSelector((state) => state.user);
   const { user: userAuth } = useAppSelector((state) => state.auth);
   const {
     photos,
@@ -54,6 +64,14 @@ function Profile() {
     setImage(file);
   };
 
+  const handleDeletePhoto = (id: string) => {
+    const data: IDeletePhoto = { id };
+
+    dispatch(deletePhoto(data));
+
+    resetComponentMessage();
+  };
+
   // Load user data
   useEffect(() => {
     dispatch(getProfileById(id as string));
@@ -72,6 +90,12 @@ function Profile() {
     loadImageOfUser();
   }, [user]);
 
+  const resetComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
+  };
+
   const submitHandle = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -80,9 +104,7 @@ function Profile() {
     setTitle("");
     setImage(null);
 
-    setTimeout(() => {
-      dispatch(resetMessage());
-    }, 2000);
+    resetComponentMessage();
   };
 
   if (status == "loading") {
@@ -158,7 +180,7 @@ function Profile() {
                       <BsFillEyeFill />
                     </Link>
                     <BsPencilFill />
-                    <BsXLg />
+                    <BsXLg onClick={(_) => handleDeletePhoto(photo._id)} />
                   </div>
                 ) : (
                   <Link className="btn" to={`/photos/${photo._id}`}>
