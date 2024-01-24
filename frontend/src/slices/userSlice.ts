@@ -8,14 +8,12 @@ export interface UserState {
   user: IUser | null;
   status: "initial" | "success" | "error" | "loading";
   message: string | null;
-  errorMessage: string | null;
 }
 
 const initialState: UserState = {
   user: null,
   status: "initial",
   message: null,
-  errorMessage: null,
 };
 
 export const getProfileByToken = createAsyncThunk<
@@ -111,7 +109,7 @@ export const userSlice = createSlice({
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.status = "error";
-        state.errorMessage = action.payload as string;
+        state.message = action.payload as string;
         state.user = null;
       })
       .addCase(getProfileById.pending, (state) => {

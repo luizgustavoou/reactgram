@@ -20,9 +20,7 @@ import { IUserUpdateProfile } from "../../interfaces/IUserUpdateProfile";
 import { userService } from "../../services";
 
 function EditProfile() {
-  const { errorMessage, message, status, user } = useAppSelector(
-    (state) => state.user
-  );
+  const { message, status, user } = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
 
@@ -164,9 +162,7 @@ function EditProfile() {
         {status == "loading" && (
           <input type="submit" value="Aguarde..." disabled />
         )}
-        {status == "error" && (
-          <Message msg={errorMessage as string} type="error" />
-        )}
+        {status == "error" && <Message msg={message as string} type="error" />}
         {message && <Message msg={message as string} type="success" />}
       </form>
     </div>
