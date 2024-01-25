@@ -1,8 +1,7 @@
 import "./Profile.css";
 
 // Components
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { BsFillEyeFill, BsPencilFill, BsXLg } from "react-icons/bs";
+import { Outlet, useNavigate } from "react-router-dom";
 
 // Hooks
 import { useState, useEffect } from "react";
@@ -18,9 +17,9 @@ import {
   getPhotosByUserId,
   resetMessage,
 } from "../../slices/photoSlice";
-import { uploadsURL } from "../../utils/config";
 import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
 import { IPhoto } from "../../services/photo/models/IPhoto";
+import PhotosList from "../../components/PhotosList";
 
 function Profile() {
   const navigate = useNavigate();
@@ -79,6 +78,8 @@ function Profile() {
 
   const profileImageUrl = previewImage && URL.createObjectURL(previewImage);
 
+  const isPhotosOfUserAuth = id === userAuth?._id;
+
   return (
     <div id="profile">
       <div className="profile-header">
@@ -93,30 +94,13 @@ function Profile() {
       <div className="user-photos">
         <h2>Fotos publicadas:</h2>
         <div className="photos-container">
-          {photos &&
-            photos.map((photo) => (
-              <div className="photo" key={photo._id}>
-                {photo.image && (
-                  <img
-                    src={`${uploadsURL}/photos/${photo.image}`}
-                    alt={photo.title}
-                  />
-                )}
-                {id === userAuth?._id ? (
-                  <div className="actions">
-                    <Link to={`/photos/${photo._id}`}>
-                      <BsFillEyeFill />
-                    </Link>
-                    <BsPencilFill onClick={(_) => handleUpdatePhoto(photo)} />
-                    <BsXLg onClick={(_) => handleDeletePhoto(photo._id)} />
-                  </div>
-                ) : (
-                  <Link className="btn" to={`/photos/${photo._id}`}>
-                    Ver
-                  </Link>
-                )}
-              </div>
-            ))}
+          <PhotosList
+            photos={photos}
+            handleDeletePhoto={handleDeletePhoto}
+            handleUpdatePhoto={handleUpdatePhoto}
+            isPhotosOfUserAuth={isPhotosOfUserAuth}
+          />
+
           {photos.length === 0 && <p>Ainda não há fotos publicadas.</p>}
         </div>
       </div>

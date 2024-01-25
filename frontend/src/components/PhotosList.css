@@ -1,0 +1,18 @@
+.photo {
+  width: 32%;
+  margin: 0.3%;
+}
+
+.photo img {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.actions svg {
+  cursor: pointer;
+}
