@@ -155,7 +155,7 @@ function Profile() {
     resetComponentMessage();
   };
 
-  if (status == "loading") {
+  if (statusUser == "loading") {
     return <p>Carregando...</p>;
   }
 
