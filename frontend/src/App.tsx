@@ -18,7 +18,9 @@ import { useAuth } from "./hooks/useAuth";
 import { RoutesPath } from "./utils/RoutesPath";
 import EditProfile from "./pages/EditProfile/EditProfile";
 import Profile from "./pages/Profile/Profile";
-
+//
+import FormEditPhoto from "./components/FormEditPhoto";
+import FormNewPhoto from "./components/FormNewPhoto";
 function App() {
   const { auth, loading } = useAuth();
 
@@ -50,10 +52,11 @@ function App() {
             />
             <Route
               path={RoutesPath.USERS_PROFILE}
-              element={
-                auth ? <Profile /> : <Navigate to={RoutesPath.LOGIN} />
-              }
-            />
+              element={auth ? <Profile /> : <Navigate to={RoutesPath.LOGIN} />}
+            >
+              <Route index element={<FormNewPhoto />} />
+              <Route path="editphoto" element={<FormEditPhoto />} />
+            </Route>
             <Route
               path={RoutesPath.LOGIN}
               element={!auth ? <Login /> : <Navigate to={RoutesPath.HOME} />}
