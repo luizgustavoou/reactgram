@@ -10,7 +10,6 @@ import {
 } from "react-icons/bs";
 
 // Hooks
-import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
