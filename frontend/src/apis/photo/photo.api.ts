@@ -1,9 +1,10 @@
 import { IAPIErrorResponse } from "../../interfaces/IAPIErrorResponse";
 import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
+import { IGetPhotoById } from "../../interfaces/IGetPhotoById";
 import { IGetPhotosByUserId } from "../../interfaces/IGetPhotosByUserId";
 import { IPublishPhoto } from "../../interfaces/IPublishPhoto";
 import { IUpdatePhoto } from "../../interfaces/IUpdatePhoto";
-import { baseURL, requestConfig, uploadsURL } from "../../utils/config";
+import { baseURL, requestConfig } from "../../utils/config";
 import { IPhotoResponse } from "./models/IPhotoResponse";
 
 export interface IPhotoApi {
@@ -11,6 +12,8 @@ export interface IPhotoApi {
     data: IPublishPhoto,
     token: string
   ): Promise<{ newPhoto: IPhotoResponse }>;
+
+  getPhotoById(data: IGetPhotoById, token: string): Promise<{ photo: IPhotoResponse }>;
 
   getPhotosByUserId(
     data: IGetPhotosByUserId,
@@ -46,6 +49,24 @@ export class PhotoApiImpl implements IPhotoApi {
 
     const json: { newPhoto: IPhotoResponse } | IAPIErrorResponse =
       await res.json();
+
+    if ("errors" in json) {
+      throw new Error(json.errors[0]);
+    }
+
+    return json;
+  }
+  async getPhotoById(
+    data: IGetPhotoById,
+    token: string
+  ): Promise<{ photo: IPhotoResponse }> {
+    const { id } = data;
+
+    const config = requestConfig("GET", null, token);
+
+    const res = await fetch(`${baseURL}/api/photos/${id}`, config);
+
+    const json: { photo: IPhotoResponse } | IAPIErrorResponse = await res.json();
 
     if ("errors" in json) {
       throw new Error(json.errors[0]);
