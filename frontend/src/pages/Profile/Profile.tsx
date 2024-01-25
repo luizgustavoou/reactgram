@@ -4,7 +4,7 @@ import "./Profile.css";
 import { Outlet, useNavigate } from "react-router-dom";
 
 // Hooks
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, ClassAttributes } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useParams } from "react-router-dom";
@@ -42,10 +42,13 @@ function Profile() {
     resetComponentMessage();
   };
 
+  const refForm = useRef<HTMLDivElement | null>(null);
+
   const handleUpdatePhoto = (photo: IPhoto) => {
     setPhoto(photo);
 
     navigate("editphoto");
+    refForm.current?.scrollIntoView();
   };
 
   // Load user data
@@ -90,7 +93,9 @@ function Profile() {
         </div>
       </div>
 
-      <Outlet context={[photo]} />
+      <div ref={refForm}>
+        <Outlet context={[photo]} />
+      </div>
       <div className="user-photos">
         <h2>Fotos publicadas:</h2>
         <div className="photos-container">

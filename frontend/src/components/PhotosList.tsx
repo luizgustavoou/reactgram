@@ -4,6 +4,8 @@ import { BsFillEyeFill, BsPencilFill, BsXLg } from "react-icons/bs";
 import { uploadsURL } from "../utils/config";
 
 import "./PhotosList.css";
+
+
 export interface PhotosListProps {
   photos: IPhoto[];
   isPhotosOfUserAuth: boolean;
