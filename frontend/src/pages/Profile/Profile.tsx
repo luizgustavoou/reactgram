@@ -13,7 +13,6 @@ import {
   FormEvent,
   ChangeEvent,
   MouseEvent,
-  MouseEventHandler,
 } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
@@ -27,9 +26,12 @@ import {
   getPhotosByUserId,
   publishPhoto,
   resetMessage,
+  updatePhoto,
 } from "../../slices/photoSlice";
 import { uploadsURL } from "../../utils/config";
 import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
+import { IPhoto } from "../../services/photo/models/IPhoto";
+import { IUpdatePhoto } from "../../interfaces/IUpdatePhoto";
 
 function Profile() {
   const { id } = useParams();
@@ -46,11 +48,15 @@ function Profile() {
 
   // New form and edit form refs
   const newPhotoForm = useRef<HTMLDivElement | null>(null);
-  const editPhotoForm = useRef<HTMLDivElement | null>();
+  const editPhotoForm = useRef<HTMLDivElement | null>(null);
 
   // photo
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<Blob | null>(null);
+
+  const [editId, setEditId] = useState<string>("");
+  const [editImage, setEditImage] = useState<string>("");
+  const [editTitle, setEditTitle] = useState<string>("");
 
   const handleOnChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -64,12 +70,54 @@ function Profile() {
     setImage(file);
   };
 
+  const handleOnChangeEditTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditTitle(e.target.value);
+  };
+
   const handleDeletePhoto = (id: string) => {
     const data: IDeletePhoto = { id };
 
     dispatch(deletePhoto(data));
 
     resetComponentMessage();
+  };
+
+  // Show or hide forms
+  const hideOrShowForms = () => {
+    newPhotoForm.current?.classList.toggle("hide");
+    editPhotoForm.current?.classList.toggle("hide");
+  };
+
+  // update a photo
+  const handleUpdate = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const data: IUpdatePhoto = {
+      title: editTitle,
+      id: editId,
+    };
+
+    dispatch(updatePhoto(data));
+
+    resetComponentMessage();
+  };
+
+  // Open edit form
+  const handleEdit = (photo: IPhoto) => {
+    if (editPhotoForm.current?.classList.contains("hide")) {
+      hideOrShowForms();
+    }
+
+    setEditId(photo._id);
+    setEditTitle(photo.title);
+    setEditImage(photo.image);
+  };
+
+  const handleCancelEdit = (
+    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => {
+    e.preventDefault();
+    hideOrShowForms();
   };
 
   // Load user data
@@ -154,6 +202,25 @@ function Profile() {
               )}
             </form>
           </div>
+          <div className="edit-photo hide" ref={editPhotoForm}>
+            <p>Editando:</p>
+            {editImage && (
+              <img src={`${uploadsURL}/photos/${editImage}`} alt={editTitle} />
+            )}
+            <form onSubmit={handleUpdate}>
+              <input
+                type="text"
+                placeholder="Insira o novo título"
+                value={editTitle || ""}
+                onChange={handleOnChangeEditTitle}
+              />
+
+              <input type="submit" value="Atualizar" />
+              <button className="cancel-btn" onClick={handleCancelEdit}>
+                Cancelar edição
+              </button>
+            </form>
+          </div>
           {statusPhoto === "error" && (
             <Message msg={messagePhoto as string} type="error" />
           )}
@@ -179,7 +246,7 @@ function Profile() {
                     <Link to={`/photos/${photo._id}`}>
                       <BsFillEyeFill />
                     </Link>
-                    <BsPencilFill />
+                    <BsPencilFill onClick={() => handleEdit(photo)} />
                     <BsXLg onClick={(_) => handleDeletePhoto(photo._id)} />
                   </div>
                 ) : (
