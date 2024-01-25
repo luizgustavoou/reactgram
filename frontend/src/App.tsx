@@ -21,6 +21,7 @@ import Profile from "./pages/Profile/Profile";
 //
 import FormEditPhoto from "./components/FormEditPhoto";
 import FormNewPhoto from "./components/FormNewPhoto";
+import Photo from "./pages/Photo/Photo";
 function App() {
   const { auth, loading } = useAuth();
 
@@ -38,18 +39,14 @@ function App() {
               path={RoutesPath.HOME}
               element={auth ? <Home /> : <Navigate to={RoutesPath.LOGIN} />}
             />
+
             <Route
               path={RoutesPath.PROFILE}
               element={
                 auth ? <EditProfile /> : <Navigate to={RoutesPath.LOGIN} />
               }
             />
-            <Route
-              path={RoutesPath.PROFILE}
-              element={
-                auth ? <EditProfile /> : <Navigate to={RoutesPath.LOGIN} />
-              }
-            />
+
             <Route
               path={RoutesPath.USERS_PROFILE}
               element={auth ? <Profile /> : <Navigate to={RoutesPath.LOGIN} />}
@@ -57,13 +54,20 @@ function App() {
               <Route index element={<FormNewPhoto />} />
               <Route path="editphoto" element={<FormEditPhoto />} />
             </Route>
+
             <Route
               path={RoutesPath.LOGIN}
               element={!auth ? <Login /> : <Navigate to={RoutesPath.HOME} />}
             />
+
             <Route
               path={RoutesPath.REGISTER}
               element={!auth ? <Register /> : <Navigate to={RoutesPath.HOME} />}
+            />
+
+            <Route
+              path={RoutesPath.PHOTO}
+              element={auth ? <Photo /> : <Navigate to={RoutesPath.LOGIN} />}
             />
           </Routes>
         </div>
