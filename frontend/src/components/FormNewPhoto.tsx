@@ -1,17 +1,21 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { publishPhoto, resetMessage } from "../slices/photoSlice";
-import Message from "./Message";
-import { useAppDispatch } from "../hooks/useAppDispatch";
 
+// Components
+import Message from "./Message";
+
+// Redux
+import { publishPhoto, resetMessage } from "../slices/photoSlice";
+import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
+
+import "./FormNewPhoto.css";
 
 function FormNewPhoto() {
   const dispatch = useAppDispatch();
 
-  const {
-    status: statusPhoto,
-    messsage: messagePhoto,
-  } = useAppSelector((state) => state.photo);
+  const { status: statusPhoto, messsage: messagePhoto } = useAppSelector(
+    (state) => state.photo
+  );
 
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<Blob | null>(null);

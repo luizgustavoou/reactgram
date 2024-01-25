@@ -10,6 +10,8 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { updatePhoto } from "../slices/photoSlice";
 import { resetMessage } from "../slices/userSlice";
 
+import "./FormEditPhoto.css";
+
 function FormEditPhoto() {
   const [currentPhoto] = useOutletContext<[IPhoto]>();
   const navigate = useNavigate();
