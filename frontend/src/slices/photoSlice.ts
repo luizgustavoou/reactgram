@@ -6,6 +6,7 @@ import { photoService } from "../services";
 import { IGetPhotosByUserId } from "../interfaces/IGetPhotosByUserId";
 import { IDeletePhoto } from "../interfaces/IDeletePhoto";
 import { IUpdatePhoto } from "../interfaces/IUpdatePhoto";
+import { IGetPhotoById } from "../interfaces/IGetPhotoById";
 
 export interface PhotoState {
   status: "initial" | "success" | "error" | "loading";
@@ -72,6 +73,22 @@ export const updatePhoto = createAsyncThunk<
     const token = thunkAPI.getState().auth.user?.token;
 
     const res = await photoService.updatePhoto(data, token as string);
+
+    return res;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const getPhotoById = createAsyncThunk<
+  IPhoto,
+  IGetPhotoById,
+  { dispatch: AppDispatch; state: RootState; rejectValue: string }
+>("photo/getphoto", async (data, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user?.token;
+
+    const res = await photoService.getPhotoById(data, token as string);
 
     return res;
   } catch (error) {
@@ -152,6 +169,13 @@ export const photoSlice = createSlice({
         state.status = "error";
         state.messsage = action.payload as string;
         state.photo = null;
+      })
+      .addCase(getPhotoById.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getPhotoById.fulfilled, (state, action) => {
+        state.status = "success";
+        state.photo = action.payload;
       });
   },
 });
