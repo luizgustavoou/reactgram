@@ -8,6 +8,8 @@ import { IDeletePhoto } from "../interfaces/IDeletePhoto";
 import { IUpdatePhoto } from "../interfaces/IUpdatePhoto";
 import { IGetPhotoById } from "../interfaces/IGetPhotoById";
 import { ILikePhoto } from "../interfaces/ILikePhoto";
+import { IComment } from "../services/photo/models/IComment";
+import { ICommentPhoto } from "../interfaces/ICommentPhoto";
 
 export interface PhotoState {
   status: "initial" | "success" | "error" | "loading";
@@ -106,6 +108,22 @@ export const likePhoto = createAsyncThunk<
     const token = thunkAPI.getState().auth.user?.token;
 
     const res = await photoService.likePhoto(data, token as string);
+
+    return res;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const commentPhoto = createAsyncThunk<
+  IComment,
+  ICommentPhoto,
+  { dispatch: AppDispatch; state: RootState; rejectValue: string }
+>("photo/comment", async (data, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user?.token;
+
+    const res = await photoService.commentPhoto(data, token as string);
 
     return res;
   } catch (error) {
@@ -218,6 +236,20 @@ export const photoSlice = createSlice({
         state.messsage = action.payload.message;
       })
       .addCase(likePhoto.rejected, (state, action) => {
+        state.status = "error";
+        state.messsage = action.payload as string;
+      })
+      .addCase(commentPhoto.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(commentPhoto.fulfilled, (state, action) => {
+        state.status = "success";
+
+        state.photo?.comments.push(action.payload);
+
+        state.messsage = "Foto comentada com sucesso.";
+      })
+      .addCase(commentPhoto.rejected, (state, action) => {
         state.status = "error";
         state.messsage = action.payload as string;
       });
