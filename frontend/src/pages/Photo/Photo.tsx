@@ -5,16 +5,18 @@ import Message from "../../components/Message";
 import { Link, useParams } from "react-router-dom";
 
 // Hooks
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 
 // Redux
-import { getPhotoById, likePhoto } from "../../slices/photoSlice";
+import { commentPhoto, getPhotoById, likePhoto } from "../../slices/photoSlice";
 import PhotoItem from "../../components/PhotoItem";
 import LikeContainer from "../../components/LikeContainer";
 import { IPhoto } from "../../services/photo/models/IPhoto";
 import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
+import CommentContainer from "../../components/CommentContainer";
+import { ICommentPhoto } from "../../interfaces/ICommentPhoto";
 
 function Photo() {
   const { id } = useParams();
@@ -30,6 +32,26 @@ function Photo() {
   } = useAppSelector((state) => state.photo);
 
   // Comments
+  const [comment, setComment] = useState("");
+
+  const handleOnChangeComment = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setComment(e.target.value);
+  };
+
+  const submitCommentForm = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const data: ICommentPhoto = {
+      photoId: photo?._id as string,
+      comment: comment,
+    };
+
+    dispatch(commentPhoto(data));
+
+    setComment("");
+    resetMessage();
+  };
 
   // Load photo data
   useEffect(() => {
@@ -60,6 +82,19 @@ function Photo() {
           <Message msg={photoMessage as string} type="success" />
         )}
       </div>
+      <div className="comments">
+        <p>Comentários: ({photo?.comments.length})</p>
+        <form onSubmit={submitCommentForm}>
+          <input
+            type="text"
+            placeholder="Insira o seu comentário..."
+            value={comment || ""}
+            onChange={handleOnChangeComment}
+          />
+          <input type="submit" value="Enviar" />
+        </form>
+      </div>
+      {photo && <CommentContainer comments={photo?.comments} />}
     </div>
   );
 }
