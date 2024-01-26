@@ -63,7 +63,7 @@ docker compose up -d
 
 ## :dart: Status do projeto
 Backend: Finalizado
-Frontend: Em desenvolvimento
+Frontend: Em Finalizado
 
 # Autor
 
