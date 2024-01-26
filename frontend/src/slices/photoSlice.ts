@@ -131,8 +131,25 @@ export const commentPhoto = createAsyncThunk<
   }
 });
 
+export const getAllPhotos = createAsyncThunk<
+  IPhoto[],
+  void,
+  { dispatch: AppDispatch; state: RootState; rejectValue: string }
+>("photo/comment", async (_, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user?.token;
+
+    const res = await photoService.getAllPhotos(token as string);
+
+    return res;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
 const initialState: PhotoState = {
   status: "initial",
+
   photo: null,
   photos: [],
   messsage: null,
@@ -252,6 +269,13 @@ export const photoSlice = createSlice({
       .addCase(commentPhoto.rejected, (state, action) => {
         state.status = "error";
         state.messsage = action.payload as string;
+      })
+      .addCase(getAllPhotos.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getAllPhotos.fulfilled, (state, action) => {
+        state.status = "success";
+        state.photos = action.payload;
       });
   },
 });
