@@ -2,6 +2,7 @@ import { IAPIErrorResponse } from "../../interfaces/IAPIErrorResponse";
 import { ICommentPhoto } from "../../interfaces/ICommentPhoto";
 import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
 import { IGetPhotoById } from "../../interfaces/IGetPhotoById";
+import { IGetPhotosBySearch } from "../../interfaces/IGetPhotosBySearch";
 import { IGetPhotosByUserId } from "../../interfaces/IGetPhotosByUserId";
 import { ILikePhoto } from "../../interfaces/ILikePhoto";
 import { IPublishPhoto } from "../../interfaces/IPublishPhoto";
@@ -25,6 +26,11 @@ export interface IPhotoApi {
 
   getPhotosByUserId(
     data: IGetPhotosByUserId,
+    token: string
+  ): Promise<{ photos: IPhotoResponse[] }>;
+
+  getPhotosBySearch(
+    data: IGetPhotosBySearch,
     token: string
   ): Promise<{ photos: IPhotoResponse[] }>;
 
@@ -116,6 +122,28 @@ export class PhotoApiImpl implements IPhotoApi {
     const config = requestConfig("GET", null, token);
 
     const res = await fetch(`${baseURL}/api/photos/user/${id}`, config);
+
+    const json: { photos: IPhotoResponse[] } | IAPIErrorResponse =
+      await res.json();
+
+    if ("errors" in json) {
+      throw new Error(json.errors[0]);
+    }
+
+    return json;
+  }
+
+  async getPhotosBySearch(
+    data: IGetPhotosBySearch,
+    token: string
+  ): Promise<{ photos: IPhotoResponse[] }> {
+    const { text } = data;
+    const config = requestConfig("GET", null, token);
+
+    const res = await fetch(
+      `${baseURL}/api/photos/search?` + new URLSearchParams({ q: text }),
+      config
+    );
 
     const json: { photos: IPhotoResponse[] } | IAPIErrorResponse =
       await res.json();

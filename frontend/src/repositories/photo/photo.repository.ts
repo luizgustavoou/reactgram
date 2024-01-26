@@ -2,6 +2,7 @@ import { IPhotoApi } from "../../apis/photo/photo.api";
 import { ICommentPhoto } from "../../interfaces/ICommentPhoto";
 import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
 import { IGetPhotoById } from "../../interfaces/IGetPhotoById";
+import { IGetPhotosBySearch } from "../../interfaces/IGetPhotosBySearch";
 import { IGetPhotosByUserId } from "../../interfaces/IGetPhotosByUserId";
 import { ILikePhoto } from "../../interfaces/ILikePhoto";
 import { IPublishPhoto } from "../../interfaces/IPublishPhoto";
@@ -17,6 +18,8 @@ export interface IPhotoRepository {
   getPhotoById(data: IGetPhotoById, token: string): Promise<IPhoto>;
 
   getPhotosByUserId(data: IGetPhotosByUserId, token: string): Promise<IPhoto[]>;
+
+  getPhotosBySearch(data: IGetPhotosBySearch, token: string): Promise<IPhoto[]>;
 
   deletePhoto(
     data: IDeletePhoto,
@@ -112,6 +115,28 @@ export class PhotoRepositoryImpl implements IPhotoRepository {
 
     return newRes;
   }
+
+  async getPhotosBySearch(
+    data: IGetPhotosBySearch,
+    token: string
+  ): Promise<IPhoto[]> {
+    const { photos } = await this.photoApi.getPhotosBySearch(data, token);
+
+    const newRes: IPhoto[] = photos.map((photoResponse) => ({
+      _id: photoResponse._id,
+      image: photoResponse.image,
+      title: photoResponse.title,
+      likes: photoResponse.likes,
+      comments: photoResponse.comments,
+      userName: photoResponse.userName,
+      userId: photoResponse.userId,
+      createdAt: photoResponse.createdAt,
+      updateAt: photoResponse.updateAt,
+    }));
+
+    return newRes;
+  }
+
   async deletePhoto(
     data: IDeletePhoto,
     token: string

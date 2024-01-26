@@ -1,6 +1,7 @@
 import { ICommentPhoto } from "../../interfaces/ICommentPhoto";
 import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
 import { IGetPhotoById } from "../../interfaces/IGetPhotoById";
+import { IGetPhotosBySearch } from "../../interfaces/IGetPhotosBySearch";
 import { IGetPhotosByUserId } from "../../interfaces/IGetPhotosByUserId";
 import { ILikePhoto } from "../../interfaces/ILikePhoto";
 import { IPublishPhoto } from "../../interfaces/IPublishPhoto";
@@ -17,6 +18,8 @@ export interface IPhotoService {
   getPhotoById(data: IGetPhotoById, token: string): Promise<IPhoto>;
 
   getPhotosByUserId(data: IGetPhotosByUserId, token: string): Promise<IPhoto[]>;
+
+  getPhotosBySearch(data: IGetPhotosBySearch, token: string): Promise<IPhoto[]>;
 
   deletePhoto(
     data: IDeletePhoto,
@@ -72,6 +75,19 @@ export class PhotoServiceImpl implements IPhotoService {
   ): Promise<IPhoto[]> {
     try {
       const res = this.photoRepository.getPhotosByUserId(data, token);
+
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getPhotosBySearch(
+    data: IGetPhotosBySearch,
+    token: string
+  ): Promise<IPhoto[]> {
+    try { 
+      const res = this.photoRepository.getPhotosBySearch(data, token);
 
       return res;
     } catch (error) {
