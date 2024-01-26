@@ -1,3 +1,4 @@
+import { ICommentPhoto } from "../../interfaces/ICommentPhoto";
 import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
 import { IGetPhotoById } from "../../interfaces/IGetPhotoById";
 import { IGetPhotosByUserId } from "../../interfaces/IGetPhotosByUserId";
@@ -5,6 +6,7 @@ import { ILikePhoto } from "../../interfaces/ILikePhoto";
 import { IPublishPhoto } from "../../interfaces/IPublishPhoto";
 import { IUpdatePhoto } from "../../interfaces/IUpdatePhoto";
 import { IPhotoRepository } from "../../repositories/photo/photo.repository";
+import { IComment } from "./models/IComment";
 import { IPhoto } from "./models/IPhoto";
 
 export interface IPhotoService {
@@ -25,6 +27,8 @@ export interface IPhotoService {
     data: ILikePhoto,
     token: string
   ): Promise<{ photoId: string; userId: string; message: string }>;
+
+  commentPhoto(data: ICommentPhoto, token: string): Promise<IComment>;
 }
 
 export class PhotoServiceImpl implements IPhotoService {
@@ -92,6 +96,16 @@ export class PhotoServiceImpl implements IPhotoService {
   ): Promise<{ photoId: string; userId: string; message: string }> {
     try {
       const res = this.photoRepository.likePhoto(data, token);
+
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async commentPhoto(data: ICommentPhoto, token: string): Promise<IComment> {
+    try {
+      const res = this.photoRepository.commentPhoto(data, token);
 
       return res;
     } catch (error) {

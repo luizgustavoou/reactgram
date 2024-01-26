@@ -1,4 +1,5 @@
 import { IAPIErrorResponse } from "../../interfaces/IAPIErrorResponse";
+import { ICommentPhoto } from "../../interfaces/ICommentPhoto";
 import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
 import { IGetPhotoById } from "../../interfaces/IGetPhotoById";
 import { IGetPhotosByUserId } from "../../interfaces/IGetPhotosByUserId";
@@ -6,6 +7,7 @@ import { ILikePhoto } from "../../interfaces/ILikePhoto";
 import { IPublishPhoto } from "../../interfaces/IPublishPhoto";
 import { IUpdatePhoto } from "../../interfaces/IUpdatePhoto";
 import { baseURL, requestConfig } from "../../utils/config";
+import { ICommentResponse } from "./models/ICommentResponse";
 import { IPhotoResponse } from "./models/IPhotoResponse";
 
 export interface IPhotoApi {
@@ -39,6 +41,8 @@ export interface IPhotoApi {
     data: ILikePhoto,
     token: string
   ): Promise<{ photoId: string; userId: string; message: string }>;
+
+  commentPhoto(data: ICommentPhoto, token: string): Promise<ICommentResponse>;
 }
 
 export class PhotoApiImpl implements IPhotoApi {
@@ -158,6 +162,25 @@ export class PhotoApiImpl implements IPhotoApi {
     const json:
       | { photoId: string; userId: string; message: string }
       | IAPIErrorResponse = await res.json();
+
+    if ("errors" in json) {
+      throw new Error(json.errors[0]);
+    }
+
+    return json;
+  }
+
+  async commentPhoto(
+    data: ICommentPhoto,
+    token: string
+  ): Promise<ICommentResponse> {
+    const { comment, photoId } = data;
+
+    const config = requestConfig("PUT", { comment }, token);
+
+    const res = await fetch(`${baseURL}/api/photos/comment/${photoId}`, config);
+
+    const json: ICommentResponse | IAPIErrorResponse = await res.json();
 
     if ("errors" in json) {
       throw new Error(json.errors[0]);
