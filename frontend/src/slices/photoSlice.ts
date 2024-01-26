@@ -7,6 +7,7 @@ import { IGetPhotosByUserId } from "../interfaces/IGetPhotosByUserId";
 import { IDeletePhoto } from "../interfaces/IDeletePhoto";
 import { IUpdatePhoto } from "../interfaces/IUpdatePhoto";
 import { IGetPhotoById } from "../interfaces/IGetPhotoById";
+import { ILikePhoto } from "../interfaces/ILikePhoto";
 
 export interface PhotoState {
   status: "initial" | "success" | "error" | "loading";
@@ -96,6 +97,22 @@ export const getPhotoById = createAsyncThunk<
   }
 });
 
+export const likePhoto = createAsyncThunk<
+  { photoId: string; userId: string; message: string },
+  ILikePhoto,
+  { dispatch: AppDispatch; state: RootState; rejectValue: string }
+>("photo/like", async (data, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user?.token;
+
+    const res = await photoService.likePhoto(data, token as string);
+
+    return res;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
 const initialState: PhotoState = {
   status: "initial",
   photo: null,
@@ -176,6 +193,33 @@ export const photoSlice = createSlice({
       .addCase(getPhotoById.fulfilled, (state, action) => {
         state.status = "success";
         state.photo = action.payload;
+      })
+      .addCase(likePhoto.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(likePhoto.fulfilled, (state, action) => {
+        state.status = "success";
+
+        if (state.photo?.likes) {
+          state.photo.likes.push(action.payload.userId);
+        }
+
+        state.photos.map((photo) => {
+          if (photo._id === action.payload.photoId) {
+            const updatedPhoto = { ...photo };
+            updatedPhoto.likes.push(action.payload.userId);
+
+            return updatedPhoto;
+          }
+
+          return photo;
+        });
+
+        state.messsage = action.payload.message;
+      })
+      .addCase(likePhoto.rejected, (state, action) => {
+        state.status = "error";
+        state.messsage = action.payload as string;
       });
   },
 });
