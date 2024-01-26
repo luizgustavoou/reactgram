@@ -14,12 +14,20 @@ import { getPhotoById, likePhoto } from "../../slices/photoSlice";
 import PhotoItem from "../../components/PhotoItem";
 import LikeContainer from "../../components/LikeContainer";
 import { IPhoto } from "../../services/photo/models/IPhoto";
+import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 
 function Photo() {
   const { id } = useParams();
   const dispatch = useAppDispatch();
+
+  const resetMessage = useResetComponentMessage(dispatch);
+
   const { user: userAuth } = useAppSelector((state) => state.auth);
-  const { photo, status: photoStatus } = useAppSelector((state) => state.photo);
+  const {
+    photo,
+    status: photoStatus,
+    messsage: photoMessage,
+  } = useAppSelector((state) => state.photo);
 
   // Comments
 
@@ -30,6 +38,8 @@ function Photo() {
 
   const handleLike = (photo: IPhoto) => {
     dispatch(likePhoto({ photoId: photo._id }));
+
+    resetMessage();
   };
 
   if (photoStatus === "loading") {
@@ -42,6 +52,14 @@ function Photo() {
       {photo && userAuth && (
         <LikeContainer photo={photo} user={userAuth} handleLike={handleLike} />
       )}
+      <div className="message-container">
+        {photoStatus === "error" && (
+          <Message msg={photoMessage as string} type="error" />
+        )}
+        {photoStatus === "success" && (
+          <Message msg={photoMessage as string} type="success" />
+        )}
+      </div>
     </div>
   );
 }
