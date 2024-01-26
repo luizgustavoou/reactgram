@@ -22,6 +22,7 @@ import Profile from "./pages/Profile/Profile";
 import FormEditPhoto from "./components/FormEditPhoto";
 import FormNewPhoto from "./components/FormNewPhoto";
 import Photo from "./pages/Photo/Photo";
+import Search from "./pages/Search/Search";
 function App() {
   const { auth, loading } = useAuth();
 
@@ -63,6 +64,11 @@ function App() {
             <Route
               path={RoutesPath.REGISTER}
               element={!auth ? <Register /> : <Navigate to={RoutesPath.HOME} />}
+            />
+
+            <Route
+              path={RoutesPath.SEARCH}
+              element={auth ? <Search /> : <Navigate to={RoutesPath.LOGIN} />}
             />
 
             <Route
