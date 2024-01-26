@@ -135,7 +135,7 @@ export const getAllPhotos = createAsyncThunk<
   IPhoto[],
   void,
   { dispatch: AppDispatch; state: RootState; rejectValue: string }
->("photo/comment", async (_, thunkAPI) => {
+>("photo/getall", async (_, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user?.token;
 
