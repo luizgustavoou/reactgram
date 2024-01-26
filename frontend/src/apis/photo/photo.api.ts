@@ -16,6 +16,8 @@ export interface IPhotoApi {
     token: string
   ): Promise<{ newPhoto: IPhotoResponse }>;
 
+  getAllPhotos(token: string): Promise<{ photos: IPhotoResponse[] }>;
+
   getPhotoById(
     data: IGetPhotoById,
     token: string
@@ -69,6 +71,22 @@ export class PhotoApiImpl implements IPhotoApi {
 
     return json;
   }
+
+  async getAllPhotos(token: string): Promise<{ photos: IPhotoResponse[] }> {
+    const config = requestConfig("GET", null, token);
+
+    const res = await fetch(`${baseURL}/api/photos`, config);
+
+    const json: { photos: IPhotoResponse[] } | IAPIErrorResponse =
+      await res.json();
+
+    if ("errors" in json) {
+      throw new Error(json.errors[0]);
+    }
+
+    return json;
+  }
+
   async getPhotoById(
     data: IGetPhotoById,
     token: string

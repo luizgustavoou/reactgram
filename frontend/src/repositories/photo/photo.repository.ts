@@ -12,6 +12,8 @@ import { IPhoto } from "../../services/photo/models/IPhoto";
 export interface IPhotoRepository {
   publishPhoto(data: IPublishPhoto, token: string): Promise<IPhoto>;
 
+  getAllPhotos(token: string): Promise<IPhoto[]>;
+
   getPhotoById(data: IGetPhotoById, token: string): Promise<IPhoto>;
 
   getPhotosByUserId(data: IGetPhotosByUserId, token: string): Promise<IPhoto[]>;
@@ -48,6 +50,24 @@ export class PhotoRepositoryImpl implements IPhotoRepository {
       createdAt: newPhoto.createdAt,
       updateAt: newPhoto.updateAt,
     };
+
+    return newRes;
+  }
+
+  async getAllPhotos(token: string): Promise<IPhoto[]> {
+    const { photos } = await this.photoApi.getAllPhotos(token);
+
+    const newRes: IPhoto[] = photos.map((photoResponse) => ({
+      _id: photoResponse._id,
+      image: photoResponse.image,
+      title: photoResponse.title,
+      likes: photoResponse.likes,
+      comments: photoResponse.comments,
+      userName: photoResponse.userName,
+      userId: photoResponse.userId,
+      createdAt: photoResponse.createdAt,
+      updateAt: photoResponse.updateAt,
+    }));
 
     return newRes;
   }

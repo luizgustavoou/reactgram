@@ -12,6 +12,8 @@ import { IPhoto } from "./models/IPhoto";
 export interface IPhotoService {
   publishPhoto(data: IPublishPhoto, token: string): Promise<IPhoto>;
 
+  getAllPhotos(token: string): Promise<IPhoto[]>;
+
   getPhotoById(data: IGetPhotoById, token: string): Promise<IPhoto>;
 
   getPhotosByUserId(data: IGetPhotosByUserId, token: string): Promise<IPhoto[]>;
@@ -37,6 +39,16 @@ export class PhotoServiceImpl implements IPhotoService {
   publishPhoto(data: IPublishPhoto, token: string): Promise<IPhoto> {
     try {
       const res = this.photoRepository.publishPhoto(data, token);
+
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAllPhotos(token: string): Promise<IPhoto[]> {
+    try {
+      const res = this.photoRepository.getAllPhotos(token);
 
       return res;
     } catch (error) {
