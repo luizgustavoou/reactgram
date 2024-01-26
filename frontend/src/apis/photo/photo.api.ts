@@ -2,6 +2,7 @@ import { IAPIErrorResponse } from "../../interfaces/IAPIErrorResponse";
 import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
 import { IGetPhotoById } from "../../interfaces/IGetPhotoById";
 import { IGetPhotosByUserId } from "../../interfaces/IGetPhotosByUserId";
+import { ILikePhoto } from "../../interfaces/ILikePhoto";
 import { IPublishPhoto } from "../../interfaces/IPublishPhoto";
 import { IUpdatePhoto } from "../../interfaces/IUpdatePhoto";
 import { baseURL, requestConfig } from "../../utils/config";
@@ -13,7 +14,10 @@ export interface IPhotoApi {
     token: string
   ): Promise<{ newPhoto: IPhotoResponse }>;
 
-  getPhotoById(data: IGetPhotoById, token: string): Promise<{ photo: IPhotoResponse }>;
+  getPhotoById(
+    data: IGetPhotoById,
+    token: string
+  ): Promise<{ photo: IPhotoResponse }>;
 
   getPhotosByUserId(
     data: IGetPhotosByUserId,
@@ -30,6 +34,11 @@ export interface IPhotoApi {
     data: IUpdatePhoto,
     token: string
   ): Promise<{ photo: IPhotoResponse }>;
+
+  likePhoto(
+    data: ILikePhoto,
+    token: string
+  ): Promise<{ photoId: string; userId: string; message: string }>;
 }
 
 export class PhotoApiImpl implements IPhotoApi {
@@ -66,7 +75,8 @@ export class PhotoApiImpl implements IPhotoApi {
 
     const res = await fetch(`${baseURL}/api/photos/${id}`, config);
 
-    const json: { photo: IPhotoResponse } | IAPIErrorResponse = await res.json();
+    const json: { photo: IPhotoResponse } | IAPIErrorResponse =
+      await res.json();
 
     if ("errors" in json) {
       throw new Error(json.errors[0]);
@@ -127,6 +137,27 @@ export class PhotoApiImpl implements IPhotoApi {
 
     const json: { photo: IPhotoResponse } | IAPIErrorResponse =
       await res.json();
+
+    if ("errors" in json) {
+      throw new Error(json.errors[0]);
+    }
+
+    return json;
+  }
+
+  async likePhoto(
+    data: ILikePhoto,
+    token: string
+  ): Promise<{ photoId: string; userId: string; message: string }> {
+    const { photoId } = data;
+
+    const config = requestConfig("PUT", null, token);
+
+    const res = await fetch(`${baseURL}/photos/like/${photoId}`, config);
+
+    const json:
+      | { photoId: string; userId: string; message: string }
+      | IAPIErrorResponse = await res.json();
 
     if ("errors" in json) {
       throw new Error(json.errors[0]);
