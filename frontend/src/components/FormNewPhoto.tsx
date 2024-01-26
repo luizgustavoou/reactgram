@@ -4,14 +4,17 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import Message from "./Message";
 
 // Redux
-import { publishPhoto, resetMessage } from "../slices/photoSlice";
+import { publishPhoto } from "../slices/photoSlice";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 
 import "./FormNewPhoto.css";
+import { useResetComponentMessage } from "../hooks/useResetComponentMessage";
 
 function FormNewPhoto() {
   const dispatch = useAppDispatch();
+
+  const resetMessage = useResetComponentMessage(dispatch);
 
   const { status: statusPhoto, messsage: messagePhoto } = useAppSelector(
     (state) => state.photo
@@ -32,12 +35,6 @@ function FormNewPhoto() {
     setImage(file);
   };
 
-  const resetComponentMessage = () => {
-    setTimeout(() => {
-      dispatch(resetMessage());
-    }, 2000);
-  };
-
   const submitHandle = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -46,7 +43,7 @@ function FormNewPhoto() {
     setTitle("");
     setImage(null);
 
-    resetComponentMessage();
+    resetMessage();
   };
 
   return (

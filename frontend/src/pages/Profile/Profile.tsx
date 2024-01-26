@@ -12,14 +12,11 @@ import { useParams } from "react-router-dom";
 // Redux
 import { getProfileById } from "../../slices/userSlice";
 import { userService } from "../../services";
-import {
-  deletePhoto,
-  getPhotosByUserId,
-  resetMessage,
-} from "../../slices/photoSlice";
+import { deletePhoto, getPhotosByUserId } from "../../slices/photoSlice";
 import { IDeletePhoto } from "../../interfaces/IDeletePhoto";
 import { IPhoto } from "../../services/photo/models/IPhoto";
 import PhotosList from "../../components/PhotosList";
+import { useResetComponentMessage } from "../../hooks/useResetComponentMessage";
 
 function Profile() {
   const navigate = useNavigate();
@@ -30,6 +27,8 @@ function Profile() {
   const [previewImage, setPreviewImage] = useState<Blob | null>(null);
   const dispatch = useAppDispatch();
 
+  const resetMessage = useResetComponentMessage(dispatch);
+
   const { user, status: statusUser } = useAppSelector((state) => state.user);
   const { user: userAuth } = useAppSelector((state) => state.auth);
   const { photos } = useAppSelector((state) => state.photo);
@@ -39,7 +38,7 @@ function Profile() {
 
     dispatch(deletePhoto(data));
 
-    resetComponentMessage();
+    resetMessage();
   };
 
   const refForm = useRef<HTMLDivElement | null>(null);
@@ -68,12 +67,6 @@ function Profile() {
 
     loadImageOfUser();
   }, [user]);
-
-  const resetComponentMessage = () => {
-    setTimeout(() => {
-      dispatch(resetMessage());
-    }, 2000);
-  };
 
   if (statusUser == "loading") {
     return <p>Carregando...</p>;
