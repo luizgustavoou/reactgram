@@ -10,6 +10,7 @@ import { IGetPhotoById } from "../interfaces/IGetPhotoById";
 import { ILikePhoto } from "../interfaces/ILikePhoto";
 import { IComment } from "../services/photo/models/IComment";
 import { ICommentPhoto } from "../interfaces/ICommentPhoto";
+import { IGetPhotosBySearch } from "../interfaces/IGetPhotosBySearch";
 
 export interface PhotoState {
   status: "initial" | "success" | "error" | "loading";
@@ -147,6 +148,22 @@ export const getAllPhotos = createAsyncThunk<
   }
 });
 
+export const getPhotosBySearch = createAsyncThunk<
+  IPhoto[],
+  IGetPhotosBySearch,
+  { dispatch: AppDispatch; state: RootState; rejectValue: string }
+>("photo/search", async (data, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user?.token;
+
+    const res = await photoService.getPhotosBySearch(data, token as string);
+
+    return res;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
 const initialState: PhotoState = {
   status: "initial",
 
@@ -274,6 +291,13 @@ export const photoSlice = createSlice({
         state.status = "loading";
       })
       .addCase(getAllPhotos.fulfilled, (state, action) => {
+        state.status = "success";
+        state.photos = action.payload;
+      })
+      .addCase(getPhotosBySearch.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getPhotosBySearch.fulfilled, (state, action) => {
         state.status = "success";
         state.photos = action.payload;
       });
