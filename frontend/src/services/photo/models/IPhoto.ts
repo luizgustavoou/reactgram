@@ -8,6 +8,7 @@ export interface IPhoto {
   likes: ILike[];
   comments: IComment[];
   userName: string;
+  userId: string;
   createdAt: string;
   updateAt: string;
 }

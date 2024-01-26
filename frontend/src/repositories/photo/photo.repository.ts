@@ -34,6 +34,7 @@ export class PhotoRepositoryImpl implements IPhotoRepository {
       likes: newPhoto.likes,
       comments: newPhoto.comments,
       userName: newPhoto.userName,
+      userId: newPhoto.userId,
       createdAt: newPhoto.createdAt,
       updateAt: newPhoto.updateAt,
     };
@@ -51,6 +52,7 @@ export class PhotoRepositoryImpl implements IPhotoRepository {
       likes: photo.likes,
       comments: photo.comments,
       userName: photo.userName,
+      userId: photo.userId,
       createdAt: photo.createdAt,
       updateAt: photo.updateAt,
     };
@@ -73,6 +75,7 @@ export class PhotoRepositoryImpl implements IPhotoRepository {
       likes: photoResponse.likes,
       comments: photoResponse.comments,
       userName: photoResponse.userName,
+      userId: photoResponse.userId,
       createdAt: photoResponse.createdAt,
       updateAt: photoResponse.updateAt,
     }));
@@ -98,6 +101,7 @@ export class PhotoRepositoryImpl implements IPhotoRepository {
       likes: photo.likes,
       comments: photo.comments,
       userName: photo.userName,
+      userId: photo.userId,
       createdAt: photo.createdAt,
       updateAt: photo.updateAt,
     };

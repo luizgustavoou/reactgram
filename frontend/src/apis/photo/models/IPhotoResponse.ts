@@ -10,6 +10,7 @@ export interface IPhotoResponse {
     userImage?: string | null;
   }[];
   userName: string;
+  userId: string;
   createdAt: string;
   updateAt: string;
   __v: number;
