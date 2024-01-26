@@ -83,7 +83,7 @@ function Photo() {
         )}
       </div>
       <div className="comments">
-        <p>Comentários: ({photo?.comments.length})</p>
+        <h3>Comentários: ({photo?.comments.length})</h3>
         <form onSubmit={submitCommentForm}>
           <input
             type="text"
@@ -93,6 +93,7 @@ function Photo() {
           />
           <input type="submit" value="Enviar" />
         </form>
+        {photo?.comments.length === 0 && <p>Não há comentários...</p>}
       </div>
       {photo && <CommentContainer comments={photo?.comments} />}
     </div>
