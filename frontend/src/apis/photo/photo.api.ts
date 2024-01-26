@@ -153,7 +153,7 @@ export class PhotoApiImpl implements IPhotoApi {
 
     const config = requestConfig("PUT", null, token);
 
-    const res = await fetch(`${baseURL}/photos/like/${photoId}`, config);
+    const res = await fetch(`${baseURL}/api/photos/like/${photoId}`, config);
 
     const json:
       | { photoId: string; userId: string; message: string }

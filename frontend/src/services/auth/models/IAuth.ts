@@ -1,4 +1,4 @@
 export interface IAuth {
-  _id?: string;
+  _id: string;
   token?: string;
 }
