@@ -1,0 +1,22 @@
+.photo-item img {
+  width: 100%;
+}
+
+#homo .photo-item h2 {
+  margin-bottom: 0.2em;
+}
+
+.photo-author {
+  /* text-align: left; */
+  text-align: left;
+}
+
+.photo-author a {
+  font-weight: bold;
+}
+
+.photo-item {
+  /* margin: 2em auto;
+  max-width: 40%;
+  text-align: center; */
+}
