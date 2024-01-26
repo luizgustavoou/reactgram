@@ -4,6 +4,7 @@ import "./Search.css";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import { useQuery } from "../../hooks/useQuery";
 
 // Components
 import LikeContainer from "../../components/LikeContainer";

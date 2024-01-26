@@ -18,11 +18,25 @@ import { useNavigate } from "react-router-dom";
 // Redux
 import { reset, logout } from "../slices/authSlice";
 import { RoutesPath } from "../utils/RoutesPath";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 function Navbar() {
   const { auth } = useAuth();
   const { user } = useAppSelector((state) => state.auth);
 
+  const [query, setQuery] = useState("");
+
+  const handleOnSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
+
+  const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!query) return;
+
+    return navigate(`/search?q=${query}`);
+  };
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -33,13 +47,17 @@ function Navbar() {
     navigate(RoutesPath.LOGIN);
   };
 
-  
   return (
     <nav id="nav">
       <Link to={RoutesPath.HOME}>ReactGram</Link>
-      <form id="search-form">
+      <form id="search-form" onSubmit={handleSearch}>
         <BsSearch />
-        <input type="text" placeholder="Pesquisar" />
+        <input
+          type="text"
+          placeholder="Pesquisar"
+          value={query || ""}
+          onChange={handleOnSearchChange}
+        />
       </form>
       <ul id="nav-links">
         {auth ? (
