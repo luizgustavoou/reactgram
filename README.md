@@ -8,6 +8,10 @@ A aplicação consiste em uma cópia do instagram, trazendo as principais funcio
 <!--## Layout mobile -->
 
 ## Layout web
+![reactgram-tela-login](https://github.com/luizgustavoou/reactgram/assets/89609312/27de348b-d98c-4b88-a078-b916c444b70e)
+![reactgram-tela-home](https://github.com/luizgustavoou/reactgram/assets/89609312/e47cb269-cfe2-4092-bdd5-3471c986493e)
+![reactgram-tela-editprofile](https://github.com/luizgustavoou/reactgram/assets/89609312/2cc7a473-b8b6-4a7f-99d9-2b6f89a6cb82)
+![reactgram-tela-profile](https://github.com/luizgustavoou/reactgram/assets/89609312/8b4cfad5-308d-4591-ab5c-c0a1214c1723)
 
 
 <!--## Modelo conceitual -->
