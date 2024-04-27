@@ -4,7 +4,7 @@
 ## :memo:  Sobre o projeto
 
 <!-- https://wmazoni-sds1.netlify.app -->
-A aplicação consiste em uma cópia do instagram, trazendo as principais funcionalidades da rede social.
+O projeto é uma aplicação que se inspira no Instagram, fornecendo funcionalidades básicas semelhantes à plataforma e utilizando um design que se assemelha ao Instagram.
 <!--## Layout mobile -->
 
 ## Layout web
