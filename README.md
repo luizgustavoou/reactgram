@@ -1,10 +1,10 @@
 # Reactgram
 <!-- license --> 
 
-## :memo:  Sobre o projeto
+## :memo:  About the project
 
 <!-- https://wmazoni-sds1.netlify.app -->
-O projeto é uma aplicação que se inspira no Instagram, fornecendo funcionalidades básicas semelhantes à plataforma e utilizando um design que se assemelha ao Instagram.
+The project is an application that takes inspiration from Instagram, providing basic functionalities similar to the platform and using a design that resembles Instagram.
 <!--## Layout mobile -->
 
 ## Layout web
@@ -16,7 +16,7 @@ O projeto é uma aplicação que se inspira no Instagram, fornecendo funcionalid
 
 <!--## Modelo conceitual -->
 
-## :books: Funcionalidades
+## :books: Functionalities
 * <b>Autenticação</b>;
 * <b>Criar, editar e remover posts</b>;
 * <b>Dashboard posts</b>;
@@ -24,7 +24,7 @@ O projeto é uma aplicação que se inspira no Instagram, fornecendo funcionalid
 * <b> Dar like em posts </b>
 
   
-# :wrench: Tecnologias utilizadas
+# :wrench: Technologies used
 ## Back end
 * Nodejs;
 * express;
@@ -33,43 +33,41 @@ O projeto é uma aplicação que se inspira no Instagram, fornecendo funcionalid
 ## Front end
 * ReactJS
 
-## Infraestrutura
+## Infrastructure
 * Docker;
 
-## :rocket: Rodando o projeto
-Pré-requisitos: npm / yarn e Docker instalado
+## :rocket:Running the project
+Prerequisites: npm / yarn and Docker installed
 
 ```bash
-# clonar repositório
+# clone repository
 git clone https://github.com/luizgustavoou/reactgram.git
 
-# entrar na pasta do projeto front end web
+# enter the front end web project folder
 cd reactgram
 
+# install backend dependencies
 cd backend/
 
-# instalar depedências do frontend
 npm i
 
+# install frontend dependencies
 cd ../
 
 cd frontend/
 
-# instalar depedências do frontend
 npm i
-cd ../
-
-# rodar aplicação
+# run application
 docker compose up -d
 ```
 
-## :soon: Implementação futura
+## :soon: Future implementation
 
-## :dart: Status do projeto
-Backend: Finalizado
-Frontend: Em Finalizado
+## :dart: Project status
+Backend: Finished
+Frontend: Finished
 
-# Autor
+# Author
 
 Luiz Gustavo de Oliveira Umbelino
 
