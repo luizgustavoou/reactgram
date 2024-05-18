@@ -17,11 +17,11 @@ The project is an application that takes inspiration from Instagram, providing b
 <!--## Modelo conceitual -->
 
 ## :books: Functionalities
-* <b>Autenticação</b>;
-* <b>Criar, editar e remover posts</b>;
+* <b>Authentication</b>;
+* <b>Create, edit and remove posts;</b>;
 * <b>Dashboard posts</b>;
-* <b> Adicionar comentários aos posts</b>;
-* <b> Dar like em posts </b>
+* <b>Add comments to posts;</b>;
+* <b>Like posts</b>
 
   
 # :wrench: Technologies used
